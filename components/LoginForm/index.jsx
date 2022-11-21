@@ -6,8 +6,8 @@ const LoginForm = ({ isSignup, errorMessage, onSubmit }) => (
   <Root>
     <form onSubmit={onSubmit}>
       <label>
-        <span>Username</span>
-        <input type="text" name="username" required />
+        <span>Email</span>
+        <input type="email" name="email" required />
       </label>
 
       <label>

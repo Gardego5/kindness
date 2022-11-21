@@ -4,8 +4,8 @@ import { useUser } from "@lib/hooks";
 import LoginForm from "@components/LoginForm";
 import Layout from "@components/Layout";
 
-const Signup = () => {
-  useUser({ redirectTo: "/login", redirectIfFound: true });
+const Login = () => {
+  useUser({ redirectTo: "/", redirectIfFound: true });
 
   const [errorMsg, setErrorMsg] = useState("");
 
@@ -19,19 +19,14 @@ const Signup = () => {
       password: event.currentTarget.password.value,
     };
 
-    if (body.password !== event.currentTarget.rpassword.value) {
-      setErrorMsg(`The passwords don't match`);
-      return;
-    }
-
     try {
-      const res = await fetch("/api/signup", {
+      const res = await fetch("/api/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(body),
       });
 
-      if (res.status === 200) Router.push("/login");
+      if (res.status === 200) Router.push("/");
       else throw new Error(await res.text());
     } catch (error) {
       console.error("An unexpected error happened occurred:", error);
@@ -41,9 +36,9 @@ const Signup = () => {
 
   return (
     <Layout>
-      <LoginForm errorMessage={errorMsg} onSubmit={handleSubmit} isSignup />
+      <LoginForm onSubmit={handleSubmit} errorMessage={errorMsg} />
     </Layout>
   );
 };
 
-export default Signup;
+export default Login;
