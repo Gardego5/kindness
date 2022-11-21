@@ -1,16 +1,13 @@
 import passport from "passport";
 import nextConnect from "next-connect";
-import { localStrategy } from "../../lib/password-local";
-import { setLoginSession } from "../../lib/auth";
+import { localStrategy } from "@lib/password-local";
+import { setLoginSession } from "@lib/auth";
 
 const authenticate = (method, req, res) =>
   new Promise((resolve, reject) => {
     passport.authenticate(method, { session: false }, (error, token) => {
-      if (error) {
-        reject(error);
-      } else {
-        resolve(token);
-      }
+      if (error) reject(error);
+      else resolve(token);
     })(req, res);
   });
 
