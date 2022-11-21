@@ -1,0 +1,10 @@
+{
+  "compilerOptions": {
+    "target": "ES5",
+    "paths": {
+      "@components/*": ["./components/*"],
+      "@styles/*": ["./styles/*"],
+      "@lib/*": ["./lib/*"]
+    }
+  }
+}
