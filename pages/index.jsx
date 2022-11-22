@@ -1,7 +1,7 @@
-import Projects from "@components/Projects";
+import ProjectList from "@components/AuthDebug";
 
 const Home = () => {
-  return <Projects />;
+  return <ProjectList />;
 };
 
 export default Home;

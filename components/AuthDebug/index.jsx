@@ -3,7 +3,7 @@ import { useContext } from "react";
 
 const { Root } = require("./style");
 
-const Projects = () => {
+const ProjectList = () => {
   const { user } = useContext(userContext);
 
   return (
@@ -17,4 +17,4 @@ const Projects = () => {
   );
 };
 
-export default Projects;
+export default ProjectList;

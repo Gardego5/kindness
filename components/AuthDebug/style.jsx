@@ -1,6 +1,6 @@
 const { default: styled } = require("@emotion/styled");
 
-const component = "Projects";
+const component = "AuthDebug";
 
 const classes = {};
 

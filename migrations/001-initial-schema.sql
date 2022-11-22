@@ -13,7 +13,8 @@ CREATE TABLE users (
 CREATE TABLE projects (
   "id" SERIAL PRIMARY KEY,
   "name" TEXT NOT NULL,
-  "start_date" DATE NOT NULL
+  "start_date" DATE NOT NULL,
+  "end_date" DATE
 );
 
 CREATE TABLE timeslots (

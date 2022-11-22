@@ -1,7 +1,6 @@
 const path = require("path");
 
 const nextConfig = {
-  reactStrictMode: true,
   swcMinify: true,
   webpack: function (config) {
     config.resolve.alias = {

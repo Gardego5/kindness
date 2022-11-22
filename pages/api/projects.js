@@ -1,6 +1,7 @@
 import { getLoginSession } from "@lib/auth";
+import { findProjectsByUser } from "@lib/model/projects";
 import { findUser } from "@lib/model/user";
-import userView from "@lib/view/user";
+import projectView from "@lib/view/project";
 
 export default async (req, res) => {
   switch (req.method) {
@@ -8,8 +9,9 @@ export default async (req, res) => {
       try {
         const session = await getLoginSession(req);
         const user = (session && (await findUser(session))) ?? null;
+        const projects = (user && (await findProjectsByUser(user))) ?? null;
 
-        res.status(200).send(userView(user));
+        res.status(200).send(projects.map((project) => projectView(project)));
       } catch (error) {
         console.error(error);
 

@@ -9,7 +9,7 @@ const classes = {
 };
 
 const Root = styled.div`
-  max-width: 19rem;
+  width: 19rem;
   margin: 0 auto;
   padding: 1rem;
   border: 1px solid var(--lt-gray);
