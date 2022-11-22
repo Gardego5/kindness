@@ -3,6 +3,7 @@
     "target": "ES5",
     "paths": {
       "@components/*": ["./components/*"],
+      "@context/*": ["./context/*"],
       "@styles/*": ["./styles/*"],
       "@lib/*": ["./lib/*"]
     }

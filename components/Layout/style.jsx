@@ -4,7 +4,7 @@ const component = "Layout";
 
 const classes = {};
 
-const Root = styled.div`
+const Root = styled.main`
   margin-top: 2rem;
 `;
 

@@ -1,12 +1,8 @@
 import { useState } from "react";
 import Router from "next/router";
-import { useUser } from "@lib/hooks";
 import LoginForm from "@components/LoginForm";
-import Layout from "@components/Layout";
 
 const Signup = () => {
-  useUser({ redirectTo: "/login", redirectIfFound: true });
-
   const [errorMsg, setErrorMsg] = useState("");
 
   const handleSubmit = async (event) => {
@@ -42,11 +38,7 @@ const Signup = () => {
     }
   };
 
-  return (
-    <Layout>
-      <LoginForm errorMessage={errorMsg} onSubmit={handleSubmit} isSignup />
-    </Layout>
-  );
+  return <LoginForm errorMessage={errorMsg} onSubmit={handleSubmit} isSignup />;
 };
 
 export default Signup;

@@ -2,9 +2,9 @@ import { createUser } from "@lib/user";
 
 export default async function signup(req, res) {
   try {
-    await createUser(req.body);
+    const createdUser = await createUser(req.body);
 
-    res.status(200).send({ done: true });
+    res.status(200).send(createdUser);
   } catch (error) {
     console.error(error);
 
