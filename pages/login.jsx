@@ -15,7 +15,7 @@ const Login = () => {
     if (errorMsg) setErrorMsg("");
 
     const body = {
-      username: event.currentTarget.email.value,
+      username: event.currentTarget.username.value,
       password: event.currentTarget.password.value,
     };
 

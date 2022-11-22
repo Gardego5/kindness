@@ -1,4 +1,4 @@
-const { Root } = require("./style");
+import { Root } from "./style";
 
 const Layout = ({ children }) => <Root>{children}</Root>;
 
