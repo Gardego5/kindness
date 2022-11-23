@@ -4,12 +4,10 @@ const Projects = () => {
   const [projects, setProjects] = useState(null);
 
   useEffect(() => {
-    fetch("/api/projects")
+    fetch("/api/project")
       .then((res) => (res.status === 200 ? res.json() : false))
       .then((data) => setProjects(data));
   }, []);
-
-  console.log({ projects });
 
   return projects?.length
     ? projects.map((project, idx) => <p key={idx}>{JSON.stringify(project)}</p>)

@@ -8,6 +8,13 @@ const UserContextProvider = ({ children }) => {
   const [user, setUser] = useState(false);
   const router = useRouter();
 
+  const name =
+    user?.first_name && user?.last_name
+      ? `${
+          user.first_name.slice(0, 1).toUpperCase() + user.first_name.slice(1)
+        } ${user.last_name.slice(0, 1).toUpperCase() + user.last_name.slice(1)}`
+      : null;
+
   useEffect(() => {
     if (!user && !["/login", "/signup"].includes(router.pathname))
       (async () => {
@@ -20,7 +27,7 @@ const UserContextProvider = ({ children }) => {
       })();
   }, [user, router]);
 
-  return <Provider value={{ user, setUser }}>{children}</Provider>;
+  return <Provider value={{ user, setUser, name }}>{children}</Provider>;
 };
 
 export default UserContextProvider;

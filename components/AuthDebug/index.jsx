@@ -3,7 +3,7 @@ import { useContext } from "react";
 
 const { Root } = require("./style");
 
-const ProjectList = () => {
+const AuthDebug = () => {
   const { user } = useContext(userContext);
 
   return (
@@ -17,4 +17,4 @@ const ProjectList = () => {
   );
 };
 
-export default ProjectList;
+export default AuthDebug;

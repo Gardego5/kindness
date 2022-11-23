@@ -5,7 +5,7 @@ const component = "Layout";
 const classes = {};
 
 const Root = styled.main`
-  margin-top: 2rem;
+  width: 100%;
   display: flex;
   align-items: center;
   justify-content: center;

@@ -1,17 +1,18 @@
 import { getLoginSession } from "@lib/auth";
-import { findProjectsByUser } from "@lib/model/projects";
+import { findProjectsByUser } from "@lib/model/project";
 import { findUser } from "@lib/model/user";
-import projectView from "@lib/view/project";
+import { projectsView } from "@lib/view/project";
 
 export default async (req, res) => {
   switch (req.method) {
     case "GET":
+      console.log({ id: req.query.id });
       try {
         const session = await getLoginSession(req);
         const user = (session && (await findUser(session))) ?? null;
         const projects = (user && (await findProjectsByUser(user))) ?? null;
 
-        res.status(200).send(projects.map((project) => projectView(project)));
+        res.status(200).send(projectsView(projects));
       } catch (error) {
         console.error(error);
 

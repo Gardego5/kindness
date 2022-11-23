@@ -1,7 +1,5 @@
-import ProjectList from "@components/AuthDebug";
-
 const Home = () => {
-  return <ProjectList />;
+  return null;
 };
 
 export default Home;
