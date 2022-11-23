@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { useEffect, useState } from "react";
 
 const Projects = () => {
@@ -10,7 +11,11 @@ const Projects = () => {
   }, []);
 
   return projects?.length
-    ? projects.map((project, idx) => <p key={idx}>{JSON.stringify(project)}</p>)
+    ? projects.map(({ id, name }, idx) => (
+        <Link key={idx} href={`/project/${id}`}>
+          {name}
+        </Link>
+      ))
     : projects === null
     ? "Loading..."
     : "You have no projects.";
