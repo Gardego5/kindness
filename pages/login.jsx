@@ -1,13 +1,12 @@
-import { useState } from "react";
-import Router from "next/router";
-import { useUser } from "@lib/hooks";
+import { useContext, useState } from "react";
 import LoginForm from "@components/LoginForm";
-import Layout from "@components/Layout";
+import { userContext } from "@context/userContext";
+import { useRouter } from "next/router";
 
 const Login = () => {
-  useUser({ redirectTo: "/", redirectIfFound: true });
-
   const [errorMsg, setErrorMsg] = useState("");
+  const { setUser } = useContext(userContext);
+  const router = useRouter();
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -15,7 +14,7 @@ const Login = () => {
     if (errorMsg) setErrorMsg("");
 
     const body = {
-      username: event.currentTarget.email.value,
+      username: event.currentTarget.username.value,
       password: event.currentTarget.password.value,
     };
 
@@ -26,7 +25,7 @@ const Login = () => {
         body: JSON.stringify(body),
       });
 
-      if (res.status === 200) Router.push("/");
+      if (res.status === 200) router.push("/");
       else throw new Error(await res.text());
     } catch (error) {
       console.error("An unexpected error happened occurred:", error);
@@ -34,11 +33,7 @@ const Login = () => {
     }
   };
 
-  return (
-    <Layout>
-      <LoginForm onSubmit={handleSubmit} errorMessage={errorMsg} />
-    </Layout>
-  );
+  return <LoginForm onSubmit={handleSubmit} errorMessage={errorMsg} />;
 };
 
 export default Login;

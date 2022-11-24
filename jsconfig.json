@@ -1,10 +1,13 @@
 {
   "compilerOptions": {
     "target": "ES5",
+    "baseUrl": ".",
     "paths": {
       "@components/*": ["./components/*"],
+      "@context/*": ["./context/*"],
       "@styles/*": ["./styles/*"],
       "@lib/*": ["./lib/*"]
     }
-  }
+  },
+  "include": ["**/*.js", "**/*.jsx"]
 }

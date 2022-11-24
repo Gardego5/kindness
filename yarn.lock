@@ -378,10 +378,10 @@ csstype@^3.0.2:
   resolved "https://registry.yarnpkg.com/csstype/-/csstype-3.1.1.tgz#841b532c45c758ee546a11d5bd7b7b473c8c30b9"
   integrity sha512-DJR/VvkAvSZW9bTouZue2sSxDwdTN92uHjqeKVm+0dAqdfNykRzQ95tay8aXMBAAPpUiq4Qcug2L7neoRh2Egw==
 
-dequal@2.0.2:
-  version "2.0.2"
-  resolved "https://registry.yarnpkg.com/dequal/-/dequal-2.0.2.tgz#85ca22025e3a87e65ef75a7a437b35284a7e319d"
-  integrity sha512-q9K8BlJVxK7hQYqa6XISGmBZbtQQWVXSrRrWreHC94rMt1QL/Impruc+7p2CYSYuVIUr+YCt6hjrs1kkdJRTug==
+dotenv@^16.0.3:
+  version "16.0.3"
+  resolved "https://registry.yarnpkg.com/dotenv/-/dotenv-16.0.3.tgz#115aec42bac5053db3c456db30cc243a5a836a07"
+  integrity sha512-7GO6HghkA5fYG9TYnNxi14/7K9f5occMlp3zXAuSxn7CKCxt9xbNWG7yF8hTCSUchlfWSe3uLmlPfigevRItzQ==
 
 error-ex@^1.3.1:
   version "1.3.2"
@@ -576,6 +576,11 @@ postcss@8.4.14:
     picocolors "^1.0.0"
     source-map-js "^1.0.2"
 
+postgres@^3.3.2:
+  version "3.3.2"
+  resolved "https://registry.yarnpkg.com/postgres/-/postgres-3.3.2.tgz#91f2e209e4a08ca7101eb7178734e4c0e4d23eb3"
+  integrity sha512-NaPqFpUC6C7aCQkJXLvuO/3RKNKL4en8opY53YrcXK3//xXra6CZ2qX6290lxuQ1dW1LbRGYCmsawRlCxSBonQ==
+
 react-dom@^18.2.0:
   version "18.2.0"
   resolved "https://registry.yarnpkg.com/react-dom/-/react-dom-18.2.0.tgz#22aaf38708db2674ed9ada224ca4aa708d821e3d"
@@ -660,13 +665,6 @@ supports-preserve-symlinks-flag@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/supports-preserve-symlinks-flag/-/supports-preserve-symlinks-flag-1.0.0.tgz#6eda4bd344a3c94aea376d4cc31bc77311039e09"
   integrity sha512-ot0WnXS9fgdkgIcePe6RHNk1WA8+muPa6cSjeR3V8K27q9BB1rTE3R1p7Hv0z1ZyAc8s6Vvv8DIyWf681MAt0w==
-
-swr@^0.5.5:
-  version "0.5.7"
-  resolved "https://registry.yarnpkg.com/swr/-/swr-0.5.7.tgz#bb6a56ad1c61da719d182c1137198554d5a78aac"
-  integrity sha512-Jh1Efgu8nWZV9rU4VLUMzBzcwaZgi4znqbVXvAtUy/0JzSiN6bNjLaJK8vhY/Rtp7a83dosz5YuehfBNwC/ZoQ==
-  dependencies:
-    dequal "2.0.2"
 
 to-fast-properties@^2.0.0:
   version "2.0.0"

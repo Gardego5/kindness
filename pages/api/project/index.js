@@ -1,6 +1,8 @@
 import { getLoginSession } from "@lib/auth";
+import sql from "@lib/db";
+import findProjects from "@lib/model/project";
 import { findUser } from "@lib/model/user";
-import userView from "@lib/view/user";
+import projectView from "@lib/view/project";
 
 export default async (req, res) => {
   switch (req.method) {
@@ -8,8 +10,14 @@ export default async (req, res) => {
       try {
         const session = await getLoginSession(req);
         const user = (session && (await findUser(session))) ?? null;
+        const projects =
+          (user &&
+            (await findProjects({
+              filter: sql`WHERE users.id = ${user.id}`,
+            }))) ??
+          null;
 
-        res.status(200).send(userView(user));
+        res.status(200).send(projectView(projects));
       } catch (error) {
         console.error(error);
 

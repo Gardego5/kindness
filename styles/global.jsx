@@ -16,6 +16,7 @@ const GlobalStyle = () => (
         --dk-gray: #333333;
         --black: #000000;
         --error: brown;
+        --link: #23766d;
       }
     `}
   />

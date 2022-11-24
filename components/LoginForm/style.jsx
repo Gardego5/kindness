@@ -5,10 +5,11 @@ const component = "LoginForm";
 const classes = {
   error: `${component}-error`,
   submit: `${component}-submit`,
+  formRow: `${component}-formRow`,
 };
 
 const Root = styled.div`
-  max-width: 19rem;
+  width: 19rem;
   margin: 0 auto;
   padding: 1rem;
   border: 1px solid var(--lt-gray);
@@ -21,6 +22,19 @@ const Root = styled.div`
 
     span {
       font-weight: 600;
+      font-size: 0.8rem;
+    }
+  }
+
+  .${classes.formRow} {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0 1rem;
+
+    label {
+      min-width: 6rem;
+      flex-grow: 1;
+      flex-basis: 7rem;
     }
   }
 
@@ -29,6 +43,12 @@ const Root = styled.div`
     margin: 0.3rem 0 1rem;
     border: 1px solid var(--lt-gray);
     border-radius: 0.25rem;
+
+    &,
+    ::placeholder {
+      font-weight: 450;
+      font-size: 1rem;
+    }
   }
 
   .${classes.submit} {

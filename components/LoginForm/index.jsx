@@ -6,9 +6,16 @@ const LoginForm = ({ isSignup, errorMessage, onSubmit }) => (
   <Root>
     <form onSubmit={onSubmit}>
       <label>
-        <span>Email</span>
-        <input type="email" name="email" required />
+        <span>Username</span>
+        <input type="text" name="username" required />
       </label>
+
+      {isSignup && (
+        <label>
+          <span>Email</span>
+          <input type="email" name="email" required />
+        </label>
+      )}
 
       <label>
         <span>Password</span>
@@ -16,10 +23,24 @@ const LoginForm = ({ isSignup, errorMessage, onSubmit }) => (
       </label>
 
       {isSignup && (
-        <label>
-          <span>Repeat password</span>
-          <input type="password" name="rpassword" required />
-        </label>
+        <>
+          <label>
+            <span>Repeat password</span>
+            <input type="password" name="rpassword" required />
+          </label>
+
+          <div className={classes.formRow}>
+            <label>
+              <span>First name</span>
+              <input type="text" name="first_name" required />
+            </label>
+
+            <label>
+              <span>Last name</span>
+              <input type="text" name="last_name" required />
+            </label>
+          </div>
+        </>
       )}
 
       <div className={classes.submit}>

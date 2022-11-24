@@ -1,16 +1,24 @@
-import Router from "next/router";
-import { useUser } from "@lib/hooks";
-import Layout from "@components/Layout";
-import { useEffect } from "react";
+import Link from "next/link";
+import { useEffect, useState } from "react";
 
-const Home = () => {
-  const user = useUser();
+const Projects = () => {
+  const [projects, setProjects] = useState(null);
 
   useEffect(() => {
-    if (!user) Router.push("/login");
-  }, [user]);
+    fetch("/api/project")
+      .then((res) => (res.status === 200 ? res.json() : false))
+      .then((data) => setProjects(data));
+  }, []);
 
-  return <Layout>You must be logged in!</Layout>;
+  return projects?.length
+    ? projects.map(({ id, name }, idx) => (
+        <Link key={idx} href={`/${id}`}>
+          {name}
+        </Link>
+      ))
+    : projects === null
+    ? "Loading..."
+    : "You have no projects.";
 };
 
-export default Home;
+export default Projects;
