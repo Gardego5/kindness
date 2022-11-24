@@ -8,18 +8,14 @@ const Header = () => {
 
   return (
     <Root>
-      <Link href="/">
-        <h1>Kindness</h1>
-      </Link>
+      <h1>Kindness</h1>
 
-      <nav>
-        {user && (
-          <>
-            <Link href="/user">{name}</Link>
-            <Link href="/api/logout">Logout</Link>
-          </>
-        )}
-      </nav>
+      {user && (
+        <nav>
+          <Link href="/user">{name}</Link>
+          <Link href="/api/logout">Logout</Link>
+        </nav>
+      )}
     </Root>
   );
 };

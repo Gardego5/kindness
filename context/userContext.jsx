@@ -12,7 +12,7 @@ const UserContextProvider = ({ children }) => {
     user?.first_name && user?.last_name
       ? `${
           user.first_name.slice(0, 1).toUpperCase() + user.first_name.slice(1)
-        } ${user.last_name.slice(0, 1).toUpperCase() + user.last_name.slice(1)}`
+        } ${user.last_name.slice(0, 1).toUpperCase()}.`
       : null;
 
   useEffect(() => {

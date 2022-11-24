@@ -1,3 +1,4 @@
+import Expandable from "@components/Expandable";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 
@@ -12,7 +13,12 @@ const Project = (props) => {
         .then((data) => setProject(data));
   }, [router]);
 
-  return project ? <div>{JSON.stringify(project)}</div> : null;
+  return project ? (
+    <Expandable title={project.name}>
+      <p>This is a description</p>
+      <p>Of all the things</p>
+    </Expandable>
+  ) : null;
 };
 
 export default Project;

@@ -19,7 +19,7 @@ const Root = styled.header`
   }
 
   h1 {
-    font-size: 2rem;
+    font-size: 1.5rem;
     color: var(--black);
   }
 

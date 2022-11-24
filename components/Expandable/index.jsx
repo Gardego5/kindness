@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { classes, Root } from "./style";
 
-const ListEntry = ({ children, title, callback = () => null }) => {
+const Expandable = ({ children, title, callback = () => null }) => {
   const [expanded, setExpanded] = useState(false);
 
   const handleClick = (event) => {
@@ -20,4 +20,4 @@ const ListEntry = ({ children, title, callback = () => null }) => {
   );
 };
 
-export default ListEntry;
+export default Expandable;
