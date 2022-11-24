@@ -5,7 +5,7 @@ import { findUser } from "@lib/model/user";
 import projectView from "@lib/view/project";
 
 export default async (req, res) => {
-  const id = req?.query?.id ?? null;
+  const { id } = req?.query;
 
   switch (req.method) {
     case "GET":

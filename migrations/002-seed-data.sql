@@ -36,4 +36,14 @@ INSERT INTO timeslots (title, project_id) VALUES
 ('morning', 2),
 ('evening', 2);
 
+INSERT INTO visits (date, timeslot_id, project_id) VALUES
+('2022-11-26', 2, 1),
+('2022-11-27', 2, 1),
+('2022-11-30', 4, 2);
+
+INSERT INTO users_visits (user_id, visit_id) VALUES
+(1, 1),
+(2, 1),
+(2, 2);
+
 -- Down
