@@ -8,9 +8,10 @@ const classes = {
 };
 
 const Root = styled.div`
-  width: calc(100% - 4rem);
+  width: calc(100% - 2rem);
   max-width: 60ch;
   overflow: hidden;
+  z-index: 2;
 
   button {
     z-index: 2;
@@ -24,15 +25,21 @@ const Root = styled.div`
 
     .${classes.title} {
       text-align: center;
+      color: var(--black);
     }
   }
 
   .${classes.hideable} {
     transform: translateY(${({ expanded }) => (expanded ? 0 : "-100%")});
     height: ${({ expanded }) => (expanded ? "" : 0)};
-    transition: transform 150ms ease;
+    padding-top: ${({ expanded }) => (expanded ? "0.5rem" : 0)};
+    transition: transform 180ms ease;
     z-index: -1;
     position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
   }
 `;
 

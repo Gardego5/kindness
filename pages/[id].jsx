@@ -1,4 +1,6 @@
+import WeekExpandable from "@components/WeekExpandable";
 import quandary from "@lib/quandary";
+import { findStartOfWeek, oneDay, today } from "@lib/util/dates";
 import { useRouter } from "next/router";
 import { useEffect, useMemo, useState } from "react";
 
@@ -10,18 +12,12 @@ const Project = (props) => {
 
   useEffect(() => console.log({ project, visits }), [project, visits]);
 
-  const dates = useMemo(() => {
-    const daysInMonth = (date) => {
-      const month = date.getMonth();
-      const year = date.getFullYear();
-      return Array.from(
-        { length: new Date(year, month + 1, 0).getDate() },
-        (_, i) => new Date(year, month, i + 1)
-      );
-    };
-    const today = new Date(new Date().toDateString());
+  const weekStarts = useMemo(() => {
+    const startOfWeek = findStartOfWeek(today());
 
-    return [today];
+    return [-14, -7, 0, 7, 14].map(
+      (m) => new Date(startOfWeek.valueOf() + oneDay * m)
+    );
   }, []);
 
   useEffect(() => {
@@ -31,8 +27,8 @@ const Project = (props) => {
     }
   }, [router]);
 
-  return visits
-    ? dates.map((date, idx) => <p key={idx}>{date.toDateString()}</p>)
+  return weekStarts
+    ? weekStarts.map((date, idx) => <WeekExpandable date={date} key={idx} />)
     : "Loading...";
 };
 

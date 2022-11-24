@@ -1,7 +1,12 @@
 import { useState } from "react";
 import { classes, Root } from "./style";
 
-const Expandable = ({ children, title, callback = () => null }) => {
+const Expandable = ({
+  children,
+  title,
+  callback = () => null,
+  ...restProps
+}) => {
   const [expanded, setExpanded] = useState(false);
 
   const handleClick = (event) => {
@@ -11,7 +16,7 @@ const Expandable = ({ children, title, callback = () => null }) => {
 
   return (
     <Root expanded={expanded}>
-      <button onClick={handleClick}>
+      <button onClick={handleClick} {...restProps}>
         <p className={classes.title}>{title}</p>
       </button>
 
