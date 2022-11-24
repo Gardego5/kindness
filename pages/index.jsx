@@ -1,3 +1,4 @@
+import quandary from "@lib/quandary";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
@@ -5,9 +6,7 @@ const Projects = () => {
   const [projects, setProjects] = useState(null);
 
   useEffect(() => {
-    fetch("/api/project")
-      .then((res) => (res.status === 200 ? res.json() : false))
-      .then((data) => setProjects(data));
+    quandary(`/api/project`, setProjects);
   }, []);
 
   return projects?.length

@@ -1,3 +1,4 @@
+import quandary from "@lib/quandary";
 import { useRouter } from "next/router";
 import { createContext, useEffect, useState } from "react";
 
@@ -17,14 +18,10 @@ const UserContextProvider = ({ children }) => {
 
   useEffect(() => {
     if (!user && !["/login", "/signup"].includes(router.pathname))
-      (async () => {
-        const fetchedUser = await fetch("/api/user")
-          .then((res) => (res.status === 200 ? res.json() : null))
-          .then((data) => data?.user || null);
-
+      quandary("/api/user/me", (fetchedUser) => {
         if (fetchedUser) setUser(fetchedUser);
         else router.push("/login");
-      })();
+      });
   }, [user, router]);
 
   return <Provider value={{ user, setUser, name }}>{children}</Provider>;

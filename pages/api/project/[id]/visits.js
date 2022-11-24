@@ -4,7 +4,7 @@ import findProjects from "@lib/model/project";
 import { findUser } from "@lib/model/user";
 import findVisits from "@lib/model/visit";
 import makeError from "@lib/view/errorView";
-import visitView from "@lib/view/visit";
+import visitsView from "@lib/view/visit";
 
 export default async (req, res) => {
   const { id, start_date, end_date } = req?.query;
@@ -16,7 +16,7 @@ export default async (req, res) => {
         const user = (session && (await findUser(session))) ?? null;
         if (!user)
           throw makeError({
-            message: "Authentication token is invalid, please log in",
+            message: "Authentication token is invalid, please log in.",
             code: 401,
           });
 
@@ -42,9 +42,9 @@ export default async (req, res) => {
             code: 404,
           });
 
-        res.status(200).send(visitView(visits, true));
+        res.status(200).send(visitsView(visits, true));
       } catch (error) {
-        console.error(error);
+        if (!error.code) console.error(error);
 
         res.status(error.code ?? 500).end(error.message);
       }
