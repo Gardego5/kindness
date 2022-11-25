@@ -1,12 +1,16 @@
 import Layout from "@components/Layout";
-import UserContextProvider from "@context/userContext";
+import compose from "@context/compose";
+import { DataContextProvider } from "@context/dataContext";
+import { UserContextProvider } from "@context/userContext";
+
+const Provider = compose([UserContextProvider, DataContextProvider]);
 
 export default function MyApp({ Component, pageProps }) {
   return (
-    <UserContextProvider>
+    <Provider>
       <Layout>
         <Component {...pageProps} />
       </Layout>
-    </UserContextProvider>
+    </Provider>
   );
 }

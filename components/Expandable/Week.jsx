@@ -1,9 +1,9 @@
-import DayExpandable from "@components/DayExpandable";
+import Expandable from "@components/Expandable";
 import { oneDay } from "@lib/util/dates";
 import { useMemo } from "react";
-import { Root } from "./style";
+import Day from "./Day";
 
-const WeekExpandable = ({ date }) => {
+const Week = ({ date }) => {
   const { thisWeek, title } = useMemo(() => {
     const thisWeek = Array.from(
       { length: 7 },
@@ -18,12 +18,12 @@ const WeekExpandable = ({ date }) => {
   }, [date]);
 
   return (
-    <Root title={title}>
+    <Expandable title={title}>
       {thisWeek.map((day, idx) => (
-        <DayExpandable date={day} key={idx} />
+        <Day date={day} key={idx} />
       ))}
-    </Root>
+    </Expandable>
   );
 };
 
-export default WeekExpandable;
+export default Week;

@@ -1,16 +1,14 @@
-import WeekExpandable from "@components/WeekExpandable";
+import Week from "@components/Expandable/Week";
+import dataContext from "@context/dataContext";
 import quandary from "@lib/quandary";
 import { findStartOfWeek, oneDay, today } from "@lib/util/dates";
 import { useRouter } from "next/router";
-import { useEffect, useMemo, useState } from "react";
+import { useContext, useEffect, useMemo } from "react";
 
 const Project = (props) => {
-  const [visits, setVisits] = useState(null);
-  const [project, setProject] = useState(null);
+  const { setVisits, setProject } = useContext(dataContext);
 
   const router = useRouter();
-
-  useEffect(() => console.log({ project, visits }), [project, visits]);
 
   const weekStarts = useMemo(() => {
     const startOfWeek = findStartOfWeek(today());
@@ -28,7 +26,7 @@ const Project = (props) => {
   }, [router]);
 
   return weekStarts
-    ? weekStarts.map((date, idx) => <WeekExpandable date={date} key={idx} />)
+    ? weekStarts.map((date, idx) => <Week date={date} key={idx} />)
     : "Loading...";
 };
 

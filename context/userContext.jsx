@@ -5,7 +5,7 @@ import { createContext, useEffect, useState } from "react";
 export const userContext = createContext();
 const { Provider } = userContext;
 
-const UserContextProvider = ({ children }) => {
+export const UserContextProvider = ({ children }) => {
   const [user, setUser] = useState(false);
   const router = useRouter();
 
@@ -13,7 +13,7 @@ const UserContextProvider = ({ children }) => {
     user?.first_name && user?.last_name
       ? `${
           user.first_name.slice(0, 1).toUpperCase() + user.first_name.slice(1)
-        } ${user.last_name.slice(0, 1).toUpperCase()}.`
+        } ${user.last_name[0].toUpperCase()}.`
       : null;
 
   useEffect(() => {
@@ -27,4 +27,4 @@ const UserContextProvider = ({ children }) => {
   return <Provider value={{ user, setUser, name }}>{children}</Provider>;
 };
 
-export default UserContextProvider;
+export default userContext;

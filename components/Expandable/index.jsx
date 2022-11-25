@@ -15,8 +15,8 @@ const Expandable = ({
   };
 
   return (
-    <Root expanded={expanded}>
-      <button onClick={handleClick} {...restProps}>
+    <Root expanded={expanded} {...restProps}>
+      <button onClick={handleClick} className={classes.openButton}>
         <p className={classes.title}>{title}</p>
       </button>
 
