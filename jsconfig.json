@@ -9,5 +9,5 @@
       "@lib/*": ["./lib/*"]
     }
   },
-  "include": ["**/*.js", "**/*.jsx"]
+  "include": ["**/*.js", "**/*.jsx", "next.config.cjs"]
 }

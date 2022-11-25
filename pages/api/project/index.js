@@ -2,7 +2,7 @@ import { getLoginSession } from "@lib/auth";
 import sql from "@lib/db";
 import findProjects from "@lib/model/project";
 import { findUser } from "@lib/model/user";
-import projectView from "@lib/view/project";
+import projectsView from "@lib/view/project";
 
 export default async (req, res) => {
   switch (req.method) {
@@ -17,7 +17,7 @@ export default async (req, res) => {
             }))) ??
           null;
 
-        res.status(200).send(projectView(projects));
+        res.status(200).send(projectsView(projects));
       } catch (error) {
         console.error(error);
 

@@ -1,6 +1,6 @@
 import { useContext, useState } from "react";
 import LoginForm from "@components/LoginForm";
-import { userContext } from "@context/userContext";
+import userContext from "@context/userContext";
 import { useRouter } from "next/router";
 
 const Login = () => {

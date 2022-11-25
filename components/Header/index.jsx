@@ -1,4 +1,4 @@
-import { userContext } from "@context/userContext";
+import userContext from "@context/userContext";
 import Link from "next/link";
 import { useContext } from "react";
 import { Root } from "./style";

@@ -1,4 +1,4 @@
-import { userContext } from "@context/userContext";
+import userContext from "@context/userContext";
 import { useContext } from "react";
 
 const { Root } = require("./style");

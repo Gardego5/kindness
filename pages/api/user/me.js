@@ -1,6 +1,6 @@
 import { getLoginSession } from "@lib/auth";
 import { findUser } from "@lib/model/user";
-import userView from "@lib/view/user";
+import { userView } from "@lib/view/user";
 
 export default async (req, res) => {
   switch (req.method) {
