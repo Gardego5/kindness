@@ -43,8 +43,6 @@ export default async (req, res) => {
       username,
     });
 
-    console.log("hi1");
-
     switch (req.method) {
       case "POST":
         if (typeof perhapsVisit === "undefined")
@@ -63,8 +61,6 @@ export default async (req, res) => {
         break;
 
       case "DELETE":
-        console.log({ date, timeslot, project_id, username });
-        console.log({ perhapsSignUp });
         if (typeof perhapsSignUp !== "undefined")
           await removeSignUp({ date, timeslot, project_id, username });
         break;
@@ -73,7 +69,6 @@ export default async (req, res) => {
         res.status(405).end();
         return;
     }
-    console.log("hi2");
 
     const [visit] = await findVisits({
       filter: sql`WHERE visits.id = ${perhapsVisit ? perhapsVisit?.id : -1}`,
