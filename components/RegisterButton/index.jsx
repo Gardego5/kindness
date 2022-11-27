@@ -30,16 +30,14 @@ const RegisterButton = ({ timeslot, date, registered }) => {
             date === visit.date && timeslot === visit.timeslot
         );
 
-        if (idx > 0) setVisits([...visits, visit]);
+        if (idx === -1) setVisits([...visits, visit]);
         else
           setVisits([...visits.slice(0, idx), visit, ...visits.slice(idx + 1)]);
 
+        console.log({ idx });
+
         setDisabled(false);
       });
-  };
-
-  const handleUnregister = (event) => {
-    console.log("unregister");
   };
 
   const name = `${registered?.first_name} ${registered?.last_name?.substring(
