@@ -8,7 +8,7 @@ const Day = ({ date }) => {
 
   return (
     <Expandable title={date.toDateString()}>
-      {project?.timeslots.map((timeslot, idx) => (
+      {project?.timeslots?.map((timeslot, idx) => (
         <Timeslot timeslot={timeslot} date={date} key={idx} />
       )) ?? "Loading..."}
     </Expandable>
