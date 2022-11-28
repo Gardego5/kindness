@@ -6,6 +6,7 @@ const classes = {
   error: `${component}-error`,
   submit: `${component}-submit`,
   formRow: `${component}-formRow`,
+  hiddenField: `${component}-hiddenField`,
 };
 
 const Root = styled.div`
@@ -77,6 +78,10 @@ const Root = styled.div`
   .${classes.error} {
     color: var(--error);
     margin: 1rem 0 0;
+  }
+
+  .${classes.hiddenField} {
+    display: none;
   }
 `;
 

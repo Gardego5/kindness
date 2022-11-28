@@ -34,8 +34,6 @@ const RegisterButton = ({ timeslot, date, registered }) => {
         else
           setVisits([...visits.slice(0, idx), visit, ...visits.slice(idx + 1)]);
 
-        console.log({ idx });
-
         setDisabled(false);
       });
   };

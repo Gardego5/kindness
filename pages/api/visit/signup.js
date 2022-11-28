@@ -21,13 +21,13 @@ export default async (req, res) => {
     if (!user)
       throw makeError({
         message: "Authentication token is invalid, please log in.",
-        httpStatusCode: 401,
+        code: 401,
       });
 
     if (user.username !== req.body.username)
       throw makeError({
         message: "Not Authorized.",
-        httpStatusCode: 401,
+        code: 401,
       });
 
     let [perhapsVisit] = await findVisitId({
@@ -78,8 +78,6 @@ export default async (req, res) => {
   } catch (error) {
     console.error(error);
 
-    res
-      .status(error.httpStatusCode ?? 500)
-      .end(error.message ?? "Server Error.");
+    res.status(error.code ?? 500).end(error.message ?? "Server Error.");
   }
 };

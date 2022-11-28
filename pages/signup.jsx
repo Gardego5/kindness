@@ -1,9 +1,10 @@
 import { useState } from "react";
-import Router from "next/router";
+import { useRouter } from "next/router";
 import LoginForm from "@components/LoginForm";
 
 const Signup = () => {
   const [errorMsg, setErrorMsg] = useState("");
+  const router = useRouter();
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -16,6 +17,8 @@ const Signup = () => {
       password: event.currentTarget.password.value,
       first_name: event.currentTarget.first_name.value,
       last_name: event.currentTarget.last_name.value,
+      group_id: event.currentTarget.group_id.value,
+      group_password: event.currentTarget.group_password.value,
     };
 
     if (body.password !== event.currentTarget.rpassword.value) {
@@ -30,7 +33,7 @@ const Signup = () => {
         body: JSON.stringify(body),
       });
 
-      if (res.status === 200) Router.push("/login");
+      if (res.status === 200) router.push("/login");
       else throw new Error(await res.text());
     } catch (error) {
       console.error("An unexpected error happened occurred:", error);
@@ -38,7 +41,15 @@ const Signup = () => {
     }
   };
 
-  return <LoginForm errorMessage={errorMsg} onSubmit={handleSubmit} isSignup />;
+  return (
+    <LoginForm
+      errorMessage={errorMsg}
+      onSubmit={handleSubmit}
+      groupID={router.query.group_id}
+      groupPassword={router.query.group_password}
+      isSignup
+    />
+  );
 };
 
 export default Signup;

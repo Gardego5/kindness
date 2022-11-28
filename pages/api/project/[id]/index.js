@@ -16,7 +16,7 @@ export default async (req, res) => {
         if (!user)
           throw makeError({
             message: "Authentication token is invalid, please log in.",
-            httpStatusCode: 401,
+            code: 401,
           });
 
         const projects =
@@ -28,16 +28,14 @@ export default async (req, res) => {
         if (!projects?.length)
           throw makeError({
             message: "This project doesn't exist or you aren't a part of it.",
-            httpStatusCode: 404,
+            code: 404,
           });
 
         res.status(200).send(projectsView(projects, true));
       } catch (error) {
-        if (!error.httpStatusCode) console.error(error);
+        if (!error.code) console.error(error);
 
-        res
-          .status(error.httpStatusCode ?? 500)
-          .end(error.message ?? "Server Error.");
+        res.status(error.code ?? 500).end(error.message ?? "Server Error.");
       }
     default:
       res.status(405).end();
