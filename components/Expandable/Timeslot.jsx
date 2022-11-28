@@ -20,14 +20,17 @@ const Timeslot = ({ timeslot, date }) => {
 
   return (
     <Expandable title={timeslot} rowFlex>
-      {thisVisit?.users.map((registeredUser, idx) => (
-        <RegisterButton
-          timeslot={timeslot}
-          date={date}
-          registered={registeredUser}
-          key={idx}
-        />
-      ))}
+      {thisVisit?.users.map(
+        (registeredUser, idx) =>
+          registeredUser?.username && (
+            <RegisterButton
+              timeslot={timeslot}
+              date={date}
+              registered={registeredUser}
+              key={idx}
+            />
+          )
+      )}
 
       {(thisVisit?.users.findIndex(
         ({ username }) => username === user?.username
