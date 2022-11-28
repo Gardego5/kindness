@@ -1,5 +1,5 @@
 import { getLoginSession } from "@lib/auth";
-import { createGroup } from "@lib/model/group";
+import { createGroup, deleteGroup } from "@lib/model/group";
 import { findUser } from "@lib/model/user";
 import makeError from "@lib/view/errorView";
 import { groupView } from "@lib/view/group";
@@ -22,12 +22,22 @@ export default async (req, res) => {
 
     switch (req.method) {
       case "POST":
-        const [group] = await createGroup(req.body);
+        const { name, password, start_date, end_date } = req.body;
+        const group = await createGroup({
+          name,
+          password,
+          start_date,
+          end_date,
+        });
 
         res.status(200).send(groupView(group));
         break;
 
       case "DELETE":
+        const { id } = req.body;
+        await deleteGroup({ id });
+
+        res.status(204).end();
         break;
 
       default:
