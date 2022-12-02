@@ -6,7 +6,7 @@ import GlobalStyle from "@styles/global";
 const Document = () => (
   <Html>
     <Head>
-      <link rel="preconnect" href="https://fonts.googleapis.com" />
+      {/* <link rel="preconnect" href="https://fonts.googleapis.com" /> */}
       <link rel="preconnect" href="https://fonts.gstatic.com" />
       <link
         rel="stylesheet"
