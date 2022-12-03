@@ -17,6 +17,13 @@ const GlobalStyle = () => (
         --black: #000000;
         --error: brown;
         --link: #23766d;
+
+        --lt-blue: #d1e9f0;
+        --jasmine: #ffecad;
+        --pistachio: #c6e6b3;
+
+        // Dimensions
+        --small-spacing: 0.65rem;
       }
     `}
   />
