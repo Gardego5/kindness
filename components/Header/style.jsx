@@ -13,9 +13,18 @@ const Root = styled.header`
   align-items: center;
   justify-content: space-between;
 
-  a {
+  a,
+  p {
     text-decoration: none;
+    font-weight: 700;
+  }
+
+  a {
     color: var(--link);
+  }
+
+  svg {
+    transform: scale(1.8);
   }
 
   h1 {
@@ -26,6 +35,7 @@ const Root = styled.header`
   nav {
     display: flex;
     gap: 1rem;
+    align-items: center;
   }
 `;
 

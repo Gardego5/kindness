@@ -16,43 +16,43 @@ const LoginForm = ({
     <Root>
       <form onSubmit={onSubmit}>
         <label>
-          <span>Username</span>
+          <span className={classes.label}>Username</span>
           <input type="text" name="username" required />
         </label>
 
         {isSignup && (
           <label>
-            <span>Email</span>
+            <span className={classes.label}>Email</span>
             <input type="email" name="email" required />
           </label>
         )}
 
         <label>
-          <span>Password</span>
+          <span className={classes.label}>Password</span>
           <input type="password" name="password" required />
         </label>
 
         {isSignup && (
           <>
             <label>
-              <span>Repeat password</span>
+              <span className={classes.label}>Repeat password</span>
               <input type="password" name="rpassword" required />
             </label>
 
             <div className={classes.formRow}>
               <label>
-                <span>First name</span>
+                <span className={classes.label}>First name</span>
                 <input type="text" name="first_name" required />
               </label>
 
               <label>
-                <span>Last name</span>
+                <span className={classes.label}>Last name</span>
                 <input type="text" name="last_name" required />
               </label>
             </div>
 
             <label className={groupDefined ? classes.hiddenField : ""}>
-              <span>Group ID</span>
+              <span className={classes.label}>Group ID</span>
               <input
                 type="text"
                 name="group_id"
@@ -62,7 +62,7 @@ const LoginForm = ({
             </label>
 
             <label className={groupDefined ? classes.hiddenField : ""}>
-              <span>Group Password</span>
+              <span className={classes.label}>Group Password</span>
               <input
                 type="password"
                 name="group_password"

@@ -1,5 +1,5 @@
+import Project from "@components/Project";
 import quandary from "@lib/quandary";
-import Link from "next/link";
 import { useEffect, useState } from "react";
 
 const Projects = () => {
@@ -10,11 +10,7 @@ const Projects = () => {
   }, []);
 
   return projects?.length
-    ? projects.map(({ id, name }, idx) => (
-        <Link key={idx} href={`/${id}`}>
-          {name}
-        </Link>
-      ))
+    ? projects.map((project, idx) => <Project project={project} key={idx} />)
     : projects === null
     ? "Loading..."
     : "You have no projects.";

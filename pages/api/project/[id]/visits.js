@@ -36,7 +36,7 @@ export default async (req, res) => {
               start_date ? sql`AND visits.date >= ${start_date}` : sql``
             } ${end_date ? sql`AND visit.date <= ${end_date}` : sql``}`,
           })) ?? null;
-        if (!visits?.length)
+        if (visits === null)
           throw makeError({
             message: "Not Found.",
             code: 404,
