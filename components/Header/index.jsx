@@ -1,7 +1,8 @@
 import userContext from "@context/userContext";
-import Link from "next/link";
 import { useContext } from "react";
 import { Root } from "./style";
+import HomeButton from "@components/IconButtons/Home";
+import LogoutButton from "@components/IconButtons/Logout";
 
 const Header = () => {
   const { user, name } = useContext(userContext);
@@ -12,9 +13,9 @@ const Header = () => {
 
       {user && (
         <nav>
-          <Link href="/">Home</Link>
-          <Link href="/user">{name}</Link>
-          <Link href="/api/logout">Logout</Link>
+          <HomeButton />
+          <p>{name}</p>
+          <LogoutButton />
         </nav>
       )}
     </Root>

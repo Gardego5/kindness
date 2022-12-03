@@ -21,6 +21,8 @@
     "uuid": "^9.0.0"
   },
   "devDependencies": {
-    "@emotion/react": "^11.10.5"
+    "@emotion/react": "^11.10.5",
+    "@iconify/icons-material-symbols": "^1.2.24",
+    "@iconify/react": "^4.0.1"
   }
 }
