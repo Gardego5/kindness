@@ -3,7 +3,7 @@ import { Icon } from "@iconify/react";
 import Link from "next/link";
 
 const HomeButton = (props) => (
-  <Link href={props.href ?? "/"} {...props}>
+  <Link href={props.href ?? "/"} title={props.title ?? "Home"} {...props}>
     <Icon icon={homeIcon} />
   </Link>
 );

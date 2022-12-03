@@ -3,10 +3,10 @@ import { Root } from "./style";
 
 const Layout = ({ children }) => {
   return (
-    <Root>
+    <>
       <Header />
-      {children}
-    </Root>
+      <Root>{children}</Root>
+    </>
   );
 };
 

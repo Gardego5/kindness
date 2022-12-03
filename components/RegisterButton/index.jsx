@@ -44,18 +44,17 @@ const RegisterButton = ({ timeslot, date, registered }) => {
   )}.`;
 
   return (
-    <Root>
-      <button
-        className={classes.mainButton}
-        disabled={
-          (registered ? registered?.username !== user.username : false) ||
-          disabled
-        }
-        onClick={handleRegister(!registered)}
-      >
-        {disabled ? "Loading..." : registered ? name : "register"}
-      </button>
+    <Root
+      className={classes.mainButton}
+      disabled={
+        (registered ? registered?.username !== user.username : false) ||
+        disabled
+      }
+      onClick={handleRegister(!registered)}
+    >
+      {disabled ? "Loading..." : registered ? name : "register"}
     </Root>
   );
 };
+
 export default RegisterButton;

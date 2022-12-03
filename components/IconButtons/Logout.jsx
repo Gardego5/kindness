@@ -3,7 +3,11 @@ import { Icon } from "@iconify/react";
 import Link from "next/link";
 
 const LogoutButton = (props) => (
-  <Link href={props.href ?? "/api/logout"} {...props}>
+  <Link
+    href={props.href ?? "/api/logout"}
+    title={props.title ?? "Logout"}
+    {...props}
+  >
     <Icon icon={logoutRounded} />
   </Link>
 );
