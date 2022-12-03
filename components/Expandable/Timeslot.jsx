@@ -1,8 +1,10 @@
-import Expandable from "@components/Expandable";
+import getExpandable from "@components/Expandable";
 import RegisterButton from "@components/RegisterButton";
 import dataContext from "@context/dataContext";
 import userContext from "@context/userContext";
 import { useContext, useMemo } from "react";
+
+const Expandable = getExpandable("Timeslot");
 
 const Timeslot = ({ timeslot, date }) => {
   const { visits } = useContext(dataContext);
@@ -19,7 +21,7 @@ const Timeslot = ({ timeslot, date }) => {
   }, [visits]);
 
   return (
-    <Expandable title={timeslot} rowFlex>
+    <Expandable title={timeslot} rowFlex btnbg="jasmine">
       {thisVisit?.users.map(
         (registeredUser, idx) =>
           registeredUser?.username && (

@@ -15,7 +15,7 @@ const Root = styled.div`
   max-width: 60ch;
   display: grid;
   place-items: center;
-  grid-template-columns: repeat(5, 1fr);
+  grid-template-columns: repeat(6, 1fr);
 
   a {
     color: var(--link);
