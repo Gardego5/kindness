@@ -8,10 +8,15 @@ const Root = styled.header`
   width: calc(100% - 2rem);
   padding: 1rem;
   margin-bottom: 1rem;
-  background: linear-gradient(to right, var(--lt-gray) -20%, var(--white) 120%);
+  background: linear-gradient(
+    to right,
+    var(--lt-gray) -300vw,
+    var(--white) 100vw
+  );
   display: flex;
   align-items: center;
   justify-content: space-between;
+  box-shadow: inset 0 -1px 6px -1px var(--lt-gray);
 
   a,
   p {

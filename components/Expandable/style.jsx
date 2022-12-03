@@ -32,6 +32,14 @@ const useStyles = (component) =>
           text-align: center;
           color: var(--black);
         }
+
+        :active {
+          box-shadow: none;
+        }
+
+        :hover {
+          border: 1px solid var(--md-gray);
+        }
       }
 
       .${classes.hideable} {
