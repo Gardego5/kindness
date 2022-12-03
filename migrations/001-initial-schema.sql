@@ -1,6 +1,6 @@
 -- Up
 
-CREATE TABLE users (
+CREATE TABLE IF NOT EXISTS users (
   "id"                  SERIAL PRIMARY KEY,
   "username"            TEXT NOT NULL UNIQUE,
   "email"               TEXT NOT NULL UNIQUE,
@@ -11,7 +11,7 @@ CREATE TABLE users (
   "is_admin"            BOOLEAN DEFAULT false NOT NULL
 );
 
-CREATE TABLE projects (
+CREATE TABLE IF NOT EXISTS projects (
   "id"                  SERIAL PRIMARY KEY,
   "name"                TEXT NOT NULL,
   "start_date"          DATE NOT NULL,
@@ -21,7 +21,7 @@ CREATE TABLE projects (
     FOREIGN KEY (recipient_id) REFERENCES users (id) ON DELETE CASCADE
 );
 
-CREATE TABLE timeslots (
+CREATE TABLE IF NOT EXISTS timeslots (
   "id"                  SERIAL PRIMARY KEY,
   "title"               TEXT NOT NULL,
   "project_id"          INTEGER NOT NULL,
@@ -43,7 +43,7 @@ $$
   END
 $$ LANGUAGE SQL;
 
-CREATE TABLE visits (
+CREATE TABLE IF NOT EXISTS visits (
   "id"                  SERIAL PRIMARY KEY,
   "date"                DATE NOT NULL,
   "hidden"              BOOLEAN DEFAULT false NOT NULL,
@@ -57,7 +57,7 @@ CREATE TABLE visits (
     CHECK (timeslotAndVisitProjectMatch(project_id, timeslot_id) = TRUE)
 );
 
-CREATE TABLE users_projects (
+CREATE TABLE IF NOT EXISTS users_projects (
   "id"                  SERIAL PRIMARY KEY,
   "user_id"             INTEGER NOT NULL,
   "project_id"          INTEGER NOT NULL,
@@ -83,7 +83,7 @@ $$
   END
 $$ LANGUAGE SQL;
 
-CREATE TABLE users_visits (
+CREATE TABLE IF NOT EXISTS users_visits (
   "id"                  SERIAL PRIMARY KEY,
   "user_id"             INTEGER NOT NULL,
   "visit_id"            INTEGER NOT NULL,
@@ -95,7 +95,7 @@ CREATE TABLE users_visits (
     CHECK (usersVisitsInTheirProjects(user_id, visit_id) = TRUE)
 );
 
-CREATE TABLE groups (
+CREATE TABLE IF NOT EXISTS groups (
   "id"                  UUID DEFAULT GEN_RANDOM_UUID() PRIMARY KEY,
   "name"                TEXT,
   "hash"                TEXT NOT NULL,
@@ -104,7 +104,7 @@ CREATE TABLE groups (
   "end_date"            DATE
 );
 
-CREATE TABLE groups_projects (
+CREATE TABLE IF NOT EXISTS groups_projects (
   "id"                  SERIAL PRIMARY KEY,
   "group_id"            UUID NOT NULL,
   "project_id"          INTEGER NOT NULL,
@@ -114,7 +114,7 @@ CREATE TABLE groups_projects (
     FOREIGN KEY (project_id) REFERENCES projects (id) ON DELETE CASCADE
 );
 
-CREATE TABLE users_groups (
+CREATE TABLE IF NOT EXISTS users_groups (
   "id"                  SERIAL PRIMARY KEY,
   "user_id"             INTEGER NOT NULL,
   "group_id"            UUID NOT NULL,
@@ -131,7 +131,7 @@ CREATE TYPE alert_placement
       'signup'
     );
 
-CREATE TABLE alerts (
+CREATE TABLE IF NOT EXISTS alerts (
   "id"                  SERIAL PRIMARY KEY,
   "location"            alert_placement NOT NULL,
   "content"             TEXT NOT NULL,
@@ -140,7 +140,7 @@ CREATE TABLE alerts (
   "times_to_display"    INTEGER
 );
 
-CREATE TABLE alerts_users (
+CREATE TABLE IF NOT EXISTS alerts_users (
   "id"                  SERIAL PRIMARY KEY,
   "alert_id"            INTEGER NOT NULL,
   "user_id"             INTEGER NOT NULL,
@@ -150,7 +150,7 @@ CREATE TABLE alerts_users (
     FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE
 );
 
-CREATE TABLE alerts_groups (
+CREATE TABLE IF NOT EXISTS alerts_groups (
   "id"                  SERIAL PRIMARY KEY,
   "alert_id"            INTEGER NOT NULL,
   "group_id"            UUID NOT NULL,
@@ -160,7 +160,7 @@ CREATE TABLE alerts_groups (
     FOREIGN KEY (group_id) REFERENCES groups (id) ON DELETE CASCADE
 );
 
-CREATE TABLE alerts_projects (
+CREATE TABLE IF NOT EXISTS alerts_projects (
   "id"                  SERIAL PRIMARY KEY,
   "alert_id"            INTEGER NOT NULL,
   "project_id"          INTEGER NOT NULL,
