@@ -12,6 +12,7 @@ const Header = () => {
 
       {user && (
         <nav>
+          <Link href="/">Home</Link>
           <Link href="/user">{name}</Link>
           <Link href="/api/logout">Logout</Link>
         </nav>

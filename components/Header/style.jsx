@@ -16,6 +16,7 @@ const Root = styled.header`
   a {
     text-decoration: none;
     color: var(--link);
+    font-weight: 600;
   }
 
   h1 {
