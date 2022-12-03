@@ -6,11 +6,15 @@ import Timeslot from "./Timeslot";
 const Day = ({ date }) => {
   const { project } = useContext(dataContext);
 
+  console.log(project.timeslots);
+
   return (
     <Expandable title={date.toDateString()} btnbg="pistachio" component="Day">
-      {project?.timeslots?.map((timeslot, idx) => (
-        <Timeslot timeslot={timeslot} date={date} key={idx} />
-      )) ?? "Loading..."}
+      {project?.timeslots?.length
+        ? project.timeslots.map((timeslot, idx) => (
+            <Timeslot timeslot={timeslot} date={date} key={idx} />
+          ))
+        : "No entries for this day"}
     </Expandable>
   );
 };

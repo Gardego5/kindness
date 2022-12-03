@@ -1,6 +1,6 @@
 import { getLoginSession } from "@lib/auth";
 import { findUser } from "@lib/model/user";
-import makeError from "@lib/view/errorView";
+import { handleError, makeError } from "@lib/view/errorView";
 import { userView } from "@lib/view/user";
 
 export default async (req, res) => {
@@ -17,11 +17,7 @@ export default async (req, res) => {
 
         res.status(200).send(userView(user));
       } catch (error) {
-        console.error(error);
-
-        res
-          .status(error.code ?? 500)
-          .end(error.message ?? "Internal Server Error.");
+        handleError(error, res);
       }
     default:
       res.status(405).end();

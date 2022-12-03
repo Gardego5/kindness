@@ -1,7 +1,7 @@
 import { getLoginSession } from "@lib/auth";
 import { createGroup, deleteGroup } from "@lib/model/group";
 import { findUser } from "@lib/model/user";
-import makeError from "@lib/view/errorView";
+import { handleError, makeError } from "@lib/view/errorView";
 import { groupView } from "@lib/view/group";
 
 export default async (req, res) => {
@@ -45,8 +45,6 @@ export default async (req, res) => {
         return;
     }
   } catch (error) {
-    console.error(error);
-
-    res.status(error.code ?? 500).end(error.message ?? "Server Error.");
+    handleError(error, res);
   }
 };

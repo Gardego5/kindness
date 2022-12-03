@@ -1,11 +1,9 @@
-import { useContext, useState } from "react";
+import { useState } from "react";
 import LoginForm from "@components/LoginForm";
-import userContext from "@context/userContext";
 import { useRouter } from "next/router";
 
 const Login = () => {
   const [errorMsg, setErrorMsg] = useState("");
-  const { setUser } = useContext(userContext);
   const router = useRouter();
 
   const handleSubmit = async (event) => {

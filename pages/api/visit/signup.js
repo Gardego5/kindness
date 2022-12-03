@@ -9,7 +9,8 @@ import {
   findVisits,
   removeSignUp,
 } from "@lib/model/visit";
-import makeError from "@lib/view/errorView";
+import { today } from "@lib/util/dates";
+import { makeError, handleError } from "@lib/view/errorView";
 import { visitView } from "@lib/view/visit";
 
 export default async (req, res) => {
@@ -22,6 +23,12 @@ export default async (req, res) => {
       throw makeError({
         message: "Authentication token is invalid, please log in.",
         code: 401,
+      });
+
+    if (new Date(date) < today())
+      throw makeError({
+        message: "You cannot change responses retroactively.",
+        code: 409,
       });
 
     if (user.username !== req.body.username)
@@ -76,8 +83,6 @@ export default async (req, res) => {
 
     res.status(200).send(visitView(visit));
   } catch (error) {
-    console.error(error);
-
-    res.status(error.code ?? 500).end(error.message ?? "Server Error.");
+    handleError(error, res);
   }
 };

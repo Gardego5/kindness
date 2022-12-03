@@ -3,7 +3,7 @@ import sql from "@lib/db";
 import { findProjects } from "@lib/model/project";
 import { findUser } from "@lib/model/user";
 import { findVisits } from "@lib/model/visit";
-import makeError from "@lib/view/errorView";
+import { handleError, makeError } from "@lib/view/errorView";
 import visitsView from "@lib/view/visit";
 
 export default async (req, res) => {
@@ -44,9 +44,7 @@ export default async (req, res) => {
 
         res.status(200).send(visitsView(visits));
       } catch (error) {
-        console.error(error);
-
-        res.status(error.code ?? 500).end(error.message ?? "Server Error.");
+        handleError(error, res);
       }
     default:
       res.status(405).end();

@@ -2,7 +2,7 @@ import { getLoginSession } from "@lib/auth";
 import sql from "@lib/db";
 import { findProjects } from "@lib/model/project";
 import { findUser } from "@lib/model/user";
-import makeError from "@lib/view/errorView";
+import makeError, { handleError } from "@lib/view/errorView";
 import projectsView from "@lib/view/project";
 
 export default async (req, res) => {
@@ -33,9 +33,7 @@ export default async (req, res) => {
 
         res.status(200).send(projectsView(projects, true));
       } catch (error) {
-        if (!error.code) console.error(error);
-
-        res.status(error.code ?? 500).end(error.message ?? "Server Error.");
+        handleError(error, res);
       }
     default:
       res.status(405).end();

@@ -1,3 +1,4 @@
+import { setLoginSession } from "@lib/auth";
 import {
   addUserToGroup,
   findGroupById,
@@ -5,7 +6,7 @@ import {
 } from "@lib/model/group";
 import { addProjectSignUps } from "@lib/model/project";
 import { createUser } from "@lib/model/user";
-import makeError from "@lib/view/errorView";
+import { makeError, handleError } from "@lib/view/errorView";
 
 export default async function signup(req, res) {
   switch (req.method) {
@@ -38,11 +39,17 @@ export default async function signup(req, res) {
           group_id: group.id,
         });
 
+        const session = {
+          username: createdUser.username,
+          first_name: createdUser.first_name,
+          last_name: createdUser.last_name,
+        };
+
+        await setLoginSession(res, session);
+
         res.status(200).send({ done: true });
       } catch (error) {
-        console.error(error);
-
-        res.status(error.code ?? 500).end(error.message ?? "Server Error.");
+        handleError(error, res);
       }
       break;
 

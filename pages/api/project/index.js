@@ -3,7 +3,7 @@ import sql from "@lib/db";
 import { findProjects } from "@lib/model/project";
 import { findUser } from "@lib/model/user";
 import projectsView from "@lib/view/project";
-import makeError from "@lib/view/errorView";
+import { handleError, makeError } from "@lib/view/errorView";
 
 export default async (req, res) => {
   switch (req.method) {
@@ -30,9 +30,7 @@ export default async (req, res) => {
 
         res.status(200).send(projectsView(projects));
       } catch (error) {
-        console.error(error);
-
-        res.status(error.code ?? 500).end(error.message ?? "Server Error.");
+        handleError(error, res);
       }
     default:
       res.status(405).end();
