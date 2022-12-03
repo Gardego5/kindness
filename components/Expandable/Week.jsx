@@ -1,9 +1,7 @@
-import getExpandable from "@components/Expandable";
+import Expandable from "@components/Expandable";
 import { oneDay } from "@lib/util/dates";
 import { useMemo } from "react";
 import Day from "./Day";
-
-const Expandable = getExpandable("Week");
 
 const Week = ({ date }) => {
   const { thisWeek, title } = useMemo(() => {
@@ -20,7 +18,7 @@ const Week = ({ date }) => {
   }, [date]);
 
   return (
-    <Expandable title={title} btnbg="lt-blue">
+    <Expandable title={title} btnbg="lt-blue" component="Week">
       {thisWeek.map((day, idx) => (
         <Day date={day} key={idx} />
       ))}
