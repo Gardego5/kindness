@@ -11,7 +11,7 @@ const Root = styled.div`
   border-radius: 0.5rem;
   border: 1px solid var(--lt-gray);
   color: var(--dk-gray);
-  width: 100%;
+  width: calc(100vw - 3rem);
   max-width: 60ch;
   display: grid;
   place-items: center;
