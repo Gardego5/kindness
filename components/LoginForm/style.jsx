@@ -4,6 +4,7 @@ const component = "LoginForm";
 
 const classes = {
   error: `${component}-error`,
+  label: `${component}-label`,
   submit: `${component}-submit`,
   formRow: `${component}-formRow`,
   hiddenField: `${component}-hiddenField`,
@@ -21,7 +22,7 @@ const Root = styled.div`
     display: flex;
     flex-flow: column;
 
-    span {
+    span.${classes.label} {
       font-weight: 600;
       font-size: 0.8rem;
     }
@@ -68,6 +69,9 @@ const Root = styled.div`
       background: var(--white);
       border: 1px solid var(--lt-gray);
       border-radius: 0.25rem;
+      color: var(--black);
+      font-size: 0.8rem;
+      font-weight: 600;
 
       :hover {
         border-color: var(--md-gray);
