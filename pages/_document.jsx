@@ -16,6 +16,7 @@ const Document = () => (
       <Reset />
       <GlobalStyle />
     </Head>
+
     <body>
       <Main />
       <NextScript />
