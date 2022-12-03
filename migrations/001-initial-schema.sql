@@ -114,8 +114,19 @@ CREATE TABLE groups_projects (
     FOREIGN KEY (project_id) REFERENCES projects (id) ON DELETE CASCADE
 );
 
+CREATE TABLE users_groups (
+  "id"                  SERIAL PRIMARY KEY,
+  "user_id"             INTEGER NOT NULL,
+  "group_id"            UUID NOT NULL,
+  CONSTRAINT FK_Users_Groups
+    FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE,
+  CONSTRAINT FK_Groups_Users
+    FOREIGN KEY (group_id) REFERENCES groups (id) ON DELETE CASCADE,
+);
+
 -- Down
 
+DROP TABLE              users_groups;
 DROP TABLE              groups_projects;
 DROP TABLE              groups;
 DROP TABLE              users_visits;
