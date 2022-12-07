@@ -6,8 +6,6 @@ import Timeslot from "./Timeslot";
 const Day = ({ date }) => {
   const { project } = useContext(dataContext);
 
-  console.log(project.timeslots);
-
   return (
     <Expandable title={date.toDateString()} btnbg="pistachio" component="Day">
       {project?.timeslots?.length

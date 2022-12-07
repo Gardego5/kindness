@@ -137,10 +137,10 @@ CREATE TABLE IF NOT EXISTS alerts (
   "content"             TEXT NOT NULL,
   "start_date"          DATE,
   "end_date"            DATE,
-  "times_to_display"    INTEGER,
-  "creator"             INTEGER,
+  "displays"            INTEGER,
+  "creator_id"          INTEGER,
   CONSTRAINT FK_Alert_Creator
-    FOREIGN KEY (creator) REFERENCES users (id) ON DELETE SET NULL
+    FOREIGN KEY (creator_id) REFERENCES users (id) ON DELETE SET NULL
 );
 
 CREATE TABLE IF NOT EXISTS alerts_users (
