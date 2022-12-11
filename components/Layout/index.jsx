@@ -1,3 +1,4 @@
+import AlertModal from "@components/AlertModal";
 import Header from "@components/Header";
 import { Root } from "./style";
 

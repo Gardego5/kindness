@@ -2,21 +2,28 @@ import { useEffect, useState } from "react";
 import { useRemark } from "react-remark";
 import { classes, Root } from "./style";
 
-const AlertModal = ({ contentMd, confirmCallback }) => {
-  const [content, setContent] = useRemark();
-  const [open, setOpen] = useState(true);
+const AlertModal = ({ open, setOpen, content, confirm, decline, cleanup }) => {
+  const [parsedContent, setParsedContent] = useRemark();
 
   useEffect(() => {
-    setContent(contentMd);
-  }, [contentMd]);
+    if (typeof content === "undefined") return;
 
-  const handleCancel = (event) => {
+    setOpen(true);
+    setParsedContent(content);
+  }, [content]);
+
+  const handleCancel = async (event) => {
     event.preventDefault();
+    typeof decline !== "undefined" && (await decline(event));
+    typeof cleanup !== "undefined" && (await cleanup(event));
     setOpen(false);
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
+    typeof confirm !== "undefined" && (await confirm(event));
+    typeof cleanup !== "undefined" && (await cleanup(event));
+    setOpen(false);
   };
 
   return open ? (
@@ -24,14 +31,14 @@ const AlertModal = ({ contentMd, confirmCallback }) => {
       <div className={classes.container}>
         <div className={classes.modal}>
           <div className={classes.wrapper}>
-            <div className={classes.content}>{content}</div>
+            <div className={classes.content}>{parsedContent}</div>
           </div>
 
           <div className={classes.confirmation}>
             <button onClick={handleCancel}>
-              {confirmCallback ? "Cancel" : "Okay"}
+              {confirm ? "Cancel" : "Okay"}
             </button>
-            {confirmCallback && <button onClick={handleSubmit}>Submit</button>}
+            {confirm && <button onClick={handleSubmit}>Okay</button>}
           </div>
         </div>
       </div>

@@ -12,7 +12,7 @@ const classes = {
 };
 
 const Root = styled.div`
-  position: absolute;
+  position: fixed;
   top: 0;
   right: 0;
   bottom: 0;
@@ -20,6 +20,7 @@ const Root = styled.div`
   width: 100%;
   height: 100%;
   background-color: #00008811;
+  z-index: 5;
 
   .${classes.modal} {
     margin: auto;

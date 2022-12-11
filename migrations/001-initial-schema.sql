@@ -101,7 +101,8 @@ CREATE TABLE IF NOT EXISTS groups (
   "hash"                TEXT NOT NULL,
   "salt"                TEXT NOT NULL,
   "start_date"          DATE,
-  "end_date"            DATE
+  "end_date"            DATE,
+  "signup_disabled"     BOOLEAN DEFAULT false NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS groups_projects (
