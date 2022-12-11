@@ -1,15 +1,13 @@
-import dataContext from "@context/dataContext";
-import userContext from "@context/userContext";
 import { today } from "@lib/util/dates";
-import { useAlert } from "hooks/useContexts";
+import { useAlert, useData, useUser } from "hooks/useContexts";
 import { useRouter } from "next/router";
-import { useContext, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 
 const { Root, classes } = require("./style");
 
 const RegisterButton = ({ timeslot, date, registered }) => {
-  const { user } = useContext(userContext);
-  const { visits, setVisits } = useContext(dataContext);
+  const { user } = useUser();
+  const { visits, setVisits } = useData();
   const [disabled, setDisabled] = useState(false);
   const router = useRouter();
   const { addAlert } = useAlert();
