@@ -1,5 +1,5 @@
 import Layout from "@components/Layout";
-import { AlertContextProvider } from "@context/alertContext";
+import { AlertQueueContextProvider } from "@context/alertContext";
 import compose from "@context/compose";
 import { DataContextProvider } from "@context/dataContext";
 import { UserContextProvider } from "@context/userContext";
@@ -8,7 +8,7 @@ import Head from "next/head";
 const Provider = compose(
   UserContextProvider,
   DataContextProvider,
-  AlertContextProvider
+  AlertQueueContextProvider
 );
 
 export default function MyApp({ Component, pageProps }) {

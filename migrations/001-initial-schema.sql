@@ -129,7 +129,8 @@ CREATE TYPE alert_placement
     AS ENUM (
       'login',
       'project',
-      'signup'
+      'timeslot_signup',
+      'timeslot_remove'
     );
 
 CREATE TABLE IF NOT EXISTS alerts (

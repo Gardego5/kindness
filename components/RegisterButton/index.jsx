@@ -1,5 +1,5 @@
 import { today } from "@lib/util/dates";
-import { useAlert, useData, useUser } from "hooks/useContexts";
+import { useAlertQueue, useData, useUser } from "hooks/useContexts";
 import { useRouter } from "next/router";
 import { useMemo, useState } from "react";
 
@@ -10,7 +10,7 @@ const RegisterButton = ({ timeslot, date, registered }) => {
   const { visits, setVisits } = useData();
   const [disabled, setDisabled] = useState(false);
   const router = useRouter();
-  const { addAlert } = useAlert();
+  const { addAlert } = useAlertQueue();
 
   const handleRegister = (signup) => async (event) => {
     fetch("/api/visit/signup", {

@@ -2,10 +2,10 @@ import AlertModal from "@components/AlertModal";
 import { createContext, useEffect, useMemo, useState } from "react";
 import { v4 as uuid } from "uuid";
 
-export const alertContext = createContext();
-const { Provider } = alertContext;
+export const alertQueueContext = createContext();
+const { Provider } = alertQueueContext;
 
-export const AlertContextProvider = ({ children }) => {
+export const AlertQueueContextProvider = ({ children }) => {
   const [alertQueue, setAlertQueue] = useState([]);
   const [
     {
@@ -55,4 +55,4 @@ export const AlertContextProvider = ({ children }) => {
   );
 };
 
-export default alertContext;
+export default alertQueueContext;
