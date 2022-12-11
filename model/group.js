@@ -1,6 +1,6 @@
 import crypto from "crypto";
 import sql from "@lib/db";
-import makeError from "@lib/view/errorView";
+import makeError from "view/errorView";
 
 export const findGroupById = async ({ id }) =>
   (

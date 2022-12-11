@@ -6,7 +6,9 @@
       "@components/*": ["./components/*"],
       "@context/*": ["./context/*"],
       "@styles/*": ["./styles/*"],
-      "@lib/*": ["./lib/*"]
+      "@lib/*": ["./lib/*"],
+      "@model/*": ["./model/*"],
+      "@view/*": ["./view/*"]
     }
   },
   "include": ["**/*.js", "**/*.jsx", "next.config.cjs"]

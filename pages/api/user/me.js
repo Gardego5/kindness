@@ -1,7 +1,7 @@
 import { getLoginSession } from "@lib/auth";
-import { findUser } from "@lib/model/user";
-import { handleError, makeError } from "@lib/view/errorView";
-import { userView } from "@lib/view/user";
+import { findUser } from "@model/user";
+import { handleError, makeError } from "@view/errorView";
+import { userView } from "@view/user";
 
 export default async (req, res) => {
   switch (req.method) {

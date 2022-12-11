@@ -2,7 +2,7 @@ import passport from "passport";
 import nextConnect from "next-connect";
 import { localStrategy } from "@lib/password-local";
 import { setLoginSession } from "@lib/auth";
-import { handleError } from "@lib/view/errorView";
+import { handleError } from "view/errorView";
 
 const authenticate = (method, req, res) =>
   new Promise((resolve, reject) => {

@@ -1,8 +1,8 @@
 import { getLoginSession } from "@lib/auth";
-import { createGroup, deleteGroup } from "@lib/model/group";
-import { findUser } from "@lib/model/user";
-import { handleError, makeError } from "@lib/view/errorView";
-import { groupView } from "@lib/view/group";
+import { createGroup, deleteGroup } from "@model/group";
+import { findUser } from "@model/user";
+import { handleError, makeError } from "@view/errorView";
+import { groupView } from "@view/group";
 
 export default async (req, res) => {
   try {

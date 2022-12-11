@@ -1,6 +1,6 @@
 import { getLoginSession } from "@lib/auth";
 import sql from "@lib/db";
-import { findUser } from "@lib/model/user";
+import { findUser } from "@model/user";
 import {
   addSignUp,
   addVisit,
@@ -8,10 +8,10 @@ import {
   findVisitId,
   findVisits,
   removeSignUp,
-} from "@lib/model/visit";
+} from "@model/visit";
 import { today } from "@lib/util/dates";
-import { makeError, handleError } from "@lib/view/errorView";
-import { visitView } from "@lib/view/visit";
+import { makeError, handleError } from "@view/errorView";
+import { visitView } from "@view/visit";
 
 export default async (req, res) => {
   const { date, timeslot, project_id, username } = req.body;

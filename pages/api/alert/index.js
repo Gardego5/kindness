@@ -1,7 +1,7 @@
 import { getLoginSession } from "@lib/auth";
-import { addAlert } from "@lib/model/alert";
-import { findUser } from "@lib/model/user";
-import { handleError, makeError } from "@lib/view/errorView";
+import { addAlert } from "@model/alert";
+import { findUser } from "@model/user";
+import { handleError, makeError } from "view/errorView";
 
 export default async (req, res) => {
   try {
@@ -21,6 +21,10 @@ export default async (req, res) => {
 
     switch (req.method) {
       case "POST":
+        const { project_ids, group_ids, user_ids } = req.body;
+
+        if (typeof project_ids !== "undefined");
+
         const { location, content, start_date, end_date, displays } = req.body;
 
         const createdAlert = await addAlert({
@@ -34,13 +38,6 @@ export default async (req, res) => {
 
         res.status(200).send(createdAlert);
         break;
-
-      // case "DELETE":
-      //   const { id } = req.body;
-      //   await deleteGroup({ id });
-
-      //   res.status(204).end();
-      //   break;
 
       default:
         res.status(405).end();

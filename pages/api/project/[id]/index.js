@@ -1,9 +1,9 @@
 import { getLoginSession } from "@lib/auth";
 import sql from "@lib/db";
-import { findProjects } from "@lib/model/project";
-import { findUser } from "@lib/model/user";
-import makeError, { handleError } from "@lib/view/errorView";
-import projectsView from "@lib/view/project";
+import { findProjects } from "@model/project";
+import { findUser } from "@model/user";
+import makeError, { handleError } from "@view/errorView";
+import projectsView from "@view/project";
 
 export default async (req, res) => {
   const { id } = req?.query;

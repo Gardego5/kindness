@@ -1,10 +1,10 @@
 import { getLoginSession } from "@lib/auth";
 import sql from "@lib/db";
-import { findProjects } from "@lib/model/project";
-import { findUser } from "@lib/model/user";
-import { findVisits } from "@lib/model/visit";
-import { handleError, makeError } from "@lib/view/errorView";
-import visitsView from "@lib/view/visit";
+import { findProjects } from "@model/project";
+import { findUser } from "@model/user";
+import { findVisits } from "@model/visit";
+import { handleError, makeError } from "@view/errorView";
+import visitsView from "@view/visit";
 
 export default async (req, res) => {
   const { id, start_date, end_date } = req?.query;

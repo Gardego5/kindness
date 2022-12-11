@@ -3,10 +3,10 @@ import {
   addUserToGroup,
   findGroupById,
   validateGroupPassword,
-} from "@lib/model/group";
-import { addProjectSignUps } from "@lib/model/project";
-import { createUser } from "@lib/model/user";
-import { makeError, handleError } from "@lib/view/errorView";
+} from "@model/group";
+import { addProjectSignUps } from "@model/project";
+import { createUser } from "@model/user";
+import { makeError, handleError } from "@view/errorView";
 
 export default async function signup(req, res) {
   switch (req.method) {
