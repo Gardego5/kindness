@@ -42,3 +42,42 @@ export const addAlert = async ({
       ${typeof displays !== "undefined" ? sql`, ${displays}` : sql``}
       ${typeof creator_id !== "undefined" ? sql`, ${creator_id}` : sql``}
     ) RETURNING *;`;
+
+export const addAlertProjects = async ({ alert_id, project_ids }) =>
+  await sql`
+    INSERT INTO alerts_projects (
+      alert_id,
+      project_id
+    ) VALUES 
+      ${project_ids.map(
+        (project_id, idx, { length }) =>
+          sql`(${alert_id}, ${project_id})${idx < length - 1 ? sql`,` : sql``}`
+      )}
+    RETURNING *;`;
+
+export const addAlertGroups = async ({ alert_id, group_ids }) => {
+  console.log({ alert_id, group_ids });
+
+  return await sql`
+    INSERT INTO alerts_groups (
+      alert_id,
+      group_id
+    ) VALUES 
+      ${group_ids.map(
+        (group_id, idx, { length }) =>
+          sql`(${alert_id}, ${group_id})${idx < length - 1 ? sql`,` : sql``}`
+      )}
+    RETURNING *;`;
+};
+
+export const addAlertUsers = async ({ alert_id, project_ids: user_ids }) =>
+  await sql`
+    INSERT INTO alerts_users (
+      alert_id,
+      user_id
+    ) VALUES 
+      ${user_ids.map(
+        (user_id, idx, { length }) =>
+          sql`(${alert_id}, ${user_id})${idx < length - 1 ? sql`,` : sql``}`
+      )}
+    RETURNING *;`;

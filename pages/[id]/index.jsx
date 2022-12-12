@@ -13,10 +13,10 @@ const Project = (props) => {
   const weekStarts = useMemo(() => {
     const startOfWeek = findStartOfWeek(today());
 
-    return [-14, -7, 0, 7, 14].map(
+    return [-7, 0, 7, 14, 21].map(
       (m) => new Date(startOfWeek.valueOf() + oneDay * m)
     );
-  }, []);
+  }, [today().toISOString()]);
 
   useEffect(() => {
     if (typeof router.query?.id !== "undefined") {

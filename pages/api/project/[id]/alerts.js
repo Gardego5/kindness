@@ -3,10 +3,8 @@ import sql from "@lib/db";
 import { findAlert } from "@model/alert";
 import { findProjects } from "@model/project";
 import { findUser } from "@model/user";
-import { findVisits } from "@model/visit";
 import { today } from "@lib/util/dates";
-import { handleError, makeError } from "view/errorView";
-import visitsView from "view/visit";
+import { handleError, makeError } from "@view/errorView";
 
 export default async (req, res) => {
   const { id } = req?.query;
