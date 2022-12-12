@@ -1,12 +1,11 @@
 import Expandable from "@components/Expandable";
 import RegisterButton from "@components/RegisterButton";
-import dataContext from "@context/dataContext";
-import userContext from "@context/userContext";
-import { useContext, useMemo } from "react";
+import { useData, useUser } from "hooks/useContexts";
+import { useMemo } from "react";
 
 const Timeslot = ({ timeslot, date }) => {
-  const { visits } = useContext(dataContext);
-  const { user } = useContext(userContext);
+  const { visits } = useData();
+  const { user } = useUser();
 
   const thisVisit = useMemo(() => {
     return visits?.find(

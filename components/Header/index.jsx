@@ -1,11 +1,10 @@
-import userContext from "@context/userContext";
-import { useContext } from "react";
 import { Root } from "./style";
 import HomeButton from "@components/IconButtons/Home";
 import LogoutButton from "@components/IconButtons/Logout";
+import { useUser } from "hooks/useContexts";
 
 const Header = () => {
-  const { user, name } = useContext(userContext);
+  const { user, name } = useUser();
 
   return (
     <Root>

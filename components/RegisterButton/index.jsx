@@ -1,18 +1,18 @@
-import dataContext from "@context/dataContext";
-import userContext from "@context/userContext";
+import { today } from "@lib/util/dates";
+import { useAlertQueue, useData, useUser } from "hooks/useContexts";
 import { useRouter } from "next/router";
-import { useContext, useState } from "react";
+import { useMemo, useState } from "react";
 
 const { Root, classes } = require("./style");
 
 const RegisterButton = ({ timeslot, date, registered }) => {
-  const { user } = useContext(userContext);
-  const { visits, setVisits } = useContext(dataContext);
+  const { user } = useUser();
+  const { visits, setVisits } = useData();
   const [disabled, setDisabled] = useState(false);
   const router = useRouter();
+  const { addAlert } = useAlertQueue();
 
   const handleRegister = (signup) => async (event) => {
-    setDisabled(true);
     fetch("/api/visit/signup", {
       method: signup ? "POST" : "DELETE",
       headers: { "Content-Type": "application/json" },
@@ -25,32 +25,59 @@ const RegisterButton = ({ timeslot, date, registered }) => {
     })
       .then((res) => (res.status === 200 ? res.json() : false))
       .then((visit) => {
-        const idx = visits.findIndex(
+        const idx = (visits ?? []).findIndex(
           ({ date, timeslot }) =>
             date === visit.date && timeslot === visit.timeslot
         );
 
-        if (idx === -1) setVisits([...visits, visit]);
+        if (idx === -1) setVisits([...(visits ?? []), visit]);
         else
           setVisits([...visits.slice(0, idx), visit, ...visits.slice(idx + 1)]);
-
-        setDisabled(false);
       });
   };
 
-  const name = `${registered?.first_name} ${registered?.last_name?.substring(
-    0,
-    1
-  )}.`;
+  const registerAlert = () => {
+    setDisabled(true);
+    addAlert({
+      content: `
+## Thank you!
+
+Thank you for your kindness and loving spirit. As a courtesy to sister Lloyd,
+before you come, please give a phone call ahead of time so that she's aware you
+plan to visit.
+
+You can contact her at:\n
+000 000 0000
+`,
+      confirm: handleRegister(true),
+      cleanup: () => setDisabled(false),
+    });
+  };
+
+  const unregisterAlert = () => {
+    setDisabled(true);
+    addAlert({
+      content: `Okay, if you can't make it...`,
+      confirm: handleRegister(false),
+      cleanup: () => setDisabled(false),
+    });
+  };
+
+  const name = useMemo(
+    () =>
+      `${registered?.first_name} ${registered?.last_name?.substring(0, 1)}.`,
+    [registered]
+  );
 
   return (
     <Root
       className={classes.mainButton}
       disabled={
         (registered ? registered?.username !== user.username : false) ||
-        disabled
+        disabled ||
+        new Date(date) < today()
       }
-      onClick={handleRegister(!registered)}
+      onClick={registered ? unregisterAlert : registerAlert}
     >
       {disabled ? "Loading..." : registered ? name : "register"}
     </Root>

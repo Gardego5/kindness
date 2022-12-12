@@ -1,12 +1,8 @@
-import userContext from "@context/userContext";
-import { useContext } from "react";
-
-const { Root, classes } = require("./style");
+import { useUser } from "hooks/useContexts";
+import { Root, classes } from "./style";
 
 const AuthDebug = () => {
-  const { user } = useContext(userContext);
-
-  console.log(user);
+  const { user } = useUser();
 
   return (
     <Root>

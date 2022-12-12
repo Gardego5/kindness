@@ -9,6 +9,8 @@ const nextConfig = {
       "@context": path.resolve(__dirname, "/context/"),
       "@styles": path.resolve(__dirname, "/styles/"),
       "@lib": path.resolve(__dirname, "/lib/"),
+      "@model": path.resolve(__dirname, "/model/"),
+      "@view": path.resolve(__dirname, "/view/"),
     };
 
     return config;

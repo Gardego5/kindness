@@ -1,16 +1,17 @@
 import Expandable from "@components/Expandable";
-import dataContext from "@context/dataContext";
-import { useContext } from "react";
+import { useData } from "hooks/useContexts";
 import Timeslot from "./Timeslot";
 
 const Day = ({ date }) => {
-  const { project } = useContext(dataContext);
+  const { project } = useData();
 
   return (
     <Expandable title={date.toDateString()} btnbg="pistachio" component="Day">
-      {project?.timeslots?.map((timeslot, idx) => (
-        <Timeslot timeslot={timeslot} date={date} key={idx} />
-      )) ?? "Loading..."}
+      {project?.timeslots?.length
+        ? project.timeslots.map((timeslot, idx) => (
+            <Timeslot timeslot={timeslot} date={date} key={idx} />
+          ))
+        : "No entries for this day"}
     </Expandable>
   );
 };

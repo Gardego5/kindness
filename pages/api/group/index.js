@@ -1,8 +1,9 @@
 import { getLoginSession } from "@lib/auth";
-import { createGroup, deleteGroup } from "@lib/model/group";
-import { findUser } from "@lib/model/user";
-import makeError from "@lib/view/errorView";
-import { groupView } from "@lib/view/group";
+import { createGroup, deleteGroup } from "@model/group";
+import { findUser } from "@model/user";
+import { handleError, makeError } from "@view/errorView";
+import { groupView } from "@view/group";
+import { addProjectsToGroup } from "@model/group";
 
 export default async (req, res) => {
   try {
@@ -23,12 +24,32 @@ export default async (req, res) => {
     switch (req.method) {
       case "POST":
         const { name, password, start_date, end_date } = req.body;
+        const { project_ids } = req.body;
+        console.log({ project_ids });
+
         const group = await createGroup({
           name,
           password,
           start_date,
           end_date,
         });
+
+        if (typeof project_ids !== "undefined") {
+          if (
+            !Array.isArray(project_ids) ||
+            !project_ids.every((project_id) => Number.isInteger(project_id))
+          )
+            throw makeError({
+              message:
+                'The field "project_ids" should be an array of integers.',
+              code: 400,
+            });
+
+          group.project_ids = await addProjectsToGroup({
+            group_id: group.id,
+            project_ids,
+          });
+        }
 
         res.status(200).send(groupView(group));
         break;
@@ -45,8 +66,6 @@ export default async (req, res) => {
         return;
     }
   } catch (error) {
-    console.error(error);
-
-    res.status(error.code ?? 500).end(error.message ?? "Server Error.");
+    handleError(error, res);
   }
 };

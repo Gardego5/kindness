@@ -101,7 +101,8 @@ CREATE TABLE IF NOT EXISTS groups (
   "hash"                TEXT NOT NULL,
   "salt"                TEXT NOT NULL,
   "start_date"          DATE,
-  "end_date"            DATE
+  "end_date"            DATE,
+  "signup_disabled"     BOOLEAN DEFAULT false NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS groups_projects (
@@ -128,7 +129,8 @@ CREATE TYPE alert_placement
     AS ENUM (
       'login',
       'project',
-      'signup'
+      'timeslot_signup',
+      'timeslot_remove'
     );
 
 CREATE TABLE IF NOT EXISTS alerts (
@@ -137,13 +139,17 @@ CREATE TABLE IF NOT EXISTS alerts (
   "content"             TEXT NOT NULL,
   "start_date"          DATE,
   "end_date"            DATE,
-  "times_to_display"    INTEGER
+  "displays"            INTEGER,
+  "creator_id"          INTEGER,
+  CONSTRAINT FK_Alert_Creator
+    FOREIGN KEY (creator_id) REFERENCES users (id) ON DELETE SET NULL
 );
 
 CREATE TABLE IF NOT EXISTS alerts_users (
   "id"                  SERIAL PRIMARY KEY,
   "alert_id"            INTEGER NOT NULL,
   "user_id"             INTEGER NOT NULL,
+  "times_displayed"     INTEGER DEFAULT 0 NOT NULL,
   CONSTRAINT FK_Alerts_Users
     FOREIGN KEY (alert_id) REFERENCES alerts (id) ON DELETE CASCADE,
   CONSTRAINT FK_Users_Alerts

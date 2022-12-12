@@ -6,7 +6,10 @@ export const findProjects = async ({ filter = sql`` }) =>
            projects.name,
            projects.start_date,
            projects.end_date,
-           JSON_AGG(timeslots.title) as timeslots FROM projects
+           COALESCE(JSON_AGG(timeslots.title)
+                      FILTER (WHERE timeslots.title IS NOT NULL),
+                      '[]') AS timeslots
+      FROM projects
  LEFT JOIN users_projects
         ON users_projects.project_id = projects.id
  LEFT JOIN timeslots

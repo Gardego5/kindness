@@ -2,6 +2,7 @@ import passport from "passport";
 import nextConnect from "next-connect";
 import { localStrategy } from "@lib/password-local";
 import { setLoginSession } from "@lib/auth";
+import { handleError } from "@view/errorView";
 
 const authenticate = (method, req, res) =>
   new Promise((resolve, reject) => {
@@ -28,7 +29,6 @@ export default nextConnect()
 
       res.status(200).send({ done: true });
     } catch (error) {
-      console.error(error);
-      res.status(401).send(error.message);
+      handleError(error, res);
     }
   });

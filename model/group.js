@@ -1,6 +1,6 @@
 import crypto from "crypto";
 import sql from "@lib/db";
-import makeError from "@lib/view/errorView";
+import makeError from "@view/errorView";
 
 export const findGroupById = async ({ id }) =>
   (
@@ -99,3 +99,15 @@ export const addUserToGroup = async ({ user_id, group_id }) =>
       ${user_id},
       ${group_id}
     ) RETURNING *;`;
+
+export const addProjectsToGroup = async ({ project_ids, group_id }) =>
+  await sql`
+    INSERT INTO groups_projects (
+      group_id,
+      project_id
+    ) VALUES
+      ${project_ids.map(
+        (project_id, idx, { length }) =>
+          sql`(${group_id}, ${project_id})${idx < length - 1 ? sql`,` : sql``}`
+      )}
+    RETURNING *;`;

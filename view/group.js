@@ -5,6 +5,7 @@ export const groupView = (group) => ({
   name: group.name,
   start_date: group.start_date,
   end_date: group.end_date,
+  project_ids: group?.project_ids,
 });
 
 const groupsView = genericView(groupView);

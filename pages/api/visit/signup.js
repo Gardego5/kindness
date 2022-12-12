@@ -1,6 +1,6 @@
 import { getLoginSession } from "@lib/auth";
 import sql from "@lib/db";
-import { findUser } from "@lib/model/user";
+import { findUser } from "@model/user";
 import {
   addSignUp,
   addVisit,
@@ -8,9 +8,10 @@ import {
   findVisitId,
   findVisits,
   removeSignUp,
-} from "@lib/model/visit";
-import makeError from "@lib/view/errorView";
-import { visitView } from "@lib/view/visit";
+} from "@model/visit";
+import { today } from "@lib/util/dates";
+import { makeError, handleError } from "@view/errorView";
+import { visitView } from "@view/visit";
 
 export default async (req, res) => {
   const { date, timeslot, project_id, username } = req.body;
@@ -22,6 +23,12 @@ export default async (req, res) => {
       throw makeError({
         message: "Authentication token is invalid, please log in.",
         code: 401,
+      });
+
+    if (new Date(date) < today())
+      throw makeError({
+        message: "You cannot change responses retroactively.",
+        code: 409,
       });
 
     if (user.username !== req.body.username)
@@ -76,8 +83,6 @@ export default async (req, res) => {
 
     res.status(200).send(visitView(visit));
   } catch (error) {
-    console.error(error);
-
-    res.status(error.code ?? 500).end(error.message ?? "Server Error.");
+    handleError(error, res);
   }
 };
