@@ -1,3 +1,4 @@
+import Pips from "@components/Pips";
 import { useMemo, useState } from "react";
 import useStyles from "./style";
 
@@ -6,6 +7,7 @@ const Expandable = ({
   title,
   callback = () => null,
   component = "Default",
+  pips = [],
   ...restProps
 }) => {
   const [expanded, setExpanded] = useState(false);
@@ -21,6 +23,7 @@ const Expandable = ({
     <Root {...restProps}>
       <button onClick={handleClick} className={classes.openButton}>
         <p className={classes.title}>{title}</p>
+        {pips && <Pips colors={pips} />}
       </button>
 
       {expanded && <div className={classes.hideable}>{children}</div>}
