@@ -2,7 +2,16 @@ import { useEffect, useState } from "react";
 import { useRemark } from "react-remark";
 import { classes, Root } from "./style";
 
-const AlertModal = ({ open, setOpen, content, confirm, decline, cleanup }) => {
+const AlertModal = ({
+  open,
+  setOpen,
+  content,
+  confirm,
+  decline,
+  cleanup,
+  yes = "Agree",
+  no = "Decline",
+}) => {
   const [parsedContent, setParsedContent] = useRemark();
 
   useEffect(() => {
@@ -35,10 +44,8 @@ const AlertModal = ({ open, setOpen, content, confirm, decline, cleanup }) => {
           </div>
 
           <div className={classes.confirmation}>
-            <button onClick={handleCancel}>
-              {confirm ? "Cancel" : "Okay"}
-            </button>
-            {confirm && <button onClick={handleSubmit}>Okay</button>}
+            <button onClick={handleCancel}>{no}</button>
+            {confirm && <button onClick={handleSubmit}>{yes}</button>}
           </div>
         </div>
       </div>

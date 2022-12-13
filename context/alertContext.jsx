@@ -9,7 +9,7 @@ export const AlertQueueContextProvider = ({ children }) => {
   const [alertQueue, setAlertQueue] = useState([]);
   const [
     {
-      alert: { content, confirm, decline, cleanup },
+      alert: { content, confirm, decline, cleanup, yes, no },
       id: currentAlertId,
     },
     setAlert,
@@ -49,6 +49,8 @@ export const AlertQueueContextProvider = ({ children }) => {
         confirm={confirm}
         decline={decline}
         cleanup={fullCleanup}
+        yes={yes}
+        no={no}
       />
       {children}
     </Provider>
