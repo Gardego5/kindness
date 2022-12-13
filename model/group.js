@@ -76,7 +76,7 @@ export const validateGroupPassword = async (group, inputPassword) => {
       code: 403,
     });
 
-  const active = await sql`
+  const [active] = await sql`
      SELECT CURRENT_DATE
     BETWEEN ${group.start_date ?? "1970-01-01"}
         AND ${group.end_date ?? "3000-01-01"};`;
@@ -84,6 +84,12 @@ export const validateGroupPassword = async (group, inputPassword) => {
   if (!active)
     throw makeError({
       message: "Invalid group id - expired.",
+      code: 403,
+    });
+
+  if (group.signup_disabled)
+    throw makeError({
+      message: "Invalid group id",
       code: 403,
     });
 

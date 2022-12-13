@@ -51,15 +51,25 @@ You can contact her at:\n
 `,
       confirm: handleRegister(true),
       cleanup: () => setDisabled(false),
+      yes: "Sign Up",
+      no: "Cancel",
     });
   };
 
   const unregisterAlert = () => {
     setDisabled(true);
     addAlert({
-      content: `Okay, if you can't make it...`,
+      content: `
+If you've already contacted her please let her know you will not be able to
+visit.
+
+You can contact her at:\n
+000 000 0000
+`,
       confirm: handleRegister(false),
       cleanup: () => setDisabled(false),
+      yes: "I can't make it",
+      no: "Cancel",
     });
   };
 
