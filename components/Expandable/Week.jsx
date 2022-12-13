@@ -27,7 +27,7 @@ const Week = ({ date }) => {
         (visit) =>
           localizeDate(visit?.date).toDateString() === date.toDateString() &&
           visit.users.length > 0
-      ) > 0
+      ) !== -1
         ? ["var(--md-gray)"]
         : [],
     [date, visits]
