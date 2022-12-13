@@ -1,5 +1,6 @@
 import Expandable from "@components/Expandable";
 import RegisterButton from "@components/RegisterButton";
+import { localizeDate } from "@lib/util/dates";
 import { useData, useUser } from "hooks/useContexts";
 import { useMemo } from "react";
 
@@ -10,15 +11,24 @@ const Timeslot = ({ timeslot, date }) => {
   const thisVisit = useMemo(() => {
     return visits?.find(
       (visit) =>
-        new Date(
-          new Date(visit?.date).valueOf() +
-            new Date().getTimezoneOffset() * 60 * 1000
-        ).toDateString() === date.toDateString() && visit?.timeslot === timeslot
+        localizeDate(visit?.date).toDateString() === date.toDateString() &&
+        visit?.timeslot === timeslot
     );
   }, [visits]);
 
+  const pips = useMemo(
+    () => (thisVisit?.users.length > 0 ? ["var(--md-gray)"] : []),
+    [thisVisit]
+  );
+
   return (
-    <Expandable title={timeslot} rowFlex btnbg="jasmine" component="Timeslot">
+    <Expandable
+      title={timeslot}
+      rowFlex
+      btnbg="jasmine"
+      component="Timeslot"
+      pips={pips}
+    >
       {thisVisit?.users.map(
         (registeredUser, idx) =>
           registeredUser?.username && (

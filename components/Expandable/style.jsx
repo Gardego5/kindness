@@ -15,6 +15,7 @@ const useStyles = (component) =>
       max-width: 60ch;
       overflow: hidden;
       z-index: 2;
+      position: relative;
 
       button.${classes.openButton} {
         z-index: 2;
