@@ -20,7 +20,7 @@ export default async function signup(req, res) {
             code: 401,
           });
 
-        validateGroupPassword(group, req.body.group_password);
+        await validateGroupPassword(group, req.body.group_password);
 
         const createdUser = await createUser(req.body);
         if (typeof createdUser === "undefined")
