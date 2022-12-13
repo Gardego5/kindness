@@ -23,14 +23,16 @@ const Week = ({ date }) => {
 
   const pips = useMemo(
     () =>
-      visits?.findIndex(
-        (visit) =>
-          thisWeek
-            .map((d) => d.toDateString())
-            .includes(localizeDate(visit?.date).toDateString()) &&
-          visit.users.length > 0
-      ) ?? -1 !== -1
-        ? ["var(--md-gray)"]
+      visits
+        ? visits.findIndex(
+            (visit) =>
+              thisWeek
+                .map((d) => d.toDateString())
+                .includes(localizeDate(visit?.date).toDateString()) &&
+              visit.users.length > 0
+          ) !== -1
+          ? ["var(--md-gray)"]
+          : []
         : [],
     [thisWeek, visits]
   );
