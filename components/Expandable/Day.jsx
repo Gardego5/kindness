@@ -9,7 +9,7 @@ const Day = ({ date }) => {
 
   const pips = useMemo(
     () =>
-      visits.findIndex(
+      visits?.findIndex(
         (visit) =>
           localizeDate(visit?.date).toISOString() === date.toISOString() &&
           visit.users.length > 0
