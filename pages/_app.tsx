@@ -17,7 +17,7 @@ const MyApp = ({ Component, pageProps }) => (
     ]}
   >
     <Head>
-      <link rel="icon" herf="/public/favicon.ico" />
+      <link rel="icon" href="/public/favicon.ico" />
       <title>Kindness</title>
     </Head>
 

@@ -5,7 +5,6 @@ import useStyles from "./style";
 const Expandable = ({
   children,
   title,
-  callback = () => null,
   component = "Default",
   pips = [],
   ...restProps
@@ -16,7 +15,6 @@ const Expandable = ({
 
   const handleClick = (event) => {
     setExpanded(!expanded);
-    callback(expanded);
   };
 
   return (

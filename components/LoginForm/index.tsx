@@ -3,11 +3,11 @@ import Link from "next/link";
 import { Root, classes } from "./style";
 
 const LoginForm = ({
-  isSignup,
+  isSignup = false,
   errorMessage,
   onSubmit,
-  groupID,
-  groupPassword,
+  groupID = undefined,
+  groupPassword = undefined,
 }) => {
   const groupDefined =
     typeof groupID !== "undefined" && typeof groupPassword !== "undefined";

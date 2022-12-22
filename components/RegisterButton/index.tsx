@@ -5,7 +5,7 @@ import { useMemo, useState } from "react";
 
 const { Root, classes } = require("./style");
 
-const RegisterButton = ({ timeslot, date, registered }) => {
+const RegisterButton = ({ timeslot, date, registered = undefined }) => {
   const { user } = useUser();
   const { visits, setVisits } = useData();
   const [disabled, setDisabled] = useState(false);

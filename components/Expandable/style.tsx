@@ -2,7 +2,7 @@ import styled from "@emotion/styled";
 import { passedColor } from "@lib/styleUtils";
 import { useMemo } from "react";
 
-const useStyles = (component) =>
+const useStyles = (component: string) =>
   useMemo(() => {
     const classes = {
       title: `ListEntry-${component}-title`,
@@ -10,7 +10,7 @@ const useStyles = (component) =>
       openButton: `ListEntry-${component}-openButton`,
     };
 
-    const Root = styled.div`
+    const Root = styled.div<{ rowFlex?: boolean }>`
       width: calc(100% - 2rem);
       max-width: 60ch;
       overflow: hidden;

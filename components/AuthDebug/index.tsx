@@ -9,7 +9,7 @@ const AuthDebug = () => {
       <table className={classes.userInfo}>
         <tbody>
           <tr>
-            <th colSpan="2">User Info</th>
+            <th colSpan={2}>User Info</th>
           </tr>
           <tr>
             <td>Username</td>
