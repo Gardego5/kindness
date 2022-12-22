@@ -13,6 +13,7 @@ const nextConfig = {
       "@view": path.resolve(__dirname, "/view/"),
       "@hook": path.resolve(__dirname, "/hook/"),
       "@slice": path.resolve(__dirname, "/slice/"),
+      "@types": path.resolve(__dirname, "/types/"),
     };
 
     return config;

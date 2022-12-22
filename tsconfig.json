@@ -10,7 +10,8 @@
       "@model/*": ["./model/*"],
       "@view/*": ["./view/*"],
       "@hook/*": ["./hook/*"],
-      "@slice/*": ["./slice/*"]
+      "@slice/*": ["./slice/*"],
+      "@types/*": ["./types/*"]
     },
     "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
@@ -26,6 +27,13 @@
     "isolatedModules": true,
     "jsx": "preserve"
   },
-  "include": ["**/*.js", "**/*.ts", "**/*.jsx", "**/*.tsx", "next.config.cjs"],
+  "include": [
+    "**/*.js",
+    "**/*.ts",
+    "**/*.jsx",
+    "**/*.tsx",
+    "next.config.cjs",
+    "types/*"
+  ],
   "exclude": ["node_modules"]
 }
