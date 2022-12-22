@@ -1,7 +1,7 @@
 import { Root } from "./style";
 import HomeButton from "@components/IconButtons/Home";
 import LogoutButton from "@components/IconButtons/Logout";
-import { useUser } from "hooks/useContexts";
+import { useUser } from "@hook/useContexts";
 
 const Header = () => {
   const { user, name } = useUser();

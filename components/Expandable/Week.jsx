@@ -1,6 +1,6 @@
 import Expandable from "@components/Expandable";
 import { localizeDate, oneDay } from "@lib/util/dates";
-import { useData } from "hooks/useContexts";
+import { useData } from "@hook/useContexts";
 import { useMemo } from "react";
 import Day from "./Day";
 

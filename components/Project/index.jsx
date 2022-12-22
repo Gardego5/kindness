@@ -1,6 +1,5 @@
 import Link from "next/link";
-
-const { Root, classes } = require("./style");
+import { classes, Root } from "./style";
 
 const Project = ({ project }) => {
   const { id, name } = project;

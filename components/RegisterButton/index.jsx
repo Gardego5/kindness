@@ -1,5 +1,5 @@
 import { today } from "@lib/util/dates";
-import { useAlertQueue, useData, useUser } from "hooks/useContexts";
+import { useAlertQueue, useData, useUser } from "@hook/useContexts";
 import { useRouter } from "next/router";
 import { useMemo, useState } from "react";
 

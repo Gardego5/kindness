@@ -1,4 +1,4 @@
-import { useUser } from "hooks/useContexts";
+import { useUser } from "@hook/useContexts";
 import { Root, classes } from "./style";
 
 const AuthDebug = () => {

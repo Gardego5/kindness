@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useRemark } from "react-remark";
 import { classes, Root } from "./style";
 

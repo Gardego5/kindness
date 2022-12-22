@@ -11,6 +11,8 @@ const nextConfig = {
       "@lib": path.resolve(__dirname, "/lib/"),
       "@model": path.resolve(__dirname, "/model/"),
       "@view": path.resolve(__dirname, "/view/"),
+      "@hook": path.resolve(__dirname, "/hook/"),
+      "@slice": path.resolve(__dirname, "/slice/"),
     };
 
     return config;

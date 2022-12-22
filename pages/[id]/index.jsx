@@ -1,7 +1,7 @@
 import Week from "@components/Expandable/Week";
 import quandary from "@lib/quandary";
 import { findStartOfWeek, oneDay, today } from "@lib/util/dates";
-import { useData } from "hooks/useContexts";
+import { useData } from "hook/useContexts";
 import { useRouter } from "next/router";
 import { useEffect, useMemo } from "react";
 

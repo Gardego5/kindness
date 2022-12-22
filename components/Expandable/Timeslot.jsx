@@ -1,7 +1,7 @@
 import Expandable from "@components/Expandable";
 import RegisterButton from "@components/RegisterButton";
 import { localizeDate } from "@lib/util/dates";
-import { useData, useUser } from "hooks/useContexts";
+import { useData, useUser } from "@hook/useContexts";
 import { useMemo } from "react";
 
 const Timeslot = ({ timeslot, date }) => {

@@ -1,5 +1,5 @@
 import AlertModal from "@components/AlertModal";
-import { createContext, useEffect, useMemo, useState } from "react";
+import { createContext, useEffect, useState } from "react";
 import { v4 as uuid } from "uuid";
 
 export const alertQueueContext = createContext();

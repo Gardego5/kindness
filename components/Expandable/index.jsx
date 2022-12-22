@@ -1,5 +1,5 @@
 import Pips from "@components/Pips";
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import useStyles from "./style";
 
 const Expandable = ({
