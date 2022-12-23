@@ -12,7 +12,7 @@ const RegisterButton = ({ timeslot, date, registered = undefined }) => {
   const router = useRouter();
   const { addAlert } = useAlertQueue();
 
-  const handleRegister = (signup) => async (event) => {
+  const handleRegister = (signup: boolean) => async (event: Event) => {
     fetch("/api/visit/signup", {
       method: signup ? "POST" : "DELETE",
       headers: { "Content-Type": "application/json" },

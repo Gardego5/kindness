@@ -8,4 +8,4 @@ export const findStartOfWeek = (d: Date) => {
 };
 
 export const localizeDate = (d: Date) =>
-  new Date(d.valueOf() + new Date().getTimezoneOffset() * 60 * 1000);
+  new Date(new Date(d).valueOf() + new Date().getTimezoneOffset() * 60 * 1000);
