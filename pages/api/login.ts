@@ -2,7 +2,7 @@ import passport from "passport";
 import nextConnect from "next-connect";
 import { localStrategy } from "@lib/password-local";
 import { setLoginSession } from "@lib/auth";
-import handleError from "@view/errorView";
+import apiErrorHandler from "@lib/apiErrorHandler";
 import { NextApiRequest, NextApiResponse } from "next";
 
 const authenticate = (req: NextApiRequest, res: NextApiResponse) =>
@@ -30,6 +30,6 @@ export default nextConnect()
 
       res.status(200).send({ done: true });
     } catch (error) {
-      handleError(error, res);
+      apiErrorHandler(error, res);
     }
   });

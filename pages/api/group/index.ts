@@ -1,7 +1,7 @@
 import { getLoginSession } from "@lib/auth";
 import { createGroup, deleteGroup } from "@model/group";
 import { findUser } from "@model/user";
-import handleError from "@view/errorView";
+import apiErrorHandler from "@lib/apiErrorHandler";
 import { groupView } from "@view/group";
 import { addProjectsToGroup } from "@model/group";
 import { NextApiRequest, NextApiResponse } from "next";
@@ -60,6 +60,6 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         throw new HTMLClientError.METHOD_NOT_ALLOWED_405();
     }
   } catch (error) {
-    handleError(error, res);
+    apiErrorHandler(error, res);
   }
 };

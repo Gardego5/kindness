@@ -7,7 +7,7 @@ import {
 } from "@model/group";
 import { addProjectSignUps } from "@model/project";
 import { createUser } from "@model/user";
-import handleError from "@view/errorView";
+import apiErrorHandler from "@lib/apiErrorHandler";
 import { NextApiRequest, NextApiResponse } from "next";
 
 export default async function signup(
@@ -48,6 +48,6 @@ export default async function signup(
 
     res.status(200).send({ done: true });
   } catch (error) {
-    handleError(error, res);
+    apiErrorHandler(error, res);
   }
 }

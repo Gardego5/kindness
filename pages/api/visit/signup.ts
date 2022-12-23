@@ -10,7 +10,7 @@ import {
   removeSignUp,
 } from "@model/visit";
 import { today } from "@lib/util/dates";
-import handleError from "@view/errorView";
+import apiErrorHandler from "@lib/apiErrorHandler";
 import { visitView } from "@view/visit";
 import HTMLClientError, {
   validateQueryParamsExist,
@@ -79,6 +79,6 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
     res.status(200).send(visitView(visit));
   } catch (error) {
-    handleError(error, res);
+    apiErrorHandler(error, res);
   }
 };

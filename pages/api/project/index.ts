@@ -3,7 +3,7 @@ import sql from "@lib/db";
 import { findProjects } from "@model/project";
 import { findUser } from "@model/user";
 import projectsView from "@view/project";
-import handleError from "@view/errorView";
+import apiErrorHandler from "@lib/apiErrorHandler";
 import HTMLClientError from "@lib/HTMLResponseStatusCodes/400";
 import HTMLServerError from "@lib/HTMLResponseStatusCodes/500";
 import { NextApiRequest, NextApiResponse } from "next";
@@ -30,6 +30,6 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
     res.status(200).send(projectsView(projects));
   } catch (error) {
-    handleError(error, res);
+    apiErrorHandler(error, res);
   }
 };

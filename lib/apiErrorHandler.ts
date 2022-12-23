@@ -1,7 +1,7 @@
 import HTMLError from "@lib/HTMLResponseStatusCodes/HTMLError";
 import { NextApiResponse } from "next";
 
-const handleError = (error: Error, res: NextApiResponse) => {
+const apiErrorHandler = (error: Error, res: NextApiResponse) => {
   const isKnownError = error instanceof HTMLError;
 
   if (isKnownError) error.log();
@@ -13,4 +13,4 @@ const handleError = (error: Error, res: NextApiResponse) => {
   res.status(code).end(message);
 };
 
-export default handleError;
+export default apiErrorHandler;

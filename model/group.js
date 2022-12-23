@@ -1,6 +1,6 @@
 import crypto from "crypto";
 import sql from "@lib/db";
-import makeError from "@view/errorView";
+import HTMLClientError from "@lib/HTMLResponseStatusCodes/400";
 
 export const findGroupById = async ({ id }) =>
   (
@@ -71,10 +71,7 @@ export const validateGroupPassword = async (group, inputPassword) => {
   const match = group.hash === inputHash;
 
   if (!match)
-    throw makeError({
-      message: "Invalid group password.",
-      code: 403,
-    });
+    throw new HTMLClientError.FORBIDDEN_403("Invalid group password.");
 
   const [active] = await sql`
      SELECT CURRENT_DATE
@@ -82,16 +79,10 @@ export const validateGroupPassword = async (group, inputPassword) => {
         AND ${group.end_date ?? "3000-01-01"};`;
 
   if (!active)
-    throw makeError({
-      message: "Invalid group id - expired.",
-      code: 403,
-    });
+    throw new HTMLClientError.FORBIDDEN_403("Invalid group id - expired");
 
   if (group.signup_disabled)
-    throw makeError({
-      message: "Invalid group id",
-      code: 403,
-    });
+    throw new HTMLClientError.FORBIDDEN_403("Invalid group id.");
 
   return match;
 };

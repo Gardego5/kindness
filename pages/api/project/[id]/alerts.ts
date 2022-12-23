@@ -4,7 +4,7 @@ import { findAlert } from "@model/alert";
 import { findProjects } from "@model/project";
 import { findUser } from "@model/user";
 import { today } from "@lib/util/dates";
-import handleError from "@view/errorView";
+import apiErrorHandler from "@lib/apiErrorHandler";
 import HTMLClientError from "@lib/HTMLResponseStatusCodes/400";
 
 export default async (req, res) => {
@@ -49,7 +49,7 @@ export default async (req, res) => {
 
         res.status(200).send(alerts);
       } catch (error) {
-        handleError(error, res);
+        apiErrorHandler(error, res);
       }
     default:
       res.status(405).end();

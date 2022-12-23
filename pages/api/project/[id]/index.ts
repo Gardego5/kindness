@@ -5,7 +5,7 @@ import HTMLClientError, {
 } from "@lib/HTMLResponseStatusCodes/400";
 import { findProjects } from "@model/project";
 import { findUser } from "@model/user";
-import handleError from "@view/errorView";
+import apiErrorHandler from "@lib/apiErrorHandler";
 import projectsView from "@view/project";
 import { NextApiRequest, NextApiResponse } from "next";
 
@@ -31,6 +31,6 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
     res.status(200).send(projectsView(projects, true));
   } catch (error) {
-    handleError(error, res);
+    apiErrorHandler(error, res);
   }
 };

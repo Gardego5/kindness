@@ -1,7 +1,7 @@
 import { getLoginSession } from "@lib/auth";
 import HTMLClientError from "@lib/HTMLResponseStatusCodes/400";
 import { findUser } from "@model/user";
-import handleError from "@view/errorView";
+import apiErrorHandler from "@lib/apiErrorHandler";
 import { userView } from "@view/user";
 import { NextApiRequest, NextApiResponse } from "next";
 
@@ -16,6 +16,6 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
     res.status(200).send(userView(user));
   } catch (error) {
-    handleError(error, res);
+    apiErrorHandler(error, res);
   }
 };

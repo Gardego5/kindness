@@ -1,11 +1,15 @@
+import apiErrorHandler from "@lib/apiErrorHandler";
 import { getLoginSession } from "@lib/auth";
-import { addAlert } from "@model/alert";
-import { findUser } from "@model/user";
-import { addAlertGroups, addAlertProjects, addAlertUsers } from "@model/alert";
-import { validate as uuidValidate, version as uuidVersion } from "uuid";
-import handleError from "@view/errorView";
-import { NextApiRequest, NextApiResponse } from "next";
 import HTMLClientError from "@lib/HTMLResponseStatusCodes/400";
+import {
+  addAlert,
+  addAlertGroups,
+  addAlertProjects,
+  addAlertUsers,
+} from "@model/alert";
+import { findUser } from "@model/user";
+import { NextApiRequest, NextApiResponse } from "next";
+import { validate as uuidValidate, version as uuidVersion } from "uuid";
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   try {
@@ -93,6 +97,6 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         throw new HTMLClientError.METHOD_NOT_ALLOWED_405();
     }
   } catch (error) {
-    handleError(error, res);
+    apiErrorHandler(error, res);
   }
 };
