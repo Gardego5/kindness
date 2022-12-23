@@ -4,7 +4,8 @@ import { findAlert } from "@model/alert";
 import { findProjects } from "@model/project";
 import { findUser } from "@model/user";
 import { today } from "@lib/util/dates";
-import { handleError, makeError } from "@view/errorView";
+import handleError from "@view/errorView";
+import HTMLClientError from "@lib/HTMLResponseStatusCodes/400";
 
 export default async (req, res) => {
   const { id } = req?.query;
@@ -14,21 +15,14 @@ export default async (req, res) => {
       try {
         const session = await getLoginSession(req);
         const user = (session && (await findUser(session))) ?? null;
-        if (!user)
-          throw makeError({
-            message: "Authentication token is invalid, please log in.",
-            code: 401,
-          });
+        if (!user) throw new HTMLClientError.NO_AUTH_TOKEN_401();
 
         const project =
           (await findProjects({
             filter: sql`WHERE users.id = ${user.id} AND projects.id = ${id}`,
           })) ?? null;
         if (!project?.length)
-          throw makeError({
-            message: "This project doesn't exist or you aren't a part of it.",
-            code: 404,
-          });
+          throw new HTMLClientError.PROJECT_DOESNT_EXIST_404();
 
         // const visits =
         //   (await findVisits({
@@ -51,11 +45,7 @@ export default async (req, res) => {
                 AND (times_displayed < displays OR times_displayed IS NULL OR displays IS NULL)
                 AND (user_id = ${user.id} OR user_id IS NULL)`,
           })) ?? null;
-        if (alerts === null)
-          throw makeError({
-            message: "Not Found.",
-            code: 404,
-          });
+        if (alerts === null) throw new HTMLClientError.NOT_FOUND_404();
 
         res.status(200).send(alerts);
       } catch (error) {

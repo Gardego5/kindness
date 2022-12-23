@@ -3,23 +3,17 @@ import { addAlert } from "@model/alert";
 import { findUser } from "@model/user";
 import { addAlertGroups, addAlertProjects, addAlertUsers } from "@model/alert";
 import { validate as uuidValidate, version as uuidVersion } from "uuid";
-import { handleError, makeError } from "@view/errorView";
+import handleError from "@view/errorView";
+import { NextApiRequest, NextApiResponse } from "next";
+import HTMLClientError from "@lib/HTMLResponseStatusCodes/400";
 
-export default async (req, res) => {
+export default async (req: NextApiRequest, res: NextApiResponse) => {
   try {
     const session = await getLoginSession(req);
     const user = (session && (await findUser(session))) ?? null;
-    if (!user)
-      throw makeError({
-        message: "Authentication token is invalid, please log in.",
-        code: 401,
-      });
+    if (!user) throw new HTMLClientError.NO_AUTH_TOKEN_401();
 
-    if (user.admin)
-      throw makeError({
-        message: "You must be an administrator.",
-        code: 403,
-      });
+    if (!user.is_admin) throw new HTMLClientError.ADMIN_ROLE_REQUIRED_403();
 
     switch (req.method) {
       case "POST":
@@ -43,11 +37,9 @@ export default async (req, res) => {
             !Array.isArray(project_ids) ||
             !project_ids.every((project_id) => Number.isInteger(project_id))
           )
-            throw makeError({
-              message:
-                'The field "project_ids" should be an array of integers.',
-              code: 400,
-            });
+            throw new HTMLClientError.BAD_REQUEST_400(
+              'The field "project_ids" should be an array of integers.'
+            );
 
           createdAlert.project_ids = await addAlertProjects({
             alert_id: createdAlert.id,
@@ -64,10 +56,9 @@ export default async (req, res) => {
                 uuidValidate(group_id) && uuidVersion(group_id) === 4
             )
           )
-            throw makeError({
-              message: 'The field "group_ids" should be an array of v4 uuids.',
-              code: 400,
-            });
+            throw new HTMLClientError.BAD_REQUEST_400(
+              'The field "group_ids" should be an array of v4 uuids.'
+            );
 
           createdAlert.group_ids = (
             await addAlertGroups({
@@ -83,10 +74,9 @@ export default async (req, res) => {
             !Array.isArray(user_ids) ||
             !group_ids.every((project_id) => Number.isInteger(project_id))
           )
-            throw makeError({
-              message: 'The field "user_ids" should be an array of integers.',
-              code: 400,
-            });
+            throw new HTMLClientError.BAD_REQUEST_400(
+              'The field "user_ids" should be an array of integers.'
+            );
 
           createdAlert.user_ids = (
             await addAlertUsers({
@@ -99,12 +89,8 @@ export default async (req, res) => {
         res.status(200).send(createdAlert);
         break;
 
-      case "GET":
-        break;
-
       default:
-        res.status(405).end();
-        return;
+        throw new HTMLClientError.METHOD_NOT_ALLOWED_405();
     }
   } catch (error) {
     handleError(error, res);

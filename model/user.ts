@@ -51,7 +51,7 @@ export async function createUser({
 
 export const findUser = async ({ username }) =>
   (
-    await sql`
+    await sql<User[]>`
       SELECT *
         FROM users
        WHERE username = ${username}`

@@ -10,32 +10,29 @@ import {
   removeSignUp,
 } from "@model/visit";
 import { today } from "@lib/util/dates";
-import { makeError, handleError } from "@view/errorView";
+import handleError from "@view/errorView";
 import { visitView } from "@view/visit";
+import HTMLClientError, {
+  validateQueryParamsExist,
+} from "@lib/HTMLResponseStatusCodes/400";
+import { NextApiRequest, NextApiResponse } from "next";
 
-export default async (req, res) => {
-  const { date, timeslot, project_id, username } = req.body;
-
+export default async (req: NextApiRequest, res: NextApiResponse) => {
   try {
+    const { date, timeslot, project_id, username } = req.body;
+    validateQueryParamsExist({ date, timeslot, project_id, username });
+
     const session = await getLoginSession(req);
     const user = (session && (await findUser(session))) ?? null;
-    if (!user)
-      throw makeError({
-        message: "Authentication token is invalid, please log in.",
-        code: 401,
-      });
+    if (!user) throw new HTMLClientError.NO_AUTH_TOKEN_401();
 
     if (new Date(date) < today())
-      throw makeError({
-        message: "You cannot change responses retroactively.",
-        code: 409,
-      });
+      throw new HTMLClientError.CONFLICT_409(
+        "You cannot change responses retroactively."
+      );
 
-    if (user.username !== req.body.username)
-      throw makeError({
-        message: "Not Authorized.",
-        code: 401,
-      });
+    if (user.username !== req.body.username && !user.is_admin)
+      throw new HTMLClientError.UNAUTHORIZED_401();
 
     let [perhapsVisit] = await findVisitId({
       date,
@@ -73,8 +70,7 @@ export default async (req, res) => {
         break;
 
       default:
-        res.status(405).end();
-        return;
+        throw new HTMLClientError.METHOD_NOT_ALLOWED_405();
     }
 
     const [visit] = await findVisits({

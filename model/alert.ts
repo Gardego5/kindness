@@ -70,7 +70,7 @@ export const addAlertGroups = async ({ alert_id, group_ids }) => {
     RETURNING *;`;
 };
 
-export const addAlertUsers = async ({ alert_id, project_ids: user_ids }) =>
+export const addAlertUsers = async ({ alert_id, user_ids }) =>
   await sql`
     INSERT INTO alerts_users (
       alert_id,

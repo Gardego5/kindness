@@ -1,11 +1,11 @@
 import Week from "@components/Expandable/Week";
 import quandary from "@lib/quandary";
 import { findStartOfWeek, oneDay, today } from "@lib/util/dates";
-import { useData } from "hook/useContexts";
+import { useData } from "@hook/useContexts";
 import { useRouter } from "next/router";
 import { useEffect, useMemo } from "react";
 
-const Project = (props) => {
+const Project = () => {
   const { setVisits, setProject } = useData();
 
   const router = useRouter();
