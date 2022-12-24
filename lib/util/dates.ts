@@ -7,5 +7,5 @@ export const findStartOfWeek = (d: Date) => {
   return yesterday.getDay() === 0 ? yesterday : findStartOfWeek(yesterday);
 };
 
-export const localizeDate = (d: Date) =>
+export const localizeDate = (d: postgresDate) =>
   new Date(new Date(d).valueOf() + new Date().getTimezoneOffset() * 60 * 1000);

@@ -25,7 +25,7 @@ export async function createUser({
   };
 
   try {
-    const [createdUser] = await sql`
+    const [createdUser] = await sql<DB_User[]>`
       INSERT INTO users (
         "username",
         "email",
@@ -51,7 +51,7 @@ export async function createUser({
 
 export const findUser = async ({ username }) =>
   (
-    await sql<User[]>`
+    await sql<DB_User[]>`
       SELECT *
         FROM users
        WHERE username = ${username}`

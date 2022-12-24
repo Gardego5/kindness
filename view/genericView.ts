@@ -7,11 +7,13 @@
  * parameter that defaults to false. If true, will always return an array of
  * responses.
  */
-const genericView = (singleView) => (data, unwrap) =>
-  data.length > 1
-    ? data.map((datum) => singleView(datum))
-    : unwrap
-    ? singleView(data[0])
-    : [singleView(data[0])];
+const genericView =
+  <T = any>(singleView: <Data extends T>(data: Data) => T) =>
+  <Data extends T>(data: Data[], unwrap: boolean = false) =>
+    data.length > 1
+      ? data.map((datum) => singleView(datum))
+      : unwrap
+      ? singleView(data[0])
+      : [singleView(data[0])];
 
 export default genericView;

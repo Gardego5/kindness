@@ -14,7 +14,9 @@ ${this.stack}`);
 
   export class INTERNAL_SERVER_ERROR_500 extends HTMLServerError {
     readonly code = 500;
-    message = "Internal Server Error.";
+    constructor(message = "Internal Server Error.") {
+      super(message);
+    }
   }
 }
 

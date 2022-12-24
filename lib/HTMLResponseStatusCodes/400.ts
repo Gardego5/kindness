@@ -12,44 +12,64 @@ namespace HTMLClientError {
 
   export class BAD_REQUEST_400 extends HTMLClientError {
     readonly code = 400;
-    message = "Bad Request.";
+    constructor(message = "Bad Request.") {
+      super(message);
+    }
   }
 
   export class UNAUTHORIZED_401 extends HTMLClientError {
     readonly code = 401;
-    message = "Unauthorized.";
+    constructor(message = "Unauthorized.") {
+      super(message);
+    }
   }
 
   export class NO_AUTH_TOKEN_401 extends UNAUTHORIZED_401 {
-    message = "Authentication token is invalid, please log in.";
+    constructor(message = "Authentication token is invalid, please log in.") {
+      super(message);
+    }
   }
 
   export class FORBIDDEN_403 extends HTMLClientError {
     readonly code = 403;
-    message = "Forbidden.";
+    constructor(message = "Forbidden.") {
+      super(message);
+    }
   }
 
   export class ADMIN_ROLE_REQUIRED_403 extends FORBIDDEN_403 {
-    message = "You must be an administrator.";
+    constructor(message = "You must be an administrator.") {
+      super(message);
+    }
   }
 
   export class NOT_FOUND_404 extends HTMLClientError {
     readonly code = 404;
-    message = "Not Found.";
+    constructor(message = "Not Found.") {
+      super(message);
+    }
   }
 
   export class PROJECT_DOESNT_EXIST_404 extends NOT_FOUND_404 {
-    message = "This project doesn't exist or you aren't a part of it.";
+    constructor(
+      message = "This project doesn't exist or you aren't a part of it."
+    ) {
+      super(message);
+    }
   }
 
   export class METHOD_NOT_ALLOWED_405 extends HTMLClientError {
     readonly code = 405;
-    message = "Method Not Allowed.";
+    constructor(message = "Method Not Allowed.") {
+      super(message);
+    }
   }
 
   export class CONFLICT_409 extends HTMLClientError {
     readonly code = 409;
-    message = "Conflict.";
+    constructor(message = "Conflict.") {
+      super(message);
+    }
   }
 }
 

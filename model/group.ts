@@ -4,7 +4,7 @@ import HTMLClientError from "@lib/HTMLResponseStatusCodes/400";
 
 export const findGroupById = async ({ id }) =>
   (
-    await sql`
+    await sql<(DB_Group & { project_ids: number[] })[]>`
       SELECT groups.*,
              COALESCE(JSON_AGG(groups_projects.project_id)
                       FILTER (WHERE groups_projects.project_id IS NOT NULL),
@@ -36,7 +36,7 @@ export const createGroup = async ({
   };
 
   try {
-    const [createdGroup] = await sql`
+    const [createdGroup] = await sql<DB_Group[]>`
       INSERT INTO groups (
         "name",
         "salt",
@@ -58,12 +58,16 @@ export const createGroup = async ({
   }
 };
 
-export const deleteGroup = async ({ id }) =>
+export const deleteGroup = async ({ id }) => {
   await sql`
     DELETE FROM groups
      WHERE id = ${id};`;
+};
 
-export const validateGroupPassword = async (group, inputPassword) => {
+export const validateGroupPassword = async (
+  group: DB_Group,
+  inputPassword: string
+) => {
   const inputHash = crypto
     .pbkdf2Sync(inputPassword, group.salt, 1000, 64, "sha512")
     .toString("hex");
@@ -87,8 +91,14 @@ export const validateGroupPassword = async (group, inputPassword) => {
   return match;
 };
 
-export const addUserToGroup = async ({ user_id, group_id }) =>
-  await sql`
+export const addUserToGroup = async ({
+  user_id,
+  group_id,
+}: {
+  user_id: number;
+  group_id: string;
+}) =>
+  await sql<DBJoin.Users_Groups[]>`
     INSERT INTO users_groups (
       user_id,
       group_id
@@ -97,14 +107,25 @@ export const addUserToGroup = async ({ user_id, group_id }) =>
       ${group_id}
     ) RETURNING *;`;
 
-export const addProjectsToGroup = async ({ project_ids, group_id }) =>
-  await sql`
+export const addProjectsToGroup = async ({
+  project_ids,
+  group_id,
+}: {
+  project_ids: number[];
+  group_id: string;
+}) =>
+  await sql<DBJoin.Groups_Projects[]>`
     INSERT INTO groups_projects (
       group_id,
       project_id
     ) VALUES
-      ${project_ids.map(
-        (project_id, idx, { length }) =>
-          sql`(${group_id}, ${project_id})${idx < length - 1 ? sql`,` : sql``}`
+      ${project_ids.reduce(
+        (previous, project_id, idx, { length }) =>
+          sql`${previous}
+            (
+              ${group_id},
+              ${project_id}
+            )${idx < length - 1 ? sql`,` : sql``}`,
+        sql``
       )}
     RETURNING *;`;

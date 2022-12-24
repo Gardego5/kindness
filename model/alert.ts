@@ -26,7 +26,8 @@ export const addAlert = async ({
   displays,
   creator_id,
 }) =>
-  await sql`
+  (
+    await sql<DB_Alert[]>`
     INSERT INTO alerts (
       location,
       content
@@ -41,43 +42,80 @@ export const addAlert = async ({
       ${typeof end_date !== "undefined" ? sql`, ${end_date}` : sql``}
       ${typeof displays !== "undefined" ? sql`, ${displays}` : sql``}
       ${typeof creator_id !== "undefined" ? sql`, ${creator_id}` : sql``}
-    ) RETURNING *;`;
+    ) RETURNING *;`
+  )[0];
 
-export const addAlertProjects = async ({ alert_id, project_ids }) =>
-  await sql`
+export const addAlertProjects = async ({
+  alert_id,
+  project_ids,
+}: {
+  alert_id: number;
+  project_ids: number[];
+}) =>
+  (
+    await sql<DBJoin.Alerts_Projects[]>`
     INSERT INTO alerts_projects (
       alert_id,
       project_id
     ) VALUES 
-      ${project_ids.map(
-        (project_id, idx, { length }) =>
-          sql`(${alert_id}, ${project_id})${idx < length - 1 ? sql`,` : sql``}`
+      ${project_ids.reduce(
+        (previous, project_id, idx, { length }) =>
+          sql`${previous}
+          (
+            ${alert_id},
+            ${project_id}
+          )${idx < length - 1 ? sql`,` : sql``}`,
+        sql``
       )}
-    RETURNING *;`;
+    RETURNING *;`
+  ).map(({ project_id }) => project_id);
 
-export const addAlertGroups = async ({ alert_id, group_ids }) => {
-  console.log({ alert_id, group_ids });
-
-  return await sql`
+export const addAlertGroups = async ({
+  alert_id,
+  group_ids,
+}: {
+  alert_id: number;
+  group_ids: string[];
+}) =>
+  (
+    await sql<DBJoin.Alerts_Groups[]>`
     INSERT INTO alerts_groups (
       alert_id,
       group_id
     ) VALUES 
-      ${group_ids.map(
-        (group_id, idx, { length }) =>
-          sql`(${alert_id}, ${group_id})${idx < length - 1 ? sql`,` : sql``}`
+      ${group_ids.reduce(
+        (previous, group_id, idx, { length }) =>
+          sql`${previous}
+          (
+            ${alert_id},
+            ${group_id}
+          )${idx < length - 1 ? sql`,` : sql``}`,
+        sql``
       )}
-    RETURNING *;`;
-};
+    RETURNING *;`
+  ).map(({ group_id }) => group_id);
 
-export const addAlertUsers = async ({ alert_id, user_ids }) =>
-  await sql`
+export const addAlertUsers = async ({
+  alert_id,
+  user_ids,
+}: {
+  alert_id: number;
+  user_ids: number[];
+}) =>
+  (
+    await sql<DBJoin.Alerts_Users[]>`
     INSERT INTO alerts_users (
       alert_id,
       user_id
     ) VALUES 
-      ${user_ids.map(
-        (user_id, idx, { length }) =>
-          sql`(${alert_id}, ${user_id})${idx < length - 1 ? sql`,` : sql``}`
+      ${user_ids.reduce(
+        (previous, user_id, idx, { length }) =>
+          sql`${previous}
+          (
+            ${alert_id},
+            ${user_id}
+          )${idx < length - 1 ? sql`,` : sql``}`,
+        sql``
       )}
-    RETURNING *;`;
+    RETURNING *;`
+  ).map(({ user_id }) => user_id);

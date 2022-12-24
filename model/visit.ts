@@ -1,7 +1,14 @@
 import sql from "@lib/db";
 
-const visit_id = (date, timeslot, project_id) =>
-  sql`
+interface SignupParams {
+  date: postgresDate;
+  timeslot: string;
+  project_id: number;
+  username: string;
+}
+
+const visit_id = (date: postgresDate, timeslot: string, project_id: number) =>
+  sql<{ id: number }[]>`
     SELECT id
       FROM visits
      WHERE visits.timeslot_id =
@@ -12,7 +19,7 @@ const visit_id = (date, timeslot, project_id) =>
        AND visits.date = ${date}`;
 
 export const findVisits = async ({ filter = sql`` }) =>
-  await sql`
+  await sql<VisitView[]>`
     SELECT visits.date,
            timeslots.title as timeslot,
            COALESCE(JSON_AGG(
@@ -33,11 +40,27 @@ export const findVisits = async ({ filter = sql`` }) =>
      ${filter}
      GROUP BY visits.id, timeslots.title;`;
 
-export const findVisitId = async ({ date, timeslot, project_id }) =>
-  await sql`${visit_id(date, timeslot, project_id)};`;
+export const findVisitId = async ({
+  date,
+  timeslot,
+  project_id,
+}: {
+  date: postgresDate;
+  timeslot: string;
+  project_id: number;
+}) => (await visit_id(date, timeslot, project_id))[0];
 
-export const addVisit = async ({ date, timeslot, project_id }) =>
-  await sql`
+export const addVisit = async ({
+  date,
+  timeslot,
+  project_id,
+}: {
+  date: postgresDate;
+  timeslot: string;
+  project_id: number;
+}) =>
+  (
+    await sql<DB_Visit[]>`
     INSERT INTO visits (date, timeslot_id, project_id) VALUES
       (
         ${date},
@@ -46,10 +69,17 @@ export const addVisit = async ({ date, timeslot, project_id }) =>
           WHERE timeslots.title = ${timeslot}
             AND timeslots.project_id = ${project_id}),
         ${project_id}
-      );`;
+      ) RETURNING *;`
+  )[0];
 
-export const findSignUpId = async ({ date, timeslot, project_id, username }) =>
-  await sql`
+export const findSignUpId = async ({
+  date,
+  timeslot,
+  project_id,
+  username,
+}: SignupParams) =>
+  (
+    await sql<{ id: number }[]>`
     SELECT id
       FROM users_visits
      WHERE users_visits.visit_id =
@@ -57,10 +87,17 @@ export const findSignUpId = async ({ date, timeslot, project_id, username }) =>
        AND users_visits.user_id =
            (SELECT id
               FROM users
-             WHERE users.username = ${username});`;
+             WHERE users.username = ${username});`
+  )[0];
 
-export const addSignUp = async ({ date, timeslot, project_id, username }) =>
-  await sql`
+export const addSignUp = async ({
+  date,
+  timeslot,
+  project_id,
+  username,
+}: SignupParams) =>
+  (
+    await sql<DBJoin.Users_Visits[]>`
     INSERT INTO users_visits (
         user_id,
         visit_id
@@ -69,9 +106,15 @@ export const addSignUp = async ({ date, timeslot, project_id, username }) =>
            FROM users
           WHERE users.username = ${username}),
         (${visit_id(date, timeslot, project_id)})
-      ) RETURNING *;`;
+      ) RETURNING *;`
+  )[0];
 
-export const removeSignUp = async ({ date, timeslot, project_id, username }) =>
+export const removeSignUp = async ({
+  date,
+  timeslot,
+  project_id,
+  username,
+}: SignupParams) => {
   await sql`
     DELETE FROM users_visits
      WHERE users_visits.user_id =
@@ -80,3 +123,4 @@ export const removeSignUp = async ({ date, timeslot, project_id, username }) =>
              WHERE users.username = ${username})
        AND users_visits.visit_id =
            (${visit_id(date, timeslot, project_id)});`;
+};

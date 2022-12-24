@@ -22,7 +22,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         const { name, password, start_date, end_date, project_ids } = req.body;
         validateQueryParamsExist({ password });
 
-        const group = await createGroup({
+        const group: GroupView = await createGroup({
           name,
           password,
           start_date,
@@ -38,10 +38,12 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
               'The field "project_ids" should be an array of integers.'
             );
 
-          group.project_ids = await addProjectsToGroup({
-            group_id: group.id,
-            project_ids,
-          });
+          group.project_ids = (
+            await addProjectsToGroup({
+              group_id: group.id,
+              project_ids,
+            })
+          ).map(({ project_id }) => project_id);
         }
 
         res.status(200).send(groupView(group));

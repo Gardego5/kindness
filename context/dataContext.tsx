@@ -1,7 +1,12 @@
 import { useRouter } from "next/router";
-import { createContext, useEffect, useState } from "react";
+import { createContext, Dispatch, useEffect, useState } from "react";
 
-export const dataContext = createContext();
+export const dataContext = createContext<{
+  visits?: VisitView[];
+  setVisits: Dispatch<VisitView[]>;
+  project?: any;
+  setProject: Dispatch<any>;
+}>(undefined);
 const { Provider } = dataContext;
 
 export const DataContextProvider = ({ children }) => {

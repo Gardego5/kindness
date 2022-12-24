@@ -1,9 +1,9 @@
 import genericView from "./genericView";
 
-export const visitView = (visit) => ({
-  date: visit.date,
-  timeslot: visit.timeslot,
-  users: visit.users,
+export const visitView = ({ date, timeslot, users }: VisitView): VisitView => ({
+  date,
+  timeslot,
+  users,
 });
 
 const visitsView = genericView(visitView);

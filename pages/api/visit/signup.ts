@@ -34,13 +34,13 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     if (user.username !== req.body.username && !user.is_admin)
       throw new HTMLClientError.UNAUTHORIZED_401();
 
-    let [perhapsVisit] = await findVisitId({
+    let perhapsVisit = await findVisitId({
       date,
       timeslot,
       project_id,
     });
 
-    let [perhapsSignUp] = await findSignUpId({
+    let perhapsSignUp = await findSignUpId({
       date,
       timeslot,
       project_id,
@@ -50,18 +50,15 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     switch (req.method) {
       case "POST":
         if (typeof perhapsVisit === "undefined")
-          await addVisit({ date, timeslot, project_id });
+          perhapsVisit = await addVisit({ date, timeslot, project_id });
 
         if (typeof perhapsSignUp === "undefined")
-          await addSignUp({
+          perhapsSignUp = await addSignUp({
             date,
             timeslot,
             project_id,
             username,
           });
-
-        if (typeof perhapsVisit === "undefined")
-          [perhapsVisit] = await findVisitId({ date, timeslot, project_id });
         break;
 
       case "DELETE":
@@ -74,7 +71,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     }
 
     const [visit] = await findVisits({
-      filter: sql`WHERE visits.id = ${perhapsVisit ? perhapsVisit?.id : -1}`,
+      filter: sql`WHERE visits.id = ${perhapsVisit.id}`,
     });
 
     res.status(200).send(visitView(visit));

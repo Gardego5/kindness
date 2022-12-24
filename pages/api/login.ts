@@ -6,7 +6,7 @@ import apiErrorHandler from "@lib/apiErrorHandler";
 import { NextApiRequest, NextApiResponse } from "next";
 
 const authenticate = (req: NextApiRequest, res: NextApiResponse) =>
-  new Promise<User>((resolve, reject) => {
+  new Promise<DB_User>((resolve, reject) => {
     passport.authenticate(localStrategy, { session: false }, (error, token) => {
       if (error) reject(error);
       else resolve(token);

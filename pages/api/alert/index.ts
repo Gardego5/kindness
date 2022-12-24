@@ -26,7 +26,13 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
         const { location, content, start_date, end_date, displays } = req.body;
 
-        const [createdAlert] = await addAlert({
+        interface CreatedAlert extends DB_Alert {
+          project_ids?: number[];
+          group_ids?: string[];
+          user_ids?: number[];
+        }
+
+        const createdAlert: CreatedAlert = await addAlert({
           location,
           content,
           start_date,
@@ -64,12 +70,10 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
               'The field "group_ids" should be an array of v4 uuids.'
             );
 
-          createdAlert.group_ids = (
-            await addAlertGroups({
-              alert_id: createdAlert.id,
-              group_ids,
-            })
-          ).map(({ group_id }) => group_id);
+          createdAlert.group_ids = await addAlertGroups({
+            alert_id: createdAlert.id,
+            group_ids,
+          });
         }
 
         /* Optionally add "USER_ID" filters */
@@ -82,12 +86,10 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
               'The field "user_ids" should be an array of integers.'
             );
 
-          createdAlert.user_ids = (
-            await addAlertUsers({
-              alert_id: createdAlert.id,
-              user_ids,
-            })
-          ).map(({ user_id }) => user_id);
+          createdAlert.user_ids = await addAlertUsers({
+            alert_id: createdAlert.id,
+            user_ids,
+          });
         }
 
         res.status(200).send(createdAlert);
