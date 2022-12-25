@@ -1,10 +1,23 @@
-import { configureStore } from "@reduxjs/toolkit";
-import alertReducer from "@slice/alert";
+import { configureStore, ThunkAction, Action } from "@reduxjs/toolkit";
+import { sessionSlice } from "@slice/session";
 
-const store = configureStore({
-  reducer: {
-    alert: alertReducer,
-  },
-});
+const makeStore = () =>
+  configureStore({
+    reducer: {
+      [sessionSlice.name]: sessionSlice.reducer,
+    },
 
+    devTools: true,
+  });
+
+export type AppStore = ReturnType<typeof makeStore>;
+export type AppState = ReturnType<AppStore["getState"]>;
+export type AppThunk<ReturnType = void> = ThunkAction<
+  ReturnType,
+  AppState,
+  unknown,
+  Action
+>;
+
+const store = makeStore();
 export default store;

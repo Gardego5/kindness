@@ -1,16 +1,18 @@
 import { Root } from "./style";
 import HomeButton from "@components/IconButtons/Home";
 import LogoutButton from "@components/IconButtons/Logout";
-import { useUser } from "@hook/useContexts";
+import { useSelector } from "react-redux";
+import { selectLoggedIn, selectName } from "@slice/session";
 
 const Header = () => {
-  const { user, name } = useUser();
+  const name = useSelector(selectName);
+  const loggedIn = useSelector(selectLoggedIn);
 
   return (
     <Root>
       <h1>Kindness</h1>
 
-      {user && (
+      {loggedIn && (
         <nav>
           <HomeButton />
           <p>{name}</p>

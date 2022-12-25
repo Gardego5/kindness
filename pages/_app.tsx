@@ -1,17 +1,17 @@
 import Layout from "@components/Layout";
 import { AlertQueueContextProvider } from "@context/alertContext";
-import ComposedProviders from "@context/compose";
+import Composer from "@context/Composer";
 import { DataContextProvider } from "@context/dataContext";
-import { UserContextProvider } from "@context/userContext";
-import { Provider as ReduxProvider } from "react-redux";
+import Session from "@context/Session";
 import Head from "next/head";
+import { Provider } from "react-redux";
 import store from "store";
 
 const MyApp = ({ Component, pageProps }) => (
-  <ComposedProviders
+  <Composer
     providers={[
-      [ReduxProvider, { store }],
-      UserContextProvider,
+      [Provider, { store }],
+      Session,
       DataContextProvider,
       AlertQueueContextProvider,
     ]}
@@ -24,7 +24,7 @@ const MyApp = ({ Component, pageProps }) => (
     <Layout>
       <Component {...pageProps} />
     </Layout>
-  </ComposedProviders>
+  </Composer>
 );
 
 export default MyApp;

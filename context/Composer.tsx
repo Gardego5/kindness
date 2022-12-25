@@ -27,10 +27,10 @@ export const composeProviders =
     );
   };
 
-export const ComposedProviders = ({
+export const Composer = ({
   children,
   providers = [],
 }: PropsWithChildren<{ providers?: ProviderArray }>) =>
   composeProviders(...providers)({ children });
 
-export default ComposedProviders;
+export default Composer;

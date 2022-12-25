@@ -1,8 +1,9 @@
-import { useUser } from "@hook/useContexts";
+import { selectUser } from "@slice/session";
+import { useSelector } from "react-redux";
 import { Root, classes } from "./style";
 
 const AuthDebug = () => {
-  const { user } = useUser();
+  const user = useSelector(selectUser);
 
   return (
     <Root>

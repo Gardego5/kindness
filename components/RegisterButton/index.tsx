@@ -1,12 +1,14 @@
 import { today } from "@lib/util/dates";
-import { useAlertQueue, useData, useUser } from "@hook/useContexts";
+import { useAlertQueue, useData } from "@hook/useContexts";
 import { useRouter } from "next/router";
 import { useMemo, useState } from "react";
+import { useSelector } from "react-redux";
+import { selectUser } from "@slice/session";
 
 const { Root, classes } = require("./style");
 
 const RegisterButton = ({ timeslot, date, registered = undefined }) => {
-  const { user } = useUser();
+  const user = useSelector(selectUser);
   const { visits, setVisits } = useData();
   const [disabled, setDisabled] = useState(false);
   const router = useRouter();
