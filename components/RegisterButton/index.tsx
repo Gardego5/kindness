@@ -1,19 +1,19 @@
+import alertQueueContext from "@context/alertContext";
 import { today } from "@lib/util/dates";
-import { useAlertQueue } from "@hook/useContexts";
-import { useRouter } from "next/router";
-import { useMemo, useState } from "react";
 import { selectUser } from "@slice/session";
 import { selectVisits, setVisits } from "@slice/visits";
+import { useRouter } from "next/router";
+import { useContext, useMemo, useState } from "react";
 import { useTypedDispatch, useTypedSelector } from "store";
 
-const { Root, classes } = require("./style");
+import { classes, Root } from "./style";
 
 const RegisterButton = ({ timeslot, date, registered = undefined }) => {
   const router = useRouter();
   const dispatch = useTypedDispatch();
 
   const [disabled, setDisabled] = useState(false);
-  const { addAlert } = useAlertQueue();
+  const { addAlert } = useContext(alertQueueContext);
 
   const user = useTypedSelector(selectUser);
   const visits = useTypedSelector(selectVisits);
