@@ -28,6 +28,17 @@ export const visitsSlice = createSlice({
     setVisits(state, action: PayloadAction<VisitView[] | undefined>) {
       state.visits = action.payload;
     },
+
+    setVisit(state, action: PayloadAction<VisitView>) {
+      const idx = state.visits.findIndex(
+        (visit) =>
+          visit.date === action.payload.date &&
+          visit.timeslot === action.payload.timeslot
+      );
+
+      if (idx === -1) state.visits.push(action.payload);
+      else state.visits[idx] = action.payload;
+    },
   },
 
   extraReducers: (builder) => {
@@ -48,7 +59,7 @@ export const visitsSlice = createSlice({
   },
 });
 
-export const { setVisits } = visitsSlice.actions;
+export const { setVisits, setVisit } = visitsSlice.actions;
 
 export const selectVisitsStatus = (state: AppState) => state[SLICE].status;
 export const selectVisits = (state: AppState) => state[SLICE].visits;

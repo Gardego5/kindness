@@ -1,7 +1,7 @@
 import alertQueueContext from "@context/alertContext";
 import { today } from "@lib/util/dates";
 import { selectUser } from "@slice/session";
-import { selectVisits, setVisits } from "@slice/visits";
+import { setVisit } from "@slice/visits";
 import { useRouter } from "next/router";
 import { useContext, useMemo, useState } from "react";
 import { useTypedDispatch, useTypedSelector } from "store";
@@ -16,7 +16,6 @@ const RegisterButton = ({ timeslot, date, registered = undefined }) => {
   const { addAlert } = useContext(alertQueueContext);
 
   const user = useTypedSelector(selectUser);
-  const visits = useTypedSelector(selectVisits);
 
   const handleRegister = (signup: boolean) => async (event: Event) => {
     fetch("/api/visit/signup", {
@@ -30,22 +29,7 @@ const RegisterButton = ({ timeslot, date, registered = undefined }) => {
       }),
     })
       .then((res) => (res.status === 200 ? res.json() : false))
-      .then((visit) => {
-        const idx = (visits ?? []).findIndex(
-          ({ date, timeslot }) =>
-            date === visit.date && timeslot === visit.timeslot
-        );
-
-        if (idx === -1) dispatch(setVisits([...(visits ?? []), visit]));
-        else
-          dispatch(
-            setVisits([
-              ...visits.slice(0, idx),
-              visit,
-              ...visits.slice(idx + 1),
-            ])
-          );
-      });
+      .then((visit) => dispatch(setVisit(visit)));
   };
 
   const registerAlert = () => {
