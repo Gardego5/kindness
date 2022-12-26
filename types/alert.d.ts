@@ -11,3 +11,8 @@ interface AlertEntry {
   alert: AlertMessage;
   id: string;
 }
+
+interface AlertData {
+  alert: AlertData;
+  triggers?: string;
+}

@@ -2,13 +2,13 @@ import Expandable from "@components/Expandable";
 import RegisterButton from "@components/RegisterButton";
 import { localizeDate } from "@lib/util/dates";
 import { useMemo } from "react";
-import { useSelector } from "react-redux";
 import { selectUser } from "@slice/session";
 import { selectVisits } from "@slice/project";
+import { useTypedSelector } from "store";
 
 const Timeslot = ({ timeslot, date }) => {
-  const visits = useSelector(selectVisits);
-  const user = useSelector(selectUser);
+  const visits = useTypedSelector(selectVisits);
+  const user = useTypedSelector(selectUser);
 
   const thisVisit = useMemo(() => {
     return visits?.find(

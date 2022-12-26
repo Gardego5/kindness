@@ -2,9 +2,10 @@ import { today } from "@lib/util/dates";
 import { useAlertQueue } from "@hook/useContexts";
 import { useRouter } from "next/router";
 import { useMemo, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { selectUser } from "@slice/session";
 import { selectVisits, setVisits } from "@slice/project";
+import { useTypedSelector } from "store";
 
 const { Root, classes } = require("./style");
 
@@ -15,8 +16,8 @@ const RegisterButton = ({ timeslot, date, registered = undefined }) => {
   const [disabled, setDisabled] = useState(false);
   const { addAlert } = useAlertQueue();
 
-  const user = useSelector(selectUser);
-  const visits = useSelector(selectVisits);
+  const user = useTypedSelector(selectUser);
+  const visits = useTypedSelector(selectVisits);
 
   const handleRegister = (signup: boolean) => async (event: Event) => {
     fetch("/api/visit/signup", {

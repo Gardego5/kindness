@@ -2,12 +2,12 @@ import Expandable from "@components/Expandable";
 import { localizeDate } from "@lib/util/dates";
 import { useMemo } from "react";
 import Timeslot from "./Timeslot";
-import { useSelector } from "react-redux";
 import { selectProject, selectVisits } from "@slice/project";
+import { useTypedSelector } from "store";
 
 const Day = ({ date }) => {
-  const project = useSelector(selectProject);
-  const visits = useSelector(selectVisits);
+  const project = useTypedSelector(selectProject);
+  const visits = useTypedSelector(selectVisits);
 
   const pips = useMemo(
     () =>

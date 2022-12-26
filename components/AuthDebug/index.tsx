@@ -1,9 +1,9 @@
 import { selectUser } from "@slice/session";
-import { useSelector } from "react-redux";
+import { useTypedSelector } from "store";
 import { Root, classes } from "./style";
 
 const AuthDebug = () => {
-  const user = useSelector(selectUser);
+  const user = useTypedSelector(selectUser);
 
   return (
     <Root>

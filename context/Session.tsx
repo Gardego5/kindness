@@ -2,12 +2,13 @@ import quandary from "@lib/quandary";
 import { selectLoggedIn, setSession } from "@slice/session";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+import { useTypedSelector } from "store";
 
 export const Session = ({ children }) => {
   const router = useRouter();
   const dispatch = useDispatch();
-  const loggedIn = useSelector(selectLoggedIn);
+  const loggedIn = useTypedSelector(selectLoggedIn);
 
   useEffect(() => {
     if (!loggedIn && !["/login", "/signup"].includes(router.pathname))

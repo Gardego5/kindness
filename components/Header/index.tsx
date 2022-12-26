@@ -1,12 +1,12 @@
 import { Root } from "./style";
 import HomeButton from "@components/IconButtons/Home";
 import LogoutButton from "@components/IconButtons/Logout";
-import { useSelector } from "react-redux";
 import { selectLoggedIn, selectName } from "@slice/session";
+import { useTypedSelector } from "store";
 
 const Header = () => {
-  const name = useSelector(selectName);
-  const loggedIn = useSelector(selectLoggedIn);
+  const name = useTypedSelector(selectName);
+  const loggedIn = useTypedSelector(selectLoggedIn);
 
   return (
     <Root>

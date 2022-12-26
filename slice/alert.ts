@@ -1,23 +1,29 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { AppState } from "store";
 
-const { actions, reducer: alertReducer } = createSlice({
+export interface AlertState {
+  alerts: AlertData[];
+  queue: AlertEntry[];
+}
+
+const initialState: AlertState = {
+  alerts: [],
+  queue: [],
+};
+
+export const alertSlice = createSlice({
   name: "alert",
 
-  initialState: {
-    login: [],
-    project: [],
-    timeslot_signup: [],
-    timeslot_remove: [],
-  },
+  initialState,
 
-  reducers: {
-    addLoginAlert: (store, action: PayloadAction<number>) => {
-      console.log({ store });
-      store.login = [...store.login, action.payload];
-    },
-  },
+  reducers: {},
+
+  extraReducers: {},
 });
 
-export const { addLoginAlert } = actions;
+const { name: slice } = alertSlice;
 
-export default alertReducer;
+export const {} = alertSlice.actions;
+
+export const selectAlerts = (state: AppState) => state[slice].alerts;
+export const selectQueue = (state: AppState) => state[slice].queue;
