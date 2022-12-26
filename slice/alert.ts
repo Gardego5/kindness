@@ -27,3 +27,5 @@ export const {} = alertSlice.actions;
 
 export const selectAlerts = (state: AppState) => state[slice].alerts;
 export const selectQueue = (state: AppState) => state[slice].queue;
+
+export default alertSlice;

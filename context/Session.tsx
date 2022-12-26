@@ -2,12 +2,11 @@ import quandary from "@lib/quandary";
 import { selectLoggedIn, setSession } from "@slice/session";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
-import { useDispatch } from "react-redux";
-import { useTypedSelector } from "store";
+import { useTypedDispatch, useTypedSelector } from "store";
 
 export const Session = ({ children }) => {
   const router = useRouter();
-  const dispatch = useDispatch();
+  const dispatch = useTypedDispatch();
   const loggedIn = useTypedSelector(selectLoggedIn);
 
   useEffect(() => {

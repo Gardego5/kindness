@@ -3,7 +3,7 @@ import RegisterButton from "@components/RegisterButton";
 import { localizeDate } from "@lib/util/dates";
 import { useMemo } from "react";
 import { selectUser } from "@slice/session";
-import { selectVisits } from "@slice/project";
+import { selectVisits } from "@slice/visits";
 import { useTypedSelector } from "store";
 
 const Timeslot = ({ timeslot, date }) => {

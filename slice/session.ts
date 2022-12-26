@@ -1,6 +1,8 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { AppState } from "store";
 
+const SLICE = "session";
+
 const displayName = (user: UserView) =>
   user.first_name.slice(0, 1).toUpperCase() +
   user.first_name.slice(1) +
@@ -25,7 +27,7 @@ const initialState: SessionState = {
 };
 
 export const sessionSlice = createSlice({
-  name: "session",
+  name: SLICE,
 
   initialState,
 
@@ -38,10 +40,10 @@ export const sessionSlice = createSlice({
   },
 });
 
-const { name: slice } = sessionSlice;
-
 export const { setSession } = sessionSlice.actions;
 
-export const selectLoggedIn = (state: AppState) => state[slice].loggedIn;
-export const selectUser = (state: AppState) => state[slice].user;
-export const selectName = (state: AppState) => state[slice].name;
+export const selectLoggedIn = (state: AppState) => state[SLICE].loggedIn;
+export const selectUser = (state: AppState) => state[SLICE].user;
+export const selectName = (state: AppState) => state[SLICE].name;
+
+export default sessionSlice;

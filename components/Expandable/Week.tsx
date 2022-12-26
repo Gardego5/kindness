@@ -2,7 +2,7 @@ import Expandable from "@components/Expandable";
 import { localizeDate, oneDay } from "@lib/util/dates";
 import { useMemo } from "react";
 import Day from "./Day";
-import { selectVisits } from "@slice/project";
+import { selectVisits } from "@slice/visits";
 import { useTypedSelector } from "store";
 
 const Week = ({ date }) => {

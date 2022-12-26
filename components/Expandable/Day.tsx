@@ -2,8 +2,9 @@ import Expandable from "@components/Expandable";
 import { localizeDate } from "@lib/util/dates";
 import { useMemo } from "react";
 import Timeslot from "./Timeslot";
-import { selectProject, selectVisits } from "@slice/project";
+import { selectProject } from "@slice/project";
 import { useTypedSelector } from "store";
+import { selectVisits } from "@slice/visits";
 
 const Day = ({ date }) => {
   const project = useTypedSelector(selectProject);

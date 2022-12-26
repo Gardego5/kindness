@@ -1,39 +1,56 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { AppState } from "store";
 
+const SLICE = "project";
+
 export interface ProjectState {
+  status: "loading" | "idle";
   project?: ProjectView;
-  visits?: VisitView[];
+  error?: string;
 }
 
-const initialState: ProjectState = {};
+const initialState: ProjectState = {
+  status: "idle",
+};
+
+export const fetchProject = createAsyncThunk<ProjectView, number, ThunkConfig>(
+  `${SLICE}/fetchProjects`,
+  (projectId: number) =>
+    fetch(`/api/project/${projectId}/`).then((r) => r.json())
+);
 
 export const projectSlice = createSlice({
-  name: "project",
+  name: SLICE,
 
   initialState,
 
   reducers: {
-    setProject(state, action: PayloadAction<ProjectView | null>) {
+    setProject(state, action: PayloadAction<ProjectView | undefined>) {
       state.project = action.payload;
     },
+  },
 
-    setVisits(state, action: PayloadAction<VisitView[] | null>) {
-      state.visits = action.payload;
-    },
+  extraReducers: (builder) => {
+    builder.addCase(fetchProject.pending, (state) => {
+      state.status = "loading";
+      state.error = undefined;
+    });
+
+    builder.addCase(fetchProject.fulfilled, (state, { payload }) => {
+      state.project = payload;
+      state.status = "idle";
+    });
+
+    builder.addCase(fetchProject.rejected, (state, { payload }) => {
+      if (payload) state.error = payload.message;
+      state.status = "idle";
+    });
   },
 });
 
-const { name: slice } = projectSlice;
+export const { setProject } = projectSlice.actions;
 
-export const { setProject, setVisits } = projectSlice.actions;
+export const selectProjectStatus = (state: AppState) => state[SLICE].status;
+export const selectProject = (state: AppState) => state[SLICE].project;
 
-export const selectProject = (state: AppState) => state[slice].project;
-export const selectVisits = (state: AppState) => state[slice].visits;
-export const selectVisitByDateAndTime =
-  ({ date, timeslot }: { date: postgresDate; timeslot: string }) =>
-  (state: AppState) =>
-    state[slice].visits.find(
-      (visit) =>
-        new Date(visit.date) === new Date(date) && visit.timeslot === timeslot
-    );
+export default projectSlice;
