@@ -1,18 +1,22 @@
 import { today } from "@lib/util/dates";
-import { useAlertQueue, useData } from "@hook/useContexts";
+import { useAlertQueue } from "@hook/useContexts";
 import { useRouter } from "next/router";
 import { useMemo, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { selectUser } from "@slice/session";
+import { selectVisits, setVisits } from "@slice/project";
 
 const { Root, classes } = require("./style");
 
 const RegisterButton = ({ timeslot, date, registered = undefined }) => {
-  const user = useSelector(selectUser);
-  const { visits, setVisits } = useData();
-  const [disabled, setDisabled] = useState(false);
   const router = useRouter();
+  const dispatch = useDispatch();
+
+  const [disabled, setDisabled] = useState(false);
   const { addAlert } = useAlertQueue();
+
+  const user = useSelector(selectUser);
+  const visits = useSelector(selectVisits);
 
   const handleRegister = (signup: boolean) => async (event: Event) => {
     fetch("/api/visit/signup", {
@@ -32,9 +36,15 @@ const RegisterButton = ({ timeslot, date, registered = undefined }) => {
             date === visit.date && timeslot === visit.timeslot
         );
 
-        if (idx === -1) setVisits([...(visits ?? []), visit]);
+        if (idx === -1) dispatch(setVisits([...(visits ?? []), visit]));
         else
-          setVisits([...visits.slice(0, idx), visit, ...visits.slice(idx + 1)]);
+          dispatch(
+            setVisits([
+              ...visits.slice(0, idx),
+              visit,
+              ...visits.slice(idx + 1),
+            ])
+          );
       });
   };
 

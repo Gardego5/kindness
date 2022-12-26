@@ -1,10 +1,12 @@
 import { configureStore, ThunkAction, Action } from "@reduxjs/toolkit";
+import { projectSlice } from "@slice/project";
 import { sessionSlice } from "@slice/session";
 
 const makeStore = () =>
   configureStore({
     reducer: {
       [sessionSlice.name]: sessionSlice.reducer,
+      [projectSlice.name]: projectSlice.reducer,
     },
 
     devTools: true,

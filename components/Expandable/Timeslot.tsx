@@ -1,13 +1,13 @@
 import Expandable from "@components/Expandable";
 import RegisterButton from "@components/RegisterButton";
 import { localizeDate } from "@lib/util/dates";
-import { useData } from "@hook/useContexts";
 import { useMemo } from "react";
 import { useSelector } from "react-redux";
 import { selectUser } from "@slice/session";
+import { selectVisits } from "@slice/project";
 
 const Timeslot = ({ timeslot, date }) => {
-  const { visits } = useData();
+  const visits = useSelector(selectVisits);
   const user = useSelector(selectUser);
 
   const thisVisit = useMemo(() => {

@@ -1,11 +1,12 @@
 import Expandable from "@components/Expandable";
 import { localizeDate, oneDay } from "@lib/util/dates";
-import { useData } from "@hook/useContexts";
 import { useMemo } from "react";
 import Day from "./Day";
+import { useSelector } from "react-redux";
+import { selectVisits } from "@slice/project";
 
 const Week = ({ date }) => {
-  const { visits } = useData();
+  const visits = useSelector(selectVisits);
 
   const { thisWeek, title } = useMemo(() => {
     const thisWeek = Array.from(
