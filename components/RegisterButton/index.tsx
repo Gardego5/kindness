@@ -5,10 +5,17 @@ import { setVisit } from "@slice/visits";
 import { useRouter } from "next/router";
 import { useContext, useMemo, useState } from "react";
 import { useTypedDispatch, useTypedSelector } from "store";
-
 import { classes, Root } from "./style";
 
-const RegisterButton = ({ timeslot, date, registered = undefined }) => {
+const RegisterButton = ({
+  timeslot,
+  date,
+  registered = undefined,
+}: {
+  timeslot: string;
+  date: postgresDate;
+  registered?: UserView;
+}) => {
   const router = useRouter();
   const dispatch = useTypedDispatch();
 

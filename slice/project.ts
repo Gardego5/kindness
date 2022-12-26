@@ -1,4 +1,9 @@
-import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
+import {
+  ActionReducerMapBuilder,
+  createAsyncThunk,
+  createSlice,
+  PayloadAction,
+} from "@reduxjs/toolkit";
 import { AppState } from "store";
 
 const SLICE = "project";
@@ -30,7 +35,7 @@ export const projectSlice = createSlice({
     },
   },
 
-  extraReducers: (builder) => {
+  extraReducers: (builder: ActionReducerMapBuilder<ProjectState>) => {
     builder.addCase(fetchProject.pending, (state) => {
       state.status = "loading";
       state.error = undefined;

@@ -17,8 +17,6 @@ export const alertSlice = createSlice({
   initialState,
 
   reducers: {},
-
-  extraReducers: {},
 });
 
 const { name: slice } = alertSlice;

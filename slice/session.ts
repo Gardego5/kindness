@@ -1,14 +1,8 @@
+import { displayName } from "@lib/util/formatting";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { AppState } from "store";
 
 const SLICE = "session";
-
-const displayName = (user: UserView) =>
-  user.first_name.slice(0, 1).toUpperCase() +
-  user.first_name.slice(1) +
-  " " +
-  user.last_name[0].toUpperCase() +
-  ".";
 
 export interface SessionState {
   loggedIn: boolean;

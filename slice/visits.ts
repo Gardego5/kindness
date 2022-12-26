@@ -1,4 +1,10 @@
-import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { localizeDate } from "@lib/util/dates";
+import {
+  ActionReducerMapBuilder,
+  createAsyncThunk,
+  createSlice,
+  PayloadAction,
+} from "@reduxjs/toolkit";
 import { AppState } from "store";
 
 const SLICE = "visits";
@@ -15,7 +21,7 @@ const initialState: VisitsState = {
 
 export const fetchVisits = createAsyncThunk<VisitView[], number, ThunkConfig>(
   `${SLICE}/fetchVisits`,
-  (projectId: number, { rejectWithValue }) =>
+  (projectId: number): Promise<VisitView[]> =>
     fetch(`/api/project/${projectId}/visits/`).then((r) => r.json())
 );
 
@@ -25,7 +31,7 @@ export const visitsSlice = createSlice({
   initialState,
 
   reducers: {
-    setVisits(state, action: PayloadAction<VisitView[] | undefined>) {
+    setVisits(state, action: PayloadAction<VisitView[]>) {
       state.visits = action.payload;
     },
 
@@ -41,7 +47,7 @@ export const visitsSlice = createSlice({
     },
   },
 
-  extraReducers: (builder) => {
+  extraReducers: (builder: ActionReducerMapBuilder<VisitsState>) => {
     builder.addCase(fetchVisits.pending, (state) => {
       state.status = "loading";
       state.error = undefined;
@@ -66,9 +72,10 @@ export const selectVisits = (state: AppState) => state[SLICE].visits;
 export const selectVisitByDateAndTime =
   ({ date, timeslot }: { date: postgresDate; timeslot: string }) =>
   (state: AppState) =>
-    state[SLICE].visits.find(
+    state[SLICE].visits?.find(
       (visit) =>
-        new Date(visit.date) === new Date(date) && visit.timeslot === timeslot
-    );
+        localizeDate(visit?.date).toDateString() ===
+          new Date(date).toDateString() && visit?.timeslot === timeslot
+    ) ?? undefined;
 
 export default visitsSlice;
