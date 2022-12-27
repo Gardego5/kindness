@@ -1,16 +1,51 @@
 import apiErrorHandler from "@lib/apiErrorHandler";
 import { getLoginSession } from "@lib/auth";
-import HTMLClientError from "@lib/HTMLResponseStatusCodes/400";
+import HTMLClientError, {
+  validateQueryParamsExist,
+} from "@lib/HTMLResponseStatusCodes/400";
 import {
   addAlert,
   addAlertGroups,
   addAlertProjects,
   addAlertUsers,
+  findUserAlerts,
 } from "@model/alert";
 import { findUser } from "@model/user";
 import { NextApiRequest, NextApiResponse } from "next";
 import { validate as uuidValidate, version as uuidVersion } from "uuid";
 
+const alertPlacement = {
+  login: "login",
+  project: "project",
+  timeslot_signup: "timeslot_signup",
+  timeslot_remove: "timeslot_remove",
+} as const;
+
+/**
+ * To POST, you must be an admin user.
+ * ```
+ * POST `/api/alert/` {
+ *    // Alert Object
+ *    location: "login" | "project" | "timeslot_signup" | "timeslot_remove";
+ *    content: string;
+ *    start_date: postgresDate;
+ *    end_date: postgresDate;
+ *    displays: number;
+ *    yes: string;
+ *    no: string;
+ *
+ *    // Join tables, used to control who this alert is displayed to.
+ *    project_ids: number[];
+ *    group_ids: string[];
+ *    user_ids: number[];
+ * }
+ * ```
+ * ```
+ * GET `/api/alert/` -> {
+ *
+ * }
+ * ```
+ */
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   try {
     const session = await getLoginSession(req);
@@ -22,9 +57,15 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     switch (req.method) {
       case "POST":
         const { project_ids, group_ids, user_ids } = req.body;
-        console.log({ project_ids, group_ids, user_ids });
 
-        const { location, content, start_date, end_date, displays } = req.body;
+        const { location, content, start_date, end_date, displays, yes, no } =
+          req.body;
+        validateQueryParamsExist({ location, content });
+        if (!Object.keys(alertPlacement).includes(location))
+          throw new HTMLClientError.BAD_REQUEST_400(
+            `Bad Request: You must provide a "location" field that is one of: ` +
+              `"login", "project", "timeslot_signup", or "timeslot_remove".`
+          );
 
         interface CreatedAlert extends DB_Alert {
           project_ids?: number[];
@@ -38,6 +79,8 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
           start_date,
           end_date,
           displays,
+          yes,
+          no,
           creator_id: user.id,
         });
 
@@ -93,6 +136,12 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         }
 
         res.status(200).send(createdAlert);
+        break;
+
+      case "GET":
+        const alerts: AlertView[] = await findUserAlerts(user);
+
+        res.status(200).send(alerts);
         break;
 
       default:

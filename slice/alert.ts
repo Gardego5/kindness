@@ -1,15 +1,28 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import {
+  ActionReducerMapBuilder,
+  createAsyncThunk,
+  createSlice,
+} from "@reduxjs/toolkit";
 import { AppState } from "store";
 
+const SLICE = "alert";
+
 export interface AlertState {
-  alerts: AlertData[];
+  status: "loading" | "idle";
+  alerts?: AlertData[];
+  error?: string;
   queue: AlertEntry[];
 }
 
 const initialState: AlertState = {
-  alerts: [],
+  status: "idle",
   queue: [],
 };
+
+export const fetchAlerts = createAsyncThunk<AlertData[], never, ThunkConfig>(
+  `${SLICE}/fetchAlerts`,
+  (): Promise<AlertData[]> => fetch(`/api/alert/`).then((r) => r.json())
+);
 
 export const alertSlice = createSlice({
   name: "alert",
@@ -17,13 +30,30 @@ export const alertSlice = createSlice({
   initialState,
 
   reducers: {},
-});
 
-const { name: slice } = alertSlice;
+  extraReducers(builder: ActionReducerMapBuilder<AlertState>) {
+    builder.addCase(fetchAlerts.pending, (state) => {
+      state.status = "loading";
+      state.error = undefined;
+    });
+
+    builder.addCase(fetchAlerts.fulfilled, (state, { payload }) => {
+      state.status = "loading";
+      state.alerts = payload;
+    });
+
+    builder.addCase(fetchAlerts.rejected, (state, { payload }) => {
+      state.status = "idle";
+      if (payload) state.error = payload.message;
+    });
+  },
+});
 
 export const {} = alertSlice.actions;
 
-export const selectAlerts = (state: AppState) => state[slice].alerts;
-export const selectQueue = (state: AppState) => state[slice].queue;
+export const selectAlertsStatus = (state: AppState) => state[SLICE].status;
+export const selectAlerts = (state: AppState) => state[SLICE].alerts;
+export const selectQueue = (state: AppState) => state[SLICE].queue;
+export const selectCurrentAlert = (state: AppState) => state[SLICE].queue[0];
 
 export default alertSlice;

@@ -13,6 +13,6 @@ interface AlertEntry {
 }
 
 interface AlertData {
-  alert: AlertData;
+  alert: AlertView;
   triggers?: string;
 }
