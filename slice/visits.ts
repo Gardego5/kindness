@@ -21,8 +21,38 @@ const initialState: VisitsState = {
 
 export const fetchVisits = createAsyncThunk<VisitView[], number, ThunkConfig>(
   `${SLICE}/fetchVisits`,
-  (projectId: number): Promise<VisitView[]> =>
-    fetch(`/api/project/${projectId}/visits/`).then((r) => r.json())
+  (projectId: number, thunkAPI): Promise<VisitView[]> =>
+    fetch(`/api/project/${projectId}/visits/`)
+      .then((r) => r.json())
+      .catch((reason) => thunkAPI.rejectWithValue({ message: reason }))
+);
+
+export interface SignUp {
+  method: "POST" | "DELETE";
+  date: postgresDate;
+  timeslot: string;
+  project_id: number;
+  username: string;
+}
+
+export const visitSignup = createAsyncThunk<VisitView, SignUp, ThunkConfig>(
+  `${SLICE}/signup`,
+  (
+    { method, date, timeslot, project_id, username }: SignUp,
+    thunkAPI
+  ): Promise<VisitView> =>
+    fetch("/api/visit/signup/", {
+      method,
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        date,
+        timeslot,
+        project_id,
+        username,
+      }),
+    })
+      .then((r) => r.json())
+      .catch((reason) => thunkAPI.rejectWithValue({ message: String(reason) }))
 );
 
 export const visitsSlice = createSlice({
@@ -53,12 +83,35 @@ export const visitsSlice = createSlice({
       state.error = undefined;
     });
 
+    builder.addCase(visitSignup.pending, (state) => {
+      state.status = "loading";
+      state.error = undefined;
+    });
+
     builder.addCase(fetchVisits.fulfilled, (state, { payload }) => {
       state.visits = payload;
       state.status = "idle";
     });
 
+    builder.addCase(visitSignup.fulfilled, (state, { payload }) => {
+      const idx = state.visits.findIndex(
+        ({ date, timeslot }) =>
+          payload.date === date && payload.timeslot === timeslot
+      );
+
+      if (idx === -1) state.visits.push(payload);
+      else state.visits[idx] = payload;
+
+      state.status = "idle";
+    });
+
     builder.addCase(fetchVisits.rejected, (state, { payload }) => {
+      if (payload) state.error = payload.message;
+      state.status = "idle";
+    });
+
+    builder.addCase(visitSignup.rejected, (state, { payload }) => {
+      console.log({ payload });
       if (payload) state.error = payload.message;
       state.status = "idle";
     });

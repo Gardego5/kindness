@@ -1,7 +1,7 @@
 import alertQueueContext from "@context/alertContext";
 import { today } from "@lib/util/dates";
 import { selectUser } from "@slice/session";
-import { setVisit } from "@slice/visits";
+import { setVisit, visitSignup } from "@slice/visits";
 import { useRouter } from "next/router";
 import { useContext, useMemo, useState } from "react";
 import { useTypedDispatch, useTypedSelector } from "store";
@@ -24,21 +24,6 @@ const RegisterButton = ({
 
   const user = useTypedSelector(selectUser);
 
-  const handleRegister = (signup: boolean) => async (event: Event) => {
-    fetch("/api/visit/signup", {
-      method: signup ? "POST" : "DELETE",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        date,
-        timeslot,
-        project_id: router.query.id,
-        username: user.username,
-      }),
-    })
-      .then((res) => (res.status === 200 ? res.json() : false))
-      .then((visit) => dispatch(setVisit(visit)));
-  };
-
   const registerAlert = () => {
     setDisabled(true);
     addAlert({
@@ -49,10 +34,20 @@ Thank you for your kindness and loving spirit. As a courtesy to sister Lloyd,
 before you come, please give a phone call ahead of time so that she's aware you
 plan to visit.
 
-You can contact her at:\n
+You can contact her at:
+
 000 000 0000
 `,
-      confirm: handleRegister(true),
+      confirm: () =>
+        dispatch(
+          visitSignup({
+            method: "POST",
+            date,
+            timeslot,
+            project_id: Number(router.query.id),
+            username: user.username,
+          })
+        ),
       cleanup: () => setDisabled(false),
       yes: "Sign Up",
       no: "Cancel",
@@ -66,10 +61,20 @@ You can contact her at:\n
 If you've already contacted her please let her know you will not be able to
 visit.
 
-You can contact her at:\n
+You can contact her at:
+
 000 000 0000
 `,
-      confirm: handleRegister(false),
+      confirm: () =>
+        dispatch(
+          visitSignup({
+            method: "DELETE",
+            date,
+            timeslot,
+            project_id: Number(router.query.id),
+            username: user.username,
+          })
+        ),
       cleanup: () => setDisabled(false),
       yes: "I can't make it",
       no: "Cancel",
