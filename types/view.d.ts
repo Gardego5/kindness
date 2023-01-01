@@ -19,7 +19,7 @@ interface GroupView
 
 interface AlertView
   extends Pick<DB_Alert, "location" | "content" | "yes" | "no"> {
-  user_id: number[];
-  group_id: string[];
-  project_id: number[];
+  user_ids: number[];
+  group_ids: string[];
+  project_ids: number[];
 }

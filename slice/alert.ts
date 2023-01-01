@@ -9,19 +9,17 @@ const SLICE = "alert";
 
 export interface AlertState {
   status: "loading" | "idle";
-  alerts?: AlertData[];
+  alerts?: AlertView[];
   error?: string;
-  queue: AlertEntry[];
 }
 
 const initialState: AlertState = {
   status: "idle",
-  queue: [],
 };
 
-export const fetchAlerts = createAsyncThunk<AlertData[], never, ThunkConfig>(
+export const fetchAlerts = createAsyncThunk<AlertView[], never, ThunkConfig>(
   `${SLICE}/fetchAlerts`,
-  (): Promise<AlertData[]> => fetch(`/api/alert/`).then((r) => r.json())
+  (): Promise<AlertView[]> => fetch(`/api/alert/`).then((r) => r.json())
 );
 
 export const alertSlice = createSlice({
@@ -53,7 +51,18 @@ export const {} = alertSlice.actions;
 
 export const selectAlertsStatus = (state: AppState) => state[SLICE].status;
 export const selectAlerts = (state: AppState) => state[SLICE].alerts;
-export const selectQueue = (state: AppState) => state[SLICE].queue;
-export const selectCurrentAlert = (state: AppState) => state[SLICE].queue[0];
+export const selectAlert =
+  ({
+    project_id,
+    location,
+  }: {
+    project_id: number;
+    location: alertPlacement;
+  }) =>
+  (state: AppState) =>
+    state[SLICE].alerts.find(
+      (alert) =>
+        alert.location === location && alert.project_ids.includes(project_id)
+    );
 
 export default alertSlice;

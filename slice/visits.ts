@@ -77,23 +77,23 @@ export const visitsSlice = createSlice({
     },
   },
 
-  extraReducers: (builder: ActionReducerMapBuilder<VisitsState>) => {
-    builder.addCase(fetchVisits.pending, (state) => {
+  extraReducers: ({ addCase }: ActionReducerMapBuilder<VisitsState>) => {
+    addCase(fetchVisits.pending, (state) => {
       state.status = "loading";
       state.error = undefined;
     });
 
-    builder.addCase(visitSignup.pending, (state) => {
+    addCase(visitSignup.pending, (state) => {
       state.status = "loading";
       state.error = undefined;
     });
 
-    builder.addCase(fetchVisits.fulfilled, (state, { payload }) => {
+    addCase(fetchVisits.fulfilled, (state, { payload }) => {
       state.visits = payload;
       state.status = "idle";
     });
 
-    builder.addCase(visitSignup.fulfilled, (state, { payload }) => {
+    addCase(visitSignup.fulfilled, (state, { payload }) => {
       const idx = state.visits.findIndex(
         ({ date, timeslot }) =>
           payload.date === date && payload.timeslot === timeslot
@@ -105,12 +105,12 @@ export const visitsSlice = createSlice({
       state.status = "idle";
     });
 
-    builder.addCase(fetchVisits.rejected, (state, { payload }) => {
+    addCase(fetchVisits.rejected, (state, { payload }) => {
       if (payload) state.error = payload.message;
       state.status = "idle";
     });
 
-    builder.addCase(visitSignup.rejected, (state, { payload }) => {
+    addCase(visitSignup.rejected, (state, { payload }) => {
       console.log({ payload });
       if (payload) state.error = payload.message;
       state.status = "idle";
