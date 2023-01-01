@@ -83,7 +83,7 @@ export const validateQueryParamsExist = (params: object) => {
   Object.entries(params).forEach(([key, value]) => {
     if (typeof value === "undefined")
       throw new HTMLClientError.BAD_REQUEST_400(
-        `Missing required query param "${key}".`
+        `Bad Request: Missing required query param "${key}".`
       );
   });
 };

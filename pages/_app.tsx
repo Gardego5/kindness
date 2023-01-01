@@ -1,21 +1,13 @@
 import Layout from "@components/Layout";
-import { AlertQueueContextProvider } from "@context/alertContext";
-import ComposedProviders from "@context/compose";
-import { DataContextProvider } from "@context/dataContext";
-import { UserContextProvider } from "@context/userContext";
-import { Provider as ReduxProvider } from "react-redux";
+import { AlertQueueContextProvider as Alerts } from "@context/alertContext";
+import Composer from "@context/Composer";
+import Session from "@context/Session";
 import Head from "next/head";
+import { Provider } from "react-redux";
 import store from "store";
 
 const MyApp = ({ Component, pageProps }) => (
-  <ComposedProviders
-    providers={[
-      [ReduxProvider, { store }],
-      UserContextProvider,
-      DataContextProvider,
-      AlertQueueContextProvider,
-    ]}
-  >
+  <Composer wrappers={[[Provider, { store }], Session, Alerts]}>
     <Head>
       <link rel="icon" href="/public/favicon.ico" />
       <title>Kindness</title>
@@ -24,7 +16,7 @@ const MyApp = ({ Component, pageProps }) => (
     <Layout>
       <Component {...pageProps} />
     </Layout>
-  </ComposedProviders>
+  </Composer>
 );
 
 export default MyApp;

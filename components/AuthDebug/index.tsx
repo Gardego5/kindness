@@ -1,8 +1,9 @@
-import { useUser } from "@hook/useContexts";
+import { selectUser } from "@slice/session";
+import { useTypedSelector } from "store";
 import { Root, classes } from "./style";
 
 const AuthDebug = () => {
-  const { user } = useUser();
+  const user = useTypedSelector(selectUser);
 
   return (
     <Root>

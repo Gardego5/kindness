@@ -1,10 +1,13 @@
 type postgresDate = string | Date;
 
-type alertPlacement =
-  | "login"
-  | "project"
-  | "timeslot_signup"
-  | "timeslot_remove";
+const alertPlacement = {
+  login: "login",
+  project: "project",
+  timeslot_signup: "timeslot_signup",
+  timeslot_remove: "timeslot_remove",
+} as const;
+
+type alertPlacement = typeof alertPlacement[keyof typeof alertPlacement];
 
 interface DB_User {
   id: number;
@@ -57,6 +60,8 @@ interface DB_Alert {
   end_date?: postgresDate;
   displays?: number;
   creator_id?: number;
+  yes?: string;
+  no?: string;
 }
 
 namespace DBJoin {

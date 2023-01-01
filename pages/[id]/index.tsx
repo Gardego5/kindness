@@ -1,14 +1,14 @@
 import Week from "@components/Expandable/Week";
-import quandary from "@lib/quandary";
 import { findStartOfWeek, oneDay, today } from "@lib/util/dates";
-import { useData } from "@hook/useContexts";
 import { useRouter } from "next/router";
 import { useEffect, useMemo } from "react";
+import { fetchVisits } from "@slice/visits";
+import { useTypedDispatch } from "store";
+import { fetchProject } from "@slice/project";
 
 const Project = () => {
-  const { setVisits, setProject } = useData();
-
   const router = useRouter();
+  const dispatch = useTypedDispatch();
 
   const weekStarts = useMemo(() => {
     const startOfWeek = findStartOfWeek(today());
@@ -20,8 +20,10 @@ const Project = () => {
 
   useEffect(() => {
     if (typeof router.query?.id !== "undefined") {
-      quandary(`/api/project/${router.query.id}/visits`, setVisits);
-      quandary(`/api/project/${router.query.id}`, setProject);
+      const projectId = Number(router.query.id);
+
+      dispatch(fetchVisits(projectId));
+      dispatch(fetchProject(projectId));
     }
   }, [router]);
 

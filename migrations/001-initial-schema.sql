@@ -141,6 +141,8 @@ CREATE TABLE IF NOT EXISTS alerts (
   "end_date"            DATE,
   "displays"            INTEGER,
   "creator_id"          INTEGER,
+  "yes"                 TEXT,
+  "no"                  TEXT,
   CONSTRAINT FK_Alert_Creator
     FOREIGN KEY (creator_id) REFERENCES users (id) ON DELETE SET NULL
 );

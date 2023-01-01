@@ -1,16 +1,18 @@
 import { Root } from "./style";
 import HomeButton from "@components/IconButtons/Home";
 import LogoutButton from "@components/IconButtons/Logout";
-import { useUser } from "@hook/useContexts";
+import { selectLoggedIn, selectName } from "@slice/session";
+import { useTypedSelector } from "store";
 
 const Header = () => {
-  const { user, name } = useUser();
+  const name = useTypedSelector(selectName);
+  const loggedIn = useTypedSelector(selectLoggedIn);
 
   return (
     <Root>
       <h1>Kindness</h1>
 
-      {user && (
+      {loggedIn && (
         <nav>
           <HomeButton />
           <p>{name}</p>

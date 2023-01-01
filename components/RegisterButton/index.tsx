@@ -1,76 +1,73 @@
+import alertQueueContext from "@context/alertContext";
 import { today } from "@lib/util/dates";
-import { useAlertQueue, useData, useUser } from "@hook/useContexts";
+import { selectAlert } from "@slice/alert";
+import { selectUser } from "@slice/session";
+import { visitSignup } from "@slice/visits";
 import { useRouter } from "next/router";
-import { useMemo, useState } from "react";
+import { useContext, useMemo, useState } from "react";
+import { useTypedDispatch, useTypedSelector } from "store";
+import { classes, Root } from "./style";
 
-const { Root, classes } = require("./style");
-
-const RegisterButton = ({ timeslot, date, registered = undefined }) => {
-  const { user } = useUser();
-  const { visits, setVisits } = useData();
-  const [disabled, setDisabled] = useState(false);
+const RegisterButton = ({
+  timeslot,
+  date,
+  registered = undefined,
+}: {
+  timeslot: string;
+  date: postgresDate;
+  registered?: UserView;
+}) => {
   const router = useRouter();
-  const { addAlert } = useAlertQueue();
+  const dispatch = useTypedDispatch();
 
-  const handleRegister = (signup: boolean) => async (event: Event) => {
-    fetch("/api/visit/signup", {
-      method: signup ? "POST" : "DELETE",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        date,
-        timeslot,
-        project_id: router.query.id,
-        username: user.username,
-      }),
-    })
-      .then((res) => (res.status === 200 ? res.json() : false))
-      .then((visit) => {
-        const idx = (visits ?? []).findIndex(
-          ({ date, timeslot }) =>
-            date === visit.date && timeslot === visit.timeslot
-        );
+  const [disabled, setDisabled] = useState(false);
+  const { addAlert } = useContext(alertQueueContext);
 
-        if (idx === -1) setVisits([...(visits ?? []), visit]);
-        else
-          setVisits([...visits.slice(0, idx), visit, ...visits.slice(idx + 1)]);
+  const user = useTypedSelector(selectUser);
+
+  const alerts = {
+    register: useTypedSelector(
+      selectAlert({
+        project_id: Number(router.query.id),
+        location: "timeslot_signup",
+      })
+    ),
+    unregister: useTypedSelector(
+      selectAlert({
+        project_id: Number(router.query.id),
+        location: "timeslot_remove",
+      })
+    ),
+  };
+
+  const triggerChangeRegistration = (register: boolean) => async () => {
+    const alert = alerts[register ? "register" : "unregister"];
+
+    setDisabled(true);
+
+    const onConfirm = () =>
+      dispatch(
+        visitSignup({
+          method: register ? "POST" : "DELETE",
+          date,
+          timeslot,
+          project_id: Number(router.query.id),
+          username: user.username,
+        })
+      );
+
+    if (alert)
+      addAlert({
+        content: alert.content,
+        confirm: onConfirm,
+        cleanup: () => setDisabled(false),
+        yes: alert.yes,
+        no: alert.no,
       });
-  };
-
-  const registerAlert = () => {
-    setDisabled(true);
-    addAlert({
-      content: `
-## Thank you!
-
-Thank you for your kindness and loving spirit. As a courtesy to sister Lloyd,
-before you come, please give a phone call ahead of time so that she's aware you
-plan to visit.
-
-You can contact her at:\n
-000 000 0000
-`,
-      confirm: handleRegister(true),
-      cleanup: () => setDisabled(false),
-      yes: "Sign Up",
-      no: "Cancel",
-    });
-  };
-
-  const unregisterAlert = () => {
-    setDisabled(true);
-    addAlert({
-      content: `
-If you've already contacted her please let her know you will not be able to
-visit.
-
-You can contact her at:\n
-000 000 0000
-`,
-      confirm: handleRegister(false),
-      cleanup: () => setDisabled(false),
-      yes: "I can't make it",
-      no: "Cancel",
-    });
+    else {
+      await onConfirm();
+      setDisabled(false);
+    }
   };
 
   const name = useMemo(
@@ -87,7 +84,7 @@ You can contact her at:\n
         disabled ||
         new Date(date) < today()
       }
-      onClick={registered ? unregisterAlert : registerAlert}
+      onClick={triggerChangeRegistration(!registered)}
     >
       {disabled ? "Loading..." : registered ? name : "register"}
     </Root>

@@ -1,20 +1,27 @@
 import Expandable from "@components/Expandable";
 import RegisterButton from "@components/RegisterButton";
 import { localizeDate } from "@lib/util/dates";
-import { useData, useUser } from "@hook/useContexts";
 import { useMemo } from "react";
+import { selectUser } from "@slice/session";
+import { selectVisitByDateAndTime, selectVisits } from "@slice/visits";
+import { useTypedSelector } from "store";
 
 const Timeslot = ({ timeslot, date }) => {
-  const { visits } = useData();
-  const { user } = useUser();
+  const visits = useTypedSelector(selectVisits);
+  const user = useTypedSelector(selectUser);
 
-  const thisVisit = useMemo(() => {
+  const _thisVisit = useMemo(() => {
     return visits?.find(
       (visit) =>
         localizeDate(visit?.date).toDateString() === date.toDateString() &&
         visit?.timeslot === timeslot
     );
   }, [visits]);
+
+  const thisVisit = useTypedSelector(
+    selectVisitByDateAndTime({ date, timeslot })
+  );
+  console.log(thisVisit);
 
   const pips = useMemo(
     () => (thisVisit?.users.length > 0 ? ["var(--md-gray)"] : []),

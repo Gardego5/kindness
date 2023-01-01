@@ -1,16 +1,11 @@
 import { PropsWithChildren } from "react";
 
-type ProviderWithValue<V> = (
-  props: PropsWithChildren<any & { value: V }>
-) => JSX.Element;
+type Wrapper = (props: PropsWithChildren<any>) => JSX.Element;
 
-type ProviderArray = (
-  | ProviderWithValue<any>
-  | [ProviderWithValue<any>, Object?]
-)[];
+type WrapperArray = (Wrapper | [Wrapper, PropsWithChildren<any>?])[];
 
 export const composeProviders =
-  (...providers: ProviderArray) =>
+  (...providers: WrapperArray) =>
   ({ children }: PropsWithChildren) => {
     const [currentProvider, ...restProviders] = providers;
 
@@ -27,10 +22,14 @@ export const composeProviders =
     );
   };
 
-export const ComposedProviders = ({
+/**
+ * Composes multiple Providers / Layouts / Wrapper components into a single
+ * component.
+ */
+export const Composer = ({
   children,
-  providers = [],
-}: PropsWithChildren<{ providers?: ProviderArray }>) =>
-  composeProviders(...providers)({ children });
+  wrappers = [],
+}: PropsWithChildren<{ wrappers?: WrapperArray }>): JSX.Element =>
+  composeProviders(...wrappers)({ children });
 
-export default ComposedProviders;
+export default Composer;
