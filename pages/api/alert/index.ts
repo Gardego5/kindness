@@ -52,10 +52,10 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     const user = (session && (await findUser(session))) ?? null;
     if (!user) throw new HTMLClientError.NO_AUTH_TOKEN_401();
 
-    if (!user.is_admin) throw new HTMLClientError.ADMIN_ROLE_REQUIRED_403();
-
     switch (req.method) {
       case "POST":
+        if (!user.is_admin) throw new HTMLClientError.ADMIN_ROLE_REQUIRED_403();
+
         const { project_ids, group_ids, user_ids } = req.body;
 
         const { location, content, start_date, end_date, displays, yes, no } =
