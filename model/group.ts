@@ -25,7 +25,7 @@ export const getAllGroups = async () =>
            JSON_AGG(groups_projects.project_id) as project_ids
       FROM groups
  LEFT JOIN groups_projects
-        ON groups_id = groups_projects.group_id
+        ON groups.id = groups_projects.group_id
   GROUP BY groups.id;`;
 
 export const createGroup = async ({
