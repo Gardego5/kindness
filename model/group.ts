@@ -16,6 +16,18 @@ export const findGroupById = async ({ id }) =>
        GROUP BY groups.id;`
   )[0];
 
+export const getAllGroups = async () =>
+  await sql<GroupView[]>`
+    SELECT groups.id,
+           name,
+           start_date,
+           end_date,
+           JSON_AGG(groups_projects.project_id) as project_ids
+      FROM groups
+ LEFT JOIN groups_projects
+        ON groups_id = groups_projects.group_id
+  GROUP BY groups.id;`;
+
 export const createGroup = async ({
   name = null,
   password,
