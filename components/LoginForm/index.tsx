@@ -177,6 +177,7 @@ const LoginForm = ({
                 type="text"
                 name="group_id"
                 required
+                defaultValue={groupID}
                 onChange={({ target }) => setGroup_id(target.value)}
                 value={group_id}
               />
@@ -192,6 +193,7 @@ const LoginForm = ({
                 type="password"
                 name="group_password"
                 required
+                defaultValue={groupPassword}
                 onChange={({ target }) => setGroup_password(target.value)}
                 value={group_password}
               />
