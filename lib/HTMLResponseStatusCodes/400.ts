@@ -88,4 +88,20 @@ export const validateQueryParamsExist = (params: object) => {
   });
 };
 
+/**
+ * Throws a {@link HTMLClientError.BAD_REQUEST_400 400 Bad Request} if any of
+ * the body keys are missing.
+ *
+ * @param params a portion of a body that is required
+ */
+export const validateObjectsInBody = (params: object) => {
+  Object.entries(params).forEach(([key, value]) => {
+    console.log(`${key}: <${value}>`);
+    if (typeof value === "undefined")
+      throw new HTMLClientError.BAD_REQUEST_400(
+        `Bad Request: Missing required field in body "${key}".`
+      );
+  });
+};
+
 export default HTMLClientError;
