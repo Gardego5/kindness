@@ -1,27 +1,36 @@
 import { useState } from "react";
 import { useRouter } from "next/router";
-import LoginForm from "@components/LoginForm";
+import LoginForm, { LoginFormData } from "@components/LoginForm";
 
 const Signup = () => {
   const [errorMsg, setErrorMsg] = useState("");
   const router = useRouter();
 
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-
+  const handleSubmit = async ({
+    username,
+    email,
+    password,
+    rpassword,
+    first_name,
+    last_name,
+    group_id,
+    group_password,
+    recaptcha,
+  }: LoginFormData) => {
     if (errorMsg) setErrorMsg("");
 
     const body = {
-      username: event.currentTarget.username.value,
-      email: event.currentTarget.email.value,
-      password: event.currentTarget.password.value,
-      first_name: event.currentTarget.first_name.value,
-      last_name: event.currentTarget.last_name.value,
-      group_id: event.currentTarget.group_id.value,
-      group_password: event.currentTarget.group_password.value,
+      username,
+      email,
+      password,
+      first_name,
+      last_name,
+      group_id,
+      group_password,
+      recaptcha,
     };
 
-    if (body.password !== event.currentTarget.rpassword.value) {
+    if (password !== rpassword) {
       setErrorMsg(`The passwords don't match`);
       return;
     }
@@ -41,12 +50,22 @@ const Signup = () => {
     }
   };
 
+  const group_id = Array.isArray(router.query.group_id)
+    ? router.query.group_id[0]
+    : router.query.group_id;
+  const group_password = Array.isArray(router.query.group_password)
+    ? router.query.group_password[0]
+    : router.query.group_password;
+
+  console.log({ group_id, group_password });
+
   return (
     <LoginForm
-      errorMessage={errorMsg}
       onSubmit={handleSubmit}
-      groupID={router.query.group_id}
-      groupPassword={router.query.group_password}
+      setErrorMessage={setErrorMsg}
+      errorMessage={errorMsg}
+      groupID={group_id}
+      groupPassword={group_password}
       isSignup
     />
   );

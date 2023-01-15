@@ -1,3 +1,4 @@
+import { NextApiRequest } from "next";
 import HTMLError from "./HTMLError";
 
 namespace HTMLClientError {
@@ -71,6 +72,19 @@ namespace HTMLClientError {
       super(message);
     }
   }
+
+  export class BAD_RECAPTCHA_422 extends HTMLClientError {
+    readonly code = 422;
+    constructor(message = "You must complete the reCAPTCHA.") {
+      super(message);
+    }
+  }
+
+  export class MISSING_RECAPTCHA_400 extends BAD_REQUEST_400 {
+    constructor(message = "You must include a `recaptcha` token in the body.") {
+      super(message);
+    }
+  }
 }
 
 /**
@@ -103,5 +117,26 @@ export const validateObjectsInBody = (params: object) => {
       );
   });
 };
+
+/**
+ * This validates that there is a `recaptcha` field in the body of a request,
+ * and that the recaptcha is valid.
+ *
+ * @param req the request to validate.
+ */
+export async function validateReCAPTCHA(req: NextApiRequest) {
+  if (typeof req.body.recaptcha === "undefined")
+    throw new HTMLClientError.MISSING_RECAPTCHA_400();
+
+  const reCAPTCHAResponse = await fetch(
+    `https://www.google.com/recaptcha/api/siteverify` +
+      `?secret=${process.env.RECAPTCHA_SECRET}` +
+      `&response=${req.body.recaptcha}`,
+    { method: "POST" }
+  );
+
+  if (reCAPTCHAResponse.status !== 200)
+    throw new HTMLClientError.BAD_RECAPTCHA_422();
+}
 
 export default HTMLClientError;
