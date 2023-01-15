@@ -1,12 +1,16 @@
 import apiErrorHandler from "@lib/apiErrorHandler";
 import { getLoginSession } from "@lib/auth";
-import HTMLClientError from "@lib/HTMLResponseStatusCodes/400";
-import { getAllGroups } from "@model/group";
+import HTMLClientError, {
+  validateObjectsInBody,
+} from "@lib/HTMLResponseStatusCodes/400";
+import { findGroupById, validateGroupPassword } from "@model/group";
 import { findUser } from "@model/user";
-import groupsView from "@view/group";
 import { NextApiRequest, NextApiResponse } from "next";
 
-export default async (req: NextApiRequest, res: NextApiResponse) => {
+export default async function signup(
+  req: NextApiRequest,
+  res: NextApiResponse
+) {
   try {
     const session = await getLoginSession(req);
     const user = (session && (await findUser(session))) ?? null;
@@ -16,9 +20,14 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
     switch (req.method) {
       case "GET":
-        const groups = await getAllGroups();
+        const { group_id, group_password } = req.body;
+        validateObjectsInBody({ group_id, group_password });
 
-        res.status(200).send(groupsView(groups));
+        const group = await findGroupById({ id: group_id });
+
+        await validateGroupPassword(group, group_password);
+
+        res.status(200).send({ done: "true", message: "password is correct." });
         break;
 
       default:
@@ -27,4 +36,4 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   } catch (error) {
     apiErrorHandler(error, res);
   }
-};
+}
