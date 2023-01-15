@@ -45,24 +45,27 @@ const LoginForm = ({
   groupID = undefined,
   groupPassword = undefined,
 }: LoginFormProps) => {
-  const [username, setUsername] = useState<string>();
-  const [email, setEmail] = useState<string>();
-  const [password, setPassword] = useState<string>();
-  const [rpassword, setRpassword] = useState<string>();
-  const [first_name, setFirst_name] = useState<string>();
-  const [last_name, setLast_name] = useState<string>();
-  const [group_id, setGroup_id] = useState<string>();
-  const [group_password, setGroup_password] = useState<string>();
+  const [username, setUsername] = useState<string>("");
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+  const [rpassword, setRpassword] = useState<string>("");
+  const [first_name, setFirst_name] = useState<string>("");
+  const [last_name, setLast_name] = useState<string>("");
+  const [group_id, setGroup_id] = useState<string>("");
+  const [group_password, setGroup_password] = useState<string>("");
 
   const recaptchaRef = useRef<ReCAPTCHA>();
 
-  useEffect(function () {
-    /* If groupID or groupPassword were already set (because they were passed
-     * as query params) then set their state the first time the form is
-     * rendered. */
-    if (groupID) setGroup_id(groupID);
-    if (groupPassword) setGroup_password(groupPassword);
-  }, []);
+  useEffect(
+    function () {
+      /* If groupID or groupPassword were already set (because they were passed
+       * as query params) then set their state the first time the form is
+       * rendered. */
+      if (groupID) setGroup_id(groupID);
+      if (groupPassword) setGroup_password(groupPassword);
+    },
+    [groupID, groupPassword]
+  );
 
   async function handleSubmit(event: FormEvent) {
     event.preventDefault();
