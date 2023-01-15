@@ -1,5 +1,7 @@
 import { setLoginSession } from "@lib/auth";
-import HTMLClientError from "@lib/HTMLResponseStatusCodes/400";
+import HTMLClientError, {
+  validateReCAPTCHA,
+} from "@lib/HTMLResponseStatusCodes/400";
 import {
   addUserToGroup,
   findGroupById,
@@ -17,6 +19,9 @@ export default async function signup(
   try {
     if (req.method !== "POST")
       throw new HTMLClientError.METHOD_NOT_ALLOWED_405();
+
+    await validateReCAPTCHA(req);
+    console.log(req.body);
 
     const group = await findGroupById({ id: req.body.group_id });
     if (typeof group === "undefined")

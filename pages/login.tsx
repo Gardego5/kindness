@@ -1,20 +1,19 @@
-import { useState } from "react";
-import LoginForm from "@components/LoginForm";
+import { FormEvent, useState } from "react";
+import LoginForm, { LoginFormData } from "@components/LoginForm";
 import { useRouter } from "next/router";
 
 const Login = () => {
   const [errorMsg, setErrorMsg] = useState("");
   const router = useRouter();
 
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-
+  async function handleSubmit({
+    username,
+    password,
+    recaptcha,
+  }: LoginFormData) {
     if (errorMsg) setErrorMsg("");
 
-    const body = {
-      username: event.currentTarget.username.value,
-      password: event.currentTarget.password.value,
-    };
+    const body = { username, password, recaptcha };
 
     try {
       const res = await fetch("/api/login", {
@@ -29,9 +28,15 @@ const Login = () => {
       console.error("An unexpected error happened occurred:", error);
       setErrorMsg(error.message);
     }
-  };
+  }
 
-  return <LoginForm onSubmit={handleSubmit} errorMessage={errorMsg} />;
+  return (
+    <LoginForm
+      onSubmit={handleSubmit}
+      setErrorMessage={setErrorMsg}
+      errorMessage={errorMsg}
+    />
+  );
 };
 
 export default Login;
